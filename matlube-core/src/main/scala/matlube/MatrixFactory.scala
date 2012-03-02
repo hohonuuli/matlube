@@ -1,12 +1,11 @@
 package matlube
 
-trait MatrixFactory[A <: Matrix]  {
+trait MatrixFactory[A]  {
 
     def apply(data: Array[Double], orientation: Orientations.Orientation): A
-
-    def apply(matrix: Matrix): A
-
     def apply(data: Product): A
+    def apply(rows: Int, columns: Int): A
+    def apply(rows: Int, columns: Int, fillValue: Double): A
 
 }
 

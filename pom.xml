@@ -47,13 +47,6 @@
     <version>${scala.version}</version>
   </dependency>
 
-  <dependency>
-    <groupId>com.googlecode.efficient-java-matrix-library</groupId>
-    <artifactId>ejml</artifactId>
-    <version>0.18</version>
-  </dependency>
-            
-
   <!-- Test -->
   <dependency>
     <groupId>junit</groupId>
@@ -119,5 +112,6 @@
   <modules>
     <module>matlube-core</module>
     <module>matlube-jama</module>
+    <module>matlube-ejml</module>
   </modules>
 </project>
