@@ -1,5 +1,5 @@
 package matlube
 
-class LinearAlgebra {
+trait LinearAlgebra {
     
 }

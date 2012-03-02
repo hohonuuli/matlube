@@ -1,7 +1,7 @@
 package matlube
 
 /**
- * Enumration to indicate data orientation (Row or Column)
+ * Enumeration to indicate data orientation (Row or Column)
  * 
  * Overview of Orientation:
  * {{{
