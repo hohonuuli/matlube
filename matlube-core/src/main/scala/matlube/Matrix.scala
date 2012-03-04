@@ -7,45 +7,45 @@ package matlube
  * No method implementations will be put in here so that it is
  * essentially a pure interface. Implementations should go into [[matlube.MatrixEnhancements]]
  */
-trait Matrix[A] {
+trait Matrix {
     
     
-    def copy: A
+    def copy: Matrix
 
     /**
      * Unary minus
      * @return    -A
      */
-    def unary_- : A
+    def unary_- : Matrix
 
     /**
      * C = A + B
      * @param that    another matrix
      * @return     A + B
      */
-    def +(that: A): A
+    def +(that: Matrix): Matrix
 
     /**
      * C = A - B
      * @param that    another matrix
      * @return     A - B
      */
-    def -(that: A): A
+    def -(that: Matrix): Matrix
 
     /**
      * Element-by-element multiplication, C = A.*B
      */
-    def **(that: A): A
+    def **(that: Matrix): Matrix
 
     /**
      * Element-by-element right division, C = A./B
      */
-    def /(that: A): A
+    def /(that: Matrix): Matrix
 
     /**
      * Element-by-element left division, C = A.\B
      */
-    def \(that: A): A
+    def \(that: Matrix): Matrix
 
     /**
      * Multiply a matrix by a scalar, C = s*A
@@ -55,37 +55,37 @@ trait Matrix[A] {
     /**
      * Linear algebraic matrix multiplication, A * B
      */
-    def *(that: A): A
+    def *(that: Matrix): Matrix
 
     /**
      * Matrix transpose.
      * @return    A'
      */
-    def t: A
+    def t: Matrix
 
     /**
      * Solve A*X = B
      * @param b    right hand side
      * @return     solution if A is square, least squares solution otherwise
      */
-    def solve(b: A): A
+    def solve(b: Matrix): Matrix
 
     /**
      * Solve X*A = B, which is also A'*X' = B'
      * @param b    right hand side
      * @return     solution if A is square, least squares solution otherwise.
      */
-    def solveTranspose(b: A): A
+    def solveTranspose(b: Matrix): Matrix
 
     /**
      * Matrix inverse or pseudoinverse
      * @return     inverse(A) if A is square, pseudoinverse otherwise.
      */
-    def inverse: A
+    def inverse: Matrix
 
-    def apply(i: SelectAll, j: Int): A
+    def apply(i: SelectAll, j: Int): Matrix
 
-    def apply(i: Int, j: SelectAll): A
+    def apply(i: Int, j: SelectAll): Matrix
 
     /**
      * Get a submatrix
@@ -95,7 +95,7 @@ trait Matrix[A] {
      * @param j1   Final column index
      * @return     A(i0:i1,j0:j1)
      */
-    def apply(i0: Int, i1: Int, j0: Int, j1: Int): A
+    def apply(i0: Int, i1: Int, j0: Int, j1: Int): Matrix
 
     /**
      * Get a submatrix
@@ -103,11 +103,11 @@ trait Matrix[A] {
      * @param c An array of column indices
      * @return A(r, c)
      */
-    def apply(r: Array[Int], c: Array[Int]): A
+    def apply(r: Array[Int], c: Array[Int]): Matrix
 
-    def apply(r: SelectAll, c: Array[Int]): A
+    def apply(r: SelectAll, c: Array[Int]): Matrix
 
-    def apply(r: Array[Int], c: SelectAll): A
+    def apply(r: Array[Int], c: SelectAll): Matrix
 
     /**
      * Get a submatrix
@@ -116,9 +116,9 @@ trait Matrix[A] {
      * @param c An array of column indices
      * @return A(i0:i1, c)
      */
-    def apply(i0: Int, i1: Int, c: Array[Int]): A
+    def apply(i0: Int, i1: Int, c: Array[Int]): Matrix
 
-    def apply(i0: Int, i1: Int, c: SelectAll): A
+    def apply(i0: Int, i1: Int, c: SelectAll): Matrix
 
     /**
      * Get a submatrix
@@ -127,41 +127,46 @@ trait Matrix[A] {
      * @param j1   Final column index
      * @return A(r, j0:j1)
      */
-    def apply(r: SelectAll, j0: Int, j1: Int): A
+    def apply(r: SelectAll, j0: Int, j1: Int): Matrix
 
     /**
      * A = A + B
      * @param that (B)    another matrix
      * @return     A + B (actually returns this)
      */
-    def +=(that: A): A
+    def +=(that: Matrix): Matrix
 
     /**
      * A = A - B
      * @param that (B)    another matrix
      * @return     A - B
      */
-    def -=(that: A): A
+    def -=(that: Matrix): Matrix
 
     /**
      * Element-by-element multiplication in place, A = A.*B
      */
-    def **=(that: A): A
+    def **=(that: Matrix): Matrix
 
     /**
      * Element-by-element right division in place, A = A./B
      */
-    def /=(that: A): A
+    def /=(that: Matrix): Matrix
 
     /**
      * Element-by-element left division in place, A = A.\B
      */
-    def \=(that: A): A
+    def \=(that: Matrix): Matrix
 
     /**
      * Multiply a matrix by a scalar in place, A = s*A
      */
-    def *=[@specialized(Int, Long, Float, Double) A: Numeric](s: A): A
+    def *[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix
+
+    /**
+     * Multiply a matrix by a scalar in place, A = s*A
+     */
+    def *=[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix
 
 
     def rows: Int

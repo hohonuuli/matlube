@@ -10,15 +10,16 @@ import matlube.{Orientations, MatrixFactory}
  * @since 2012-03-02
  */
 
-class MutableMatrixFactoryImpl extends MatrixFactory[JMatrix] {
-
-    def apply(data: Array[Double], orientation: Orientations.Orientation): JMatrix = null
-
-    def apply(matrix: JMatrix): JMatrix = null
+class JDefaultMatrixFactory extends MatrixFactory[JMatrix] {
 
     def apply(data: Product): JMatrix = null
 
     def apply(rows: Int, columns: Int): JMatrix = null
 
     def apply(rows: Int, columns: Int, fillValue: Double): JMatrix = null
+
+    def apply(rows: Int, columns: Int, data: Array[Double], orientation: Orientations.Orientation): JMatrix = orientation match {
+        case Orientations.Row =>
+
+    }
 }

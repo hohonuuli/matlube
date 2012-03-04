@@ -3,9 +3,9 @@ package matlube
 /**
  * Extension methods to a [[matlube.Matrix]]. This trait contains implementations of methods.
  */
-trait MatrixEnhancements[A] {
+trait MatrixEnhancements {
 
-    self: Matrix[A] =>
+    self: Matrix =>
 
     def size = (rows, columns)
 
@@ -25,7 +25,7 @@ trait MatrixEnhancements[A] {
      *      into the existing matrix
      *
      */
-    def update(i0: Int, i1: Int, j0: Int, j1: Int, that: Matrix[A]) {
+    def update(i0: Int, i1: Int, j0: Int, j1: Int, that: Matrix) {
         for (i <- i0 to i1; j <- j0 to j1) {
             this(i, j) = that(i - i0, j - j0)
         }
@@ -37,7 +37,7 @@ trait MatrixEnhancements[A] {
      * @param c The column indices to modify
      * @param that The matrix containing the new values
      */
-    def update(r: Array[Int], c: Array[Int], that: Matrix[A]) {
+    def update(r: Array[Int], c: Array[Int], that: Matrix) {
         for (i <- 0 until r.size; j <- 0 until c.size) {
             this(r(i), c(j)) = that(i, j)
         }
@@ -49,7 +49,7 @@ trait MatrixEnhancements[A] {
      * @param j0   Initial column index
      * @param j1   Final column index
      */
-    def update(r: Array[Int], j0: Int, j1: Int, that: Matrix[A]) {
+    def update(r: Array[Int], j0: Int, j1: Int, that: Matrix) {
         for (i <- 0 until r.size; j <- j0 to j1) {
             this(r(i), j) = that(i, j - j0)
         }
@@ -61,7 +61,7 @@ trait MatrixEnhancements[A] {
      * @param i1   Final row index
      * @param c An array of column indices
      */
-    def update(i0: Int, i1: Int, c: Array[Int], that: Matrix[A]) {
+    def update(i0: Int, i1: Int, c: Array[Int], that: Matrix) {
         for (i <- i0 to i1; j <- 0 until c.size) {
             this(i, c(j)) = that(i - i0, j)
         }
