@@ -8,7 +8,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
 
     val rows = delegate.getRowDimension
     val columns = delegate.getColumnDimension
-    val defaultOps = JDefaultMatrixOps
+    private[this] val defaultOps = JDefaultMatrixOps
 
 
     /**

@@ -10,7 +10,7 @@ import matlube.{Orientations, MatrixFactory}
  * @since 2012-03-02
  */
 
-class JDefaultMatrixFactory extends MatrixFactory[JMatrix] {
+class JMatrixFactory extends MatrixFactory[JMatrix] {
 
     def apply(data: Product): JMatrix = null
 
@@ -22,4 +22,10 @@ class JDefaultMatrixFactory extends MatrixFactory[JMatrix] {
         case Orientations.Row =>
 
     }
+
+    def identity(rows: Int, columns: Int): JMatrix = null
+
+    def ones(rows: Int, columns: Int): JMatrix = null
+
+    def random(rows: Int, columns: Int): JMatrix = null
 }

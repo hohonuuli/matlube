@@ -1,7 +1,7 @@
 package matlube
 
 /**
- * Subclasses must define the factory
+ * Implementations must define the factory
  * @author Brian Schlining
  * @since 2012-03-02
  */
