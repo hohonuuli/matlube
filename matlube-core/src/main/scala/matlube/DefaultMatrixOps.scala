@@ -1,18 +1,12 @@
 package matlube
 
 /**
- *
+ * Subclasses must define the factory
  * @author Brian Schlining
  * @since 2012-03-02
  */
 
-trait DefaultMatrixOps[A] {
-
-    /**
-     * Subclasses must define the factory
-     * @return The Matrix factory to be used for matrix creation
-     */
-    def factory: MatrixFactory[A]
+class DefaultMatrixOps[A](val factory: MatrixFactory[A]) {
 
     /**
      * Element-by-element addition, C = A + B

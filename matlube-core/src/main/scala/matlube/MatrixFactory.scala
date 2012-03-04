@@ -1,11 +1,19 @@
 package matlube
 
+import java.util.Arrays
+
 trait MatrixFactory[A <: Matrix]  {
 
     def apply(rows: Int,  columns: Int, data: Array[Double], orientation: Orientations.Orientation): A
     def apply(data: Product): A
     def apply(rows: Int, columns: Int): A
     def apply(rows: Int, columns: Int, fillValue: Double): A
+    
+    def identity(rows: Int,  columns: Int): A
+    
+    def ones(rows: Int,  columns: Int): A
+    
+    def random(rows: Int,  columns: Int): A
 
 }
 
@@ -32,5 +40,14 @@ object MatrixFactory {
      * @tparam A The type that the tuple contains. 
      */
     def toArray[A: ClassManifest](t: Product) = flattenProduct(t).map( _.asInstanceOf[A]).toArray
+    
+    def identityArray(r: Int, c: Int): Array[Double] = {
+        val array = Array.ofDim[Double](r * c)
+        for (i <- 0 until r; j <- 0 until c; if (i == j)) {
+            val idx = i * c + j
+            array(idx) = 1
+        }
+        array
+    }
 
 }

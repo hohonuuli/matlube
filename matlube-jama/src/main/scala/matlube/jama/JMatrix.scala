@@ -146,12 +146,10 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @param that    another matrix
      * @return     A + B
      */
-    def +(that: Matrix) = {
-        that match {
-            case j: JMatrix => new JMatrix(delegate.plus(j.delegate))
-            case m: Matrix => defaultOps.plus(this, m)
-            case _ => throw new UnsupportedOperationException
-        }
+    def +(that: Matrix) = that match {
+        case j: JMatrix => new JMatrix(delegate.plus(j.delegate))
+        case m: Matrix => defaultOps.plus(this, m)
+        case _ => throw new UnsupportedOperationException
     }
 
 
@@ -168,12 +166,10 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @param that (B)    another matrix
      * @return     A - B
      */
-    def -(that: Matrix) = {
-        that match {
-            case j: JMatrix => new JMatrix(delegate.minus(j.delegate))
-            case m: Matrix => defaultOps.minus(this, m)
-            case _ => throw new UnsupportedOperationException
-        }
+    def -(that: Matrix) = that match {
+        case j: JMatrix => new JMatrix(delegate.minus(j.delegate))
+        case m: Matrix => defaultOps.minus(this, m)
+        case _ => throw new UnsupportedOperationException
     }
 
     /**
@@ -192,12 +188,10 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     /**
      * Element-by-element multiplication, C = A.*B
      */
-    def **(that: Matrix) = {
-        that match {
-            case j: JMatrix => new JMatrix(delegate.arrayTimes(j.delegate))
-            case m: Matrix => defaultOps.elementTimes(this, m)
-            case _ => throw new UnsupportedOperationException
-        }
+    def **(that: Matrix) = that match {
+        case j: JMatrix => new JMatrix(delegate.arrayTimes(j.delegate))
+        case m: Matrix => defaultOps.elementTimes(this, m)
+        case _ => throw new UnsupportedOperationException
     }
 
     /**
@@ -214,11 +208,9 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     /**
      * Element-by-element right division, C = A./B
      */
-    def /(that: Matrix) = {
-        that match {
-            case j: JMatrix => new JMatrix(delegate.arrayRightDivide(j.delegate))
-            case _ => throw new UnsupportedOperationException
-        }
+    def /(that: Matrix) = that match {
+        case j: JMatrix => new JMatrix(delegate.arrayRightDivide(j.delegate))
+        case _ => throw new UnsupportedOperationException
     }
 
     /**
@@ -235,11 +227,9 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     /**
      * Element-by-element left division, C = A.\B
      */
-    def \(that: Matrix): JMatrix = {
-        that match {
-            case j: JMatrix => new JMatrix(delegate.arrayLeftDivide(j.delegate))
-            case _ => throw new UnsupportedOperationException
-        }
+    def \(that: Matrix): JMatrix = that match {
+        case j: JMatrix => new JMatrix(delegate.arrayLeftDivide(j.delegate))
+        case _ => throw new UnsupportedOperationException
     }
 
     /**
@@ -273,12 +263,11 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     /**
      * Linear algebraic matrix multiplication, A * B
      */
-    def *(that: Matrix) = {
-        that match {
-            case j: JMatrix => new JMatrix(delegate.times(j.delegate))
-            case _ => throw new UnsupportedOperationException
-        }
+    def *(that: Matrix) = that match {
+        case j: JMatrix => new JMatrix(delegate.times(j.delegate))
+        case _ => throw new UnsupportedOperationException
     }
+
 
     /**
      * Matrix condition (2 norm)
@@ -343,7 +332,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * Matrix transpose.
      * @return    A'
      */
-    def transpose: JMatrix = new JMatrix(delegate.transpose())
+    def t = new JMatrix(delegate.transpose())
 
     /**
      * Cholesky Decomposition
@@ -380,45 +369,35 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     //     */
     //    def svd: SingularValueDecomposition = new SingularValueDecomposition(this)
 
-    private def checkSize(that: JMatrix) {
-        require(rows == that.rows && columns == that.columns,
-            "Matrix dimensions must agree")
-    }
 
-    def displayString(): String = {
-        val b = new StringBuilder("[")
-        for (r <- 0 until rows) {
-            if (r > 0) {
-                b.append(" ")
-            }
-            for (c <- 0 until columns) {
-                b.append(this(r, c)).append(" ")
-            }
-            b.setCharAt(b.length() - 1, '\n')
-        }
-        b.setCharAt(b.length() - 1, ']')
-        b.toString()
-    }
+
+    def displayString(): String = defaultOps.toString(this)
 
     /**
      * Solve A*X = B
-     * @param B    right hand side
+     * @param b (B)    right hand side
      * @return     solution if A is square, least squares solution otherwise
      */
-    def solve(b: JMatrix) = new JMatrix(delegate.solve(b.delegate))
+    def solve(b: JMatrix) = b match {
+        case j: JMatrix => new JMatrix(delegate.solve(j.delegate))
+        case _ => throw new UnsupportedOperationException
+    }
+
 
     /**
      * Solve X*A = B, which is also A'*X' = B'
-     * @param B    right hand side
+     * @param b (B)    right hand side
      * @return     solution if A is square, least squares solution otherwise.
      */
-    def solveTranspose(b: JMatrix) = new JMatrix(delegate.solveTranspose(b.delegate))
-
+    def solveTranspose(b: Matrix) = b match {
+        case j: JMatrix => new JMatrix(delegate.solveTranspose(j.delegate))
+        case _ => throw new UnsupportedOperationException
+    }
     /**
      * Matrix inverse or pseudoinverse
      * @return     inverse(A) if A is square, pseudoinverse otherwise.
      */
-    def inverse: JMatrix = new JMatrix(delegate.inverse())
+    def inverse = new JMatrix(delegate.inverse())
 
 }
 
