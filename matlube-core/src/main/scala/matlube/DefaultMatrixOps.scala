@@ -6,7 +6,7 @@ package matlube
  * @since 2012-03-02
  */
 
-class DefaultMatrixOps[A](val factory: MatrixFactory[A]) {
+class DefaultMatrixOps[A <: Matrix](val factory: MatrixFactory[A]) {
 
     /**
      * Element-by-element addition, C = A + B

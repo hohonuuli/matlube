@@ -93,4 +93,6 @@ class EMatrix protected[ejml] (val delegate: DenseMatrix64F) extends Matrix with
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A) {}
 
     def copy: Matrix = null
+
+    def *[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix = null
 }

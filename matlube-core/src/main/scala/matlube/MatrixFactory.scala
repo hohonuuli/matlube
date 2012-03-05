@@ -4,7 +4,7 @@ import java.util.Arrays
 
 trait MatrixFactory[A <: Matrix]  {
 
-    def apply(rows: Int,  columns: Int, data: Array[Double], orientation: Orientations.Orientation): A
+    def apply[@specialized(Int, Long, Float, Double) B : Numeric](rows: Int,  columns: Int, data: Array[B], orientation: Orientations.Orientation): A
     def apply(data: Product): A
     def apply(rows: Int, columns: Int): A
     def apply(rows: Int, columns: Int, fillValue: Double): A
@@ -19,6 +19,18 @@ trait MatrixFactory[A <: Matrix]  {
 
 object MatrixFactory {
 
+    def productSize(t: Product): (Int, Int) = {
+        val a = t.productArity
+        val one = t.productElement(0)
+        if (one.isInstanceOf[Product]) {
+            val b = one.asInstanceOf[Product].productArity
+            (a,  b)
+        }
+        else {
+            (1, a)
+        }
+    }
+
     /**
      * Flattens out a nested tuple and returns the contents as an iterator
      */
@@ -28,8 +40,8 @@ object MatrixFactory {
     } 
 
     /**
-     * Convert a nested tuple to a flattened row-oriented array. This assumes that
-     * all values in the tuple are of the same type. Usage is:
+     * Convert a nested tuple to a flattened row-oriented array (See [[matlube.Orientations]]).
+     * This assumes that all values in the tuple are of the same type. Usage is:
      * {{{
      *  val t = ((1, 2, 3), (4, 5, 6))
      *  val a = MatrixFactory.toArray[Int](t)
@@ -40,7 +52,14 @@ object MatrixFactory {
      * @tparam A The type that the tuple contains. 
      */
     def toArray[A: ClassManifest](t: Product) = flattenProduct(t).map( _.asInstanceOf[A]).toArray
-    
+
+    /**
+     * Create a row oriented (See [[matlube.Orientations]]) array that can be used by a
+     * [[matlube.MatrixFactory]] to create an identity [[matlube.Matrix]]
+     * @param r The number of rows
+     * @param c The number of columns
+     * @return A row-oreiented array of ones and zeros suitable for creating an identiy Matrix
+     */
     def identityArray(r: Int, c: Int): Array[Double] = {
         val array = Array.ofDim[Double](r * c)
         for (i <- 0 until r; j <- 0 until c; if (i == j)) {
@@ -49,5 +68,6 @@ object MatrixFactory {
         }
         array
     }
+
 
 }

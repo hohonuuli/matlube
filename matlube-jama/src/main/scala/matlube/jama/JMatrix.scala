@@ -1,10 +1,10 @@
 package matlube.jama
 
 import Jama.{Matrix => JamaMatrix}
-import matlube.{Matrix, SelectAll, MatrixDelegate}
+import matlube._
 
 class JMatrix protected[jama] (val delegate: JamaMatrix)
-        extends Matrix with MatrixDelegate[JamaMatrix] {
+        extends Matrix with MatrixEnhancements with MatrixDelegate[JamaMatrix] {
 
     val rows = delegate.getRowDimension
     val columns = delegate.getColumnDimension
@@ -18,7 +18,6 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
 
     def apply(i: Int, j: Int): Double = delegate.get(i, j)
 
-
     /**
      * Get a submatrix
      * @param i0   Initial row index
@@ -27,7 +26,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @param j1   Final column index
      * @return     A(i0:i1,j0:j1)
      */
-    def apply(i0: Int, i1: Int, j0: Int, j1: Int) = {
+    def apply(i0: Int, i1: Int, j0: Int, j1: Int): JMatrix = {
         JMatrix(Array.tabulate[Double](i1 - i0 + 1, j1 - j0 + 1) { (u, v) =>
             this(i0 + u, j0 + v)
         })
@@ -39,7 +38,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @param c An array of column indices
      * @return A(r, c)
      */
-    def apply(r: Array[Int], c: Array[Int]) = {
+    def apply(r: Array[Int], c: Array[Int]): JMatrix = {
         JMatrix(Array.tabulate[Double](r.size, c.size) { (u, v) =>
             this(r(u), c(v))
         })
@@ -52,7 +51,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @param c An array of column indices
      * @return A(i0:i1, c)
      */
-    def apply(i0: Int, i1: Int, c: Array[Int]) = {
+    def apply(i0: Int, i1: Int, c: Array[Int]): JMatrix = {
         JMatrix(Array.tabulate[Double](i1 - i0 + 1, c.size) { (u, v) =>
             this(i0 + u, c(v))
         })
@@ -65,10 +64,38 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @param j1   Final column index
      * @return A(r, j0:j1)
      */
-    def apply(r: Array[Int], j0: Int, j1: Int) = {
+    def apply(r: Array[Int], j0: Int, j1: Int): JMatrix = {
         JMatrix(Array.tabulate[Double](r.size, j1 - j0 + 1) { (u, v) =>
             this(r(u), j0 + v)
         })
+    }
+
+    def apply(i: SelectAll, j: Int): Matrix = apply(0, rows, j, j)
+
+    def apply(i: Int, j: SelectAll): Matrix = apply(i, i, 0, columns)
+
+    def apply(r: SelectAll, c: Array[Int]): Matrix = apply(0, rows, c)
+
+    def apply(r: Array[Int], c: SelectAll): Matrix = apply(r, 0, columns)
+
+    def apply(i0: Int, i1: Int, c: SelectAll): Matrix = apply(i0, i1, 0, columns)
+
+    def apply(r: SelectAll, j0: Int, j1: Int): Matrix = apply(0, rows, j0, j1)
+
+    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: SelectAll, j: Int, v: A) {
+        val numeric = implicitly[Numeric[A]]
+        val dv = numeric.toDouble(v)
+        for (m <- 0 until rows) {
+            update(m, j, dv)
+        }
+    }
+
+    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A) {
+        val numeric = implicitly[Numeric[A]]
+        val dv = numeric.toDouble(v)
+        for (n <- 0 until columns) {
+            update(i, n, dv)
+        }
     }
 
     /**
@@ -78,60 +105,9 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @param v The value to change
      * @return
      */
-    def update[A](i: Int, j: Int, v: A)(implicit numeric: Numeric[A]) {
+    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: Int, v: A) {
+        val numeric = implicitly[Numeric[A]]
         delegate.set(i, j, numeric.toDouble(v))
-    }
-
-    /**
-     * Set/change values in the matrix. A(i0:i1, j0:j1) = that
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @param that The matrix containing the values that are to be inserted
-     *      into the existing matrix
-     *
-     */
-    def update(i0: Int, i1: Int, j0: Int, j1: Int, that: Matrix) {
-        for (i <- i0 to i1; j <- j0 to j1) {
-            this(i, j) = that(i - i0, j - j0)
-        }
-    }
-
-    /**
-     * Set/change values in the matrix. A(r, c) = that
-     * @param r The row indices to modify 
-     * @param c The column indices to modify
-     * @param that The matrix containing the new values
-     */
-    def update(r: Seq[Int], c: Seq[Int], that: Matrix) {
-        for (i <- 0 until r.size; j <- 0 until c.size) {
-            this(r(i), c(j)) =  that(i, j)
-        }
-    }
-
-    /**
-     * Set/change values in the matrix. A(r, j0:j1) = that
-     * @param r The row indices to modify
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     */
-    def update(r: Seq[Int], j0: Int, j1: Int, that: Matrix) {
-        for (i <- 0 until r.size; j <- j0 to j1) {
-            this(r(i), j) = that(i, j - j0)
-        }
-    }
-
-    /**
-     *  Set/change values in the matrix. A(i0:i1, c) = that
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param c An array of column indices
-     */
-    def update(i0: Int, i1: Int, c: Seq[Int], that: Matrix) {
-        for (i <- i0 to i1; j <- 0 until c.size) {
-            this(i, c(j)) = that(i - i0, j)
-        }
     }
 
 
@@ -227,7 +203,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     /**
      * Element-by-element left division, C = A.\B
      */
-    def \(that: Matrix): JMatrix = that match {
+    def \(that: Matrix) = that match {
         case j: JMatrix => new JMatrix(delegate.arrayLeftDivide(j.delegate))
         case _ => throw new UnsupportedOperationException
     }
@@ -235,7 +211,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     /**
      * Element-by-element left division in place, A = A.\B
      */
-    def \=(that: JMatrix): JMatrix = {
+    def \=(that: Matrix) = {
         that match {
             case j: JMatrix => delegate.arrayLeftDivideEquals(j.delegate)
             case _ => throw new UnsupportedOperationException
@@ -378,7 +354,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @param b (B)    right hand side
      * @return     solution if A is square, least squares solution otherwise
      */
-    def solve(b: JMatrix) = b match {
+    def solve(b: Matrix) = b match {
         case j: JMatrix => new JMatrix(delegate.solve(j.delegate))
         case _ => throw new UnsupportedOperationException
     }
@@ -401,17 +377,50 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
 
 }
 
-object JMatrix {
+/**
+ * The JMatrix object is our implementation of the MatrixFactory.
+ */
+object JMatrix extends MatrixFactory[JMatrix] {
 
-    /**
-     * Creates m by n size matrix filled with the value you provide
-     *
-     * @param m The number of rows
-     * @param n The number of columns
-     * @param fillValue The fill-value for the matrix
-     * @return A matrix filled with fillValue   
-     */
-    def apply(m: Int, n: Int, fillValue: Double = 0): JMatrix = new JMatrix(new JamaMatrix(Array.tabulate(m, n) { (u, v) => fillValue }))
+    def apply(data: Product): JMatrix = {
+        def size = MatrixFactory.productSize(data)
+        def array = MatrixFactory.toArray[Double](data)
+        new JMatrix(new JamaMatrix(rowToNestedArray(size._1, size._2, array)))
+    }
+
+    def apply(rows: Int, columns: Int): JMatrix = apply(rows, columns, 0D)
+
+    def apply(rows: Int, columns: Int, fillValue: Double): JMatrix = new JMatrix(new JamaMatrix(Array.tabulate(rows, columns) { (u, v) => fillValue }))
+
+    def apply[@specialized(Int, Long, Float, Double) A : Numeric](rows: Int, columns: Int,
+            data: Array[A], orientation: Orientations.Orientation = Orientations.Row): JMatrix = orientation match {
+        case Orientations.Row => apply(rowToNestedArray(rows, columns, data))
+        case Orientations.Column => throw new UnsupportedOperationException("I haven't implemented reshaping a column " +
+                " oriented matrix yet")
+    }
+
+    def identity(rows: Int, columns: Int): JMatrix= {
+        val a = apply(rows, columns, 0D)
+        for (i <- 0 until rows; j <- 0 until columns; if i == j) {
+            a(i, j) = 1D
+        }
+        return a
+    }
+
+    def ones(rows: Int, columns: Int): JMatrix = apply(rows, columns, 1D)
+
+    def random(rows: Int, columns: Int): JMatrix = new JMatrix(JamaMatrix.random(rows, columns))
+
+    def rowToNestedArray[@specialized(Int, Long, Float, Double) A : Numeric](m: Int, n: Int,  rowArray: Array[A]) = {
+        require(rowArray.size == m * n)
+        val numeric = implicitly[Numeric[A]]
+        val newArray = Array.ofDim[Double](m,  n)
+        for (i <- 0 until m; j <- 0 until n) {
+            val idx = i * n + j
+            newArray(i)(j) = numeric.toDouble(rowArray(idx))
+        }
+        newArray
+    }
 
     /**
      * Creates a new Matrix from an Array[Array[A]]. This creates a copy
@@ -419,44 +428,10 @@ object JMatrix {
      *
      * @tparam A A numeric type
      */
-    def apply[@specialized(Int, Long, Float, Double) A](array: Array[Array[A]])(implicit numeric: Numeric[A]): JMatrix = {
+    def apply[@specialized(Int, Long, Float, Double) A : Numeric](array: Array[Array[A]]): JMatrix = {
+        val numeric = implicitly[Numeric[A]]
         new JMatrix(new JamaMatrix(Array.tabulate(array.size, array(0).size) { (u, v) =>
             numeric.toDouble(array(u)(v))
         }))
     }
-
-    /**
-     * Creates a new Matrix (row vector) from an Array[A]. This creates a copy
-     * of the array that you provide
-     *
-     * @tparam A A numeric type
-     */
-    def apply[@specialized(Int, Long, Float, Double) A](array: Array[A])(implicit numeric: Numeric[A]): JMatrix = {
-        new JMatrix(new JamaMatrix(Array.tabulate(1, array.size) { (u, v) =>
-            numeric.toDouble(array(v))
-        }))
-    }
-
-
-    /**
-     * Generate identity matrix
-     * @param m    Number of rows.
-     * @param n    Number of colums.
-     * @return     An m-by-n matrix with ones on the diagonal and zeros elsewhere.
-     */
-    def identity(m: Int, n: Int): JMatrix = {
-        val a = apply(m, n, 0D)
-        for (i <- 0 until m; j <- 0 until n; if i == j) {
-            a(i, j) = 1D
-        }
-        return a
-    }
-
-    /**
-     * Generate matrix with random elements
-     * @param m    Number of rows.
-     * @param n    Number of colums.
-     * @return     An m-by-n matrix with uniformly distributed random elements.
-     */
-    def random(m: Int, n: Int) = new JMatrix(JamaMatrix.random(m, n))
 }
