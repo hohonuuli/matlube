@@ -110,7 +110,7 @@ trait MatrixEnhancements {
      * @param fn Function that operates on the individual rows or columns (represented as Matrices/Vectors)
      * @param orientation The axis to operate across. If it's [[matlube.Orientations.Row]] then each
      *  row will be mapped to a value, likewise [[matlube.Orientations.Column]] will map each
-     *  column to a value
+     *  column to a value. The default is Column.
      * @tparam B The type to map to.
      * @return An array of values
      */

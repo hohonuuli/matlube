@@ -6,7 +6,9 @@ package matlube
  * @since 2012-03-05
  */
 
-class Matrixlib[A <: Matrix](val factory: MatrixFactory[A]) {
+trait Matrixlib[A <: Matrix] {
+    
+    def factory: MatrixFactory[A]
     
     def applyByElement(fn: (Double,  Double, Double, Double) => Double, m0: Matrix, m1: Matrix, m2: Matrix, m3: Matrix) = {
         val r = m0.rows

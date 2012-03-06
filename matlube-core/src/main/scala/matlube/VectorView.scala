@@ -15,6 +15,8 @@ import scala.math._
  * @since 2012-03-05
  */
 class VectorView(val matrix: Matrix with MatrixEnhancements, val orientation: Orientations.Value) {
+    require(matrix != null)
+    require(orientation != null)
 
     def size = orientation match {
         case Orientations.Row => matrix.columns
