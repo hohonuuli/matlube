@@ -52,6 +52,7 @@ class DefaultMatrixOps[A <: Matrix](val factory: MatrixFactory[A]) {
             "Matrix dimensions must agree")
     }
 
+
     /**
      * Builds a string representation of a Matrix
      * @param a The Matrix of interest

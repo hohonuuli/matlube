@@ -6,14 +6,14 @@ package object matlube {
    *
    * @author dramage (brian: I pinched this from Scalala)
    */
-  sealed trait SelectAll;
+  sealed trait SelectAll
   
   /**
    * For selecting all elements from a matrix row or column.
    *
    * @author dramage (brian: I pinched this from Scalala)
    */
-  object :: extends SelectAll;
+  object :: extends SelectAll
 
 
 }

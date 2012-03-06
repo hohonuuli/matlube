@@ -82,6 +82,7 @@ trait Matrix {
      * @return     inverse(A) if A is square, pseudoinverse otherwise.
      */
     def inverse: Matrix
+    
 
     def apply(i: SelectAll, j: Int): Matrix
 

@@ -15,6 +15,8 @@ trait MatrixFactory[A <: Matrix]  {
     
     def random(rows: Int,  columns: Int): A
 
+    def nans(rows: Int, columns: Int): A
+
 }
 
 object MatrixFactory {
@@ -68,6 +70,8 @@ object MatrixFactory {
         }
         array
     }
+
+    // TODO implement a tabulate method (ala array)
 
 
 }

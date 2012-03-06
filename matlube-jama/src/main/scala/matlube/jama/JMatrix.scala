@@ -410,6 +410,8 @@ object JMatrix extends MatrixFactory[JMatrix] {
     def ones(rows: Int, columns: Int): JMatrix = apply(rows, columns, 1D)
 
     def random(rows: Int, columns: Int): JMatrix = new JMatrix(JamaMatrix.random(rows, columns))
+    
+    def nans(rows: Int, columns: Int): JMatrix = apply(rows, columns, Double.NaN)
 
     def rowToNestedArray[@specialized(Int, Long, Float, Double) A : Numeric](m: Int, n: Int,  rowArray: Array[A]) = {
         require(rowArray.size == m * n)
