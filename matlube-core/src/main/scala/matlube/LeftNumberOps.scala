@@ -11,9 +11,7 @@ package matlube
  * @since 2012-04-06
  */
 
-abstract class LeftNumberOps[A <: Matrix, B : Numeric](val value: B) {
-
-    def factory: MatrixFactory[A]
+class LeftNumberOps[A <: Matrix, B : Numeric](val factory: MatrixFactory[A], val value: B) {
 
     private val numeric = implicitly[Numeric[B]]
     private def toMatrix(matrix: Matrix) = factory(matrix.rows, matrix.columns, numeric.toDouble(value))

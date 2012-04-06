@@ -11,9 +11,8 @@ package matlube
  * @since 2012-04-06
  */
 
-abstract class RightNumberOps[A <: Matrix](val matrix: Matrix) {
+class RightNumberOps[A <: Matrix](val factory: MatrixFactory[A], val matrix: Matrix) {
 
-    def factory: MatrixFactory[A]
 
     private def toMatrix[B : Numeric](value: B): A = {
         val numeric = implicitly[Numeric[B]]
