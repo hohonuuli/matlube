@@ -17,6 +17,8 @@ trait MatrixFactory[A <: Matrix]  {
 
     def nans(rows: Int, columns: Int): A
 
+    def zeros(rows: Int, columns: Int): A
+
 }
 
 object MatrixFactory {
