@@ -114,7 +114,7 @@ trait MatrixEnhancements {
      * @tparam B The type to map to.
      * @return An array of values
      */
-    def map[B](fn: (Matrix) => B, orientation:Orientations.Value = Orientations.Column): Array[B] = {
+    def map[B : ClassManifest](fn: (Matrix) => B, orientation:Orientations.Value = Orientations.Column): Array[B] = {
         val vectorView = new VectorView(this, orientation)
         vectorView.map(fn)
     }

@@ -51,7 +51,7 @@ class VectorView(val matrix: Matrix with MatrixEnhancements, val orientation: Or
      * @tparam A The type to be returned
      * @return An Array containing the coverted values.
      */
-    def map[A](fn: (Matrix) => A): Array[A] = {
+    def map[A : ClassManifest](fn: (Matrix) => A): Array[A] = {
         val d = dimensions
         val n = max(d._1, d._2)
         val array = Array.ofDim[A](n)

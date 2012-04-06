@@ -3,7 +3,7 @@ package matlube.jama
 import Jama.{Matrix => JamaMatrix}
 import matlube._
 
-class JMatrix protected[jama] (val delegate: JamaMatrix)
+class JMatrix protected[jama](val delegate: JamaMatrix)
         extends Matrix with MatrixEnhancements with MatrixDelegate[JamaMatrix] {
 
     val rows = delegate.getRowDimension
@@ -27,8 +27,9 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @return     A(i0:i1,j0:j1)
      */
     def apply(i0: Int, i1: Int, j0: Int, j1: Int): JMatrix = {
-        JMatrix(Array.tabulate[Double](i1 - i0 + 1, j1 - j0 + 1) { (u, v) =>
-            this(i0 + u, j0 + v)
+        JMatrix(Array.tabulate[Double](i1 - i0 + 1, j1 - j0 + 1) {
+            (u, v) =>
+                this(i0 + u, j0 + v)
         })
     }
 
@@ -39,8 +40,9 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @return A(r, c)
      */
     def apply(r: Array[Int], c: Array[Int]): JMatrix = {
-        JMatrix(Array.tabulate[Double](r.size, c.size) { (u, v) =>
-            this(r(u), c(v))
+        JMatrix(Array.tabulate[Double](r.size, c.size) {
+            (u, v) =>
+                this(r(u), c(v))
         })
     }
 
@@ -52,8 +54,9 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @return A(i0:i1, c)
      */
     def apply(i0: Int, i1: Int, c: Array[Int]): JMatrix = {
-        JMatrix(Array.tabulate[Double](i1 - i0 + 1, c.size) { (u, v) =>
-            this(i0 + u, c(v))
+        JMatrix(Array.tabulate[Double](i1 - i0 + 1, c.size) {
+            (u, v) =>
+                this(i0 + u, c(v))
         })
     }
 
@@ -65,8 +68,9 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @return A(r, j0:j1)
      */
     def apply(r: Array[Int], j0: Int, j1: Int): JMatrix = {
-        JMatrix(Array.tabulate[Double](r.size, j1 - j0 + 1) { (u, v) =>
-            this(r(u), j0 + v)
+        JMatrix(Array.tabulate[Double](r.size, j1 - j0 + 1) {
+            (u, v) =>
+                this(r(u), j0 + v)
         })
     }
 
@@ -222,7 +226,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     /**
      * Multiply a matrix by a scalar, C = s*A
      */
-    def *[@specialized(Int, Long, Float, Double) B : Numeric](s: B) = {
+    def *[@specialized(Int, Long, Float, Double) B: Numeric](s: B) = {
         def numeric = implicitly[Numeric[B]]
         new JMatrix(delegate.times(numeric.toDouble(s)))
     }
@@ -230,7 +234,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
     /**
      * Multiply a matrix by a scalar in place, A = s*A
      */
-    def *=[@specialized(Int, Long, Float, Double) B : Numeric](s: B) = {
+    def *=[@specialized(Int, Long, Float, Double) B: Numeric](s: B) = {
         def numeric = implicitly[Numeric[B]]
         delegate.timesEquals(numeric.toDouble(s))
         this
@@ -315,36 +319,35 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
      * @return     CholeskyDecomposition
      * @see CholeskyDecomposition
      */
-    //    def chol: CholeskyDecomposition = new CholeskyDecomposition(this)
+    def chol: CholeskyDecomposition = new JCholeskyDecomposition(this)
 
-    //    /**
-    //     * Eigenvalue Decomposition
-    //     * @return     EigenvalueDecomposition
-    //     * @see EigenvalueDecomposition
-    //     */
-    //    def eig: EigenvalueDecomposition = new EigenvalueDecomposition(this)
-    //
-    //    /**
-    //     * LU Decomposition
-    //     * @return     LUDecomposition
-    //     * @see LUDecomposition
-    //     */
-    //    def lu: LUDecomposition = new LUDecomposition(this)
-    //
-    //    /**
-    //     * QR Decomposition
-    //     * @return     QRDecomposition
-    //     * @see QRDecomposition
-    //     */
-    //    def qr: QRDecomposition = new QRDecomposition(this)
-    //
-    //    /**
-    //     * Singular Value Decomposition
-    //     * @return     SingularValueDecomposition
-    //     * @see SingularValueDecomposition
-    //     */
-    //    def svd: SingularValueDecomposition = new SingularValueDecomposition(this)
+    /**
+     * Eigenvalue Decomposition
+     * @return     EigenvalueDecomposition
+     * @see EigenvalueDecomposition
+     */
+    def eig: EigenvalueDecomposition = new JEigenvalueDecomposition(this)
 
+    /**
+     * LU Decomposition
+     * @return     LUDecomposition
+     * @see LUDecomposition
+     */
+    def lu: LUDecomposition = new JLUDecomposition(this)
+
+    /**
+     * QR Decomposition
+     * @return     QRDecomposition
+     * @see QRDecomposition
+     */
+    def qr: QRDecomposition = new JQRDecomposition(this)
+
+    /**
+     * Singular Value Decomposition
+     * @return     SingularValueDecomposition
+     * @see SingularValueDecomposition
+     */
+    def svd: SingularValueDecomposition = new JSingularValueDecomposition(this)
 
 
     def displayString(): String = defaultOps.toString(this)
@@ -369,6 +372,7 @@ class JMatrix protected[jama] (val delegate: JamaMatrix)
         case j: JMatrix => new JMatrix(delegate.solveTranspose(j.delegate))
         case _ => throw new UnsupportedOperationException
     }
+
     /**
      * Matrix inverse or pseudoinverse
      * @return     inverse(A) if A is square, pseudoinverse otherwise.
@@ -390,16 +394,16 @@ object JMatrix extends MatrixFactory[JMatrix] {
 
     def apply(rows: Int, columns: Int): JMatrix = apply(rows, columns, 0D)
 
-    def apply(rows: Int, columns: Int, fillValue: Double): JMatrix = new JMatrix(new JamaMatrix(Array.tabulate(rows, columns) { (u, v) => fillValue }))
+    def apply(rows: Int, columns: Int, fillValue: Double): JMatrix = new JMatrix(new JamaMatrix(Array.tabulate(rows, columns) {(u, v) => fillValue}))
 
-    def apply[@specialized(Int, Long, Float, Double) A : Numeric](rows: Int, columns: Int,
+    def apply[@specialized(Int, Long, Float, Double) A: Numeric](rows: Int, columns: Int,
             data: Array[A], orientation: Orientations.Orientation = Orientations.Row): JMatrix = orientation match {
         case Orientations.Row => apply(rowToNestedArray(rows, columns, data))
         case Orientations.Column => throw new UnsupportedOperationException("I haven't implemented reshaping a column " +
                 " oriented matrix yet")
     }
 
-    def identity(rows: Int, columns: Int): JMatrix= {
+    def identity(rows: Int, columns: Int): JMatrix = {
         val a = apply(rows, columns, 0D)
         for (i <- 0 until rows; j <- 0 until columns; if i == j) {
             a(i, j) = 1D
@@ -410,13 +414,13 @@ object JMatrix extends MatrixFactory[JMatrix] {
     def ones(rows: Int, columns: Int): JMatrix = apply(rows, columns, 1D)
 
     def random(rows: Int, columns: Int): JMatrix = new JMatrix(JamaMatrix.random(rows, columns))
-    
+
     def nans(rows: Int, columns: Int): JMatrix = apply(rows, columns, Double.NaN)
 
-    def rowToNestedArray[@specialized(Int, Long, Float, Double) A : Numeric](m: Int, n: Int,  rowArray: Array[A]) = {
+    def rowToNestedArray[@specialized(Int, Long, Float, Double) A: Numeric](m: Int, n: Int, rowArray: Array[A]) = {
         require(rowArray.size == m * n)
         val numeric = implicitly[Numeric[A]]
-        val newArray = Array.ofDim[Double](m,  n)
+        val newArray = Array.ofDim[Double](m, n)
         for (i <- 0 until m; j <- 0 until n) {
             val idx = i * n + j
             newArray(i)(j) = numeric.toDouble(rowArray(idx))
@@ -430,10 +434,11 @@ object JMatrix extends MatrixFactory[JMatrix] {
      *
      * @tparam A A numeric type
      */
-    def apply[@specialized(Int, Long, Float, Double) A : Numeric](array: Array[Array[A]]): JMatrix = {
+    def apply[@specialized(Int, Long, Float, Double) A: Numeric](array: Array[Array[A]]): JMatrix = {
         val numeric = implicitly[Numeric[A]]
-        new JMatrix(new JamaMatrix(Array.tabulate(array.size, array(0).size) { (u, v) =>
-            numeric.toDouble(array(u)(v))
+        new JMatrix(new JamaMatrix(Array.tabulate(array.size, array(0).size) {
+            (u, v) =>
+                numeric.toDouble(array(u)(v))
         }))
     }
 }

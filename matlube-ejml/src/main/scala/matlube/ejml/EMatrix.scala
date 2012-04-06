@@ -1,7 +1,7 @@
 package matlube.ejml
 
 import org.ejml.data.DenseMatrix64F
-import matlube.{SelectAll, MatrixDelegate, Matrix}
+import matlube._
 
 
 /**
@@ -19,6 +19,16 @@ class EMatrix protected[ejml] (val delegate: DenseMatrix64F) extends Matrix with
     def -(that: Matrix): Matrix = null
 
     def **(that: Matrix): Matrix = null
+
+    def chol: CholeskyDecomposition = null
+
+    def eig: EigenvalueDecomposition = null
+
+    def lu: LUDecomposition = null
+
+    def qr: QRDecomposition = null
+
+    def svd: SingularValueDecomposition = null
 
     def /(that: Matrix): Matrix = null
 

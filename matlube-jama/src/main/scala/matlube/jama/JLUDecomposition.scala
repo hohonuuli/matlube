@@ -13,16 +13,16 @@ class JLUDecomposition(val matrix: JMatrix) extends LUDecomposition {
 
     private val lu = new JamaLUDecomposition(matrix.delegate)
 
-    def lower() = new JMatrix(lu.getL)
+    def lower = new JMatrix(lu.getL)
 
-    def upper() = new JMatrix(lu.getU)
+    def upper = new JMatrix(lu.getU)
 
-    def pivot() = {
+    def pivot = {
         val pivotArray = lu.getDoublePivot
         JMatrix(1, pivotArray.size, pivotArray)
     }
 
-    def isSingular() = !lu.isNonsingular
+    def isSingular = !lu.isNonsingular
 
-    def determinant() = lu.det()
+    def determinant = lu.det()
 }

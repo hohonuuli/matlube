@@ -8,8 +8,8 @@ package matlube
  * essentially a pure interface. Implementations should go into [[matlube.MatrixEnhancements]]
  */
 trait Matrix {
-    
-    
+
+
     def copy: Matrix
 
     /**
@@ -82,7 +82,7 @@ trait Matrix {
      * @return     inverse(A) if A is square, pseudoinverse otherwise.
      */
     def inverse: Matrix
-    
+
 
     def apply(i: SelectAll, j: Int): Matrix
 
@@ -238,5 +238,40 @@ trait Matrix {
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: SelectAll, j: Int, v: A): Unit
 
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A): Unit
+
+    /* Cholesky Decomposition
+       * @return     CholeskyDecomposition
+       * @see CholeskyDecomposition
+       */
+    def chol: CholeskyDecomposition
+
+    /**
+     * Eigenvalue Decomposition
+     * @return     EigenvalueDecomposition
+     * @see EigenvalueDecomposition
+     */
+    def eig: EigenvalueDecomposition
+
+    /**
+     * LU Decomposition
+     * @return     LUDecomposition
+     * @see LUDecomposition
+     */
+    def lu: LUDecomposition
+
+    /**
+     * QR Decomposition
+     * @return     QRDecomposition
+     * @see QRDecomposition
+     */
+    def qr: QRDecomposition
+
+    /**
+     * Singular Value Decomposition
+     * @return     SingularValueDecomposition
+     * @see SingularValueDecomposition
+     */
+    def svd: SingularValueDecomposition
+
 
 }

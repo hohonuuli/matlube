@@ -13,17 +13,17 @@ class JEigenvalueDecomposition(val matrix: JMatrix) extends EigenvalueDecomposit
 
     private[this] val eig = new JamaEigenvalueDecomposition(matrix.delegate)
 
-    def v(): Matrix = new JMatrix(eig.getV)
+    def v: Matrix = new JMatrix(eig.getV)
 
-    def realEigenvalues(): Matrix = {
+    def realEigenvalues: Matrix = {
         val values = eig.getRealEigenvalues
         JMatrix(1, values.size, values)
     }
 
-    def imaginaryEigenvalues(): Matrix = {
+    def imaginaryEigenvalues: Matrix = {
         val values = eig.getImagEigenvalues
         JMatrix(1, values.size, values)
     }
 
-    def d(): Matrix = null
+    def d: Matrix = new JMatrix(eig.getD)
 }
