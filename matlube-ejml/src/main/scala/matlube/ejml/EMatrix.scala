@@ -1,7 +1,8 @@
 package matlube.ejml
 
-import org.ejml.data.DenseMatrix64F
 import matlube._
+import org.ejml.data.{Matrix64F, DenseMatrix64F}
+import org.ejml.ops.RandomMatrices
 
 
 /**
@@ -10,7 +11,7 @@ import matlube._
  * @since 2012-03-02
  */
 
-class EMatrix protected[ejml] (val delegate: DenseMatrix64F) extends Matrix with MatrixDelegate[DenseMatrix64F] {
+class EMatrix(val delegate: DenseMatrix64F) extends Matrix with HasDelegate[DenseMatrix64F] {
 
     def unary_- : Matrix = null
 
@@ -74,9 +75,9 @@ class EMatrix protected[ejml] (val delegate: DenseMatrix64F) extends Matrix with
 
     def *=[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix = null
 
-    def rows: Int = 0
+    def rows: Int = delegate.numRows
 
-    def columns: Int = 0
+    def columns: Int = delegate.numCols
 
     def cond: Double = 0.0
 
@@ -94,7 +95,7 @@ class EMatrix protected[ejml] (val delegate: DenseMatrix64F) extends Matrix with
 
     def trace: Double = 0.0
 
-    def apply(i: Int, j: Int): Double = Double.NaN
+    def apply(i: Int, j: Int): Double = delegate.get(i, j)
 
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: Int, v: A) {}
 
@@ -105,4 +106,39 @@ class EMatrix protected[ejml] (val delegate: DenseMatrix64F) extends Matrix with
     def copy: Matrix = null
 
     def *[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix = null
+}
+
+object EMatrix extends MatrixFactory[EMatrix] {
+    def apply[@specialized(Int, Long, Float, Double) B: Numeric](rows: Int, columns: Int,
+            data: Array[B], orientation: Orientations.Orientation): EMatrix = orientation match {
+        case Orientations.Row => new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(rows, columns, data)))
+    }
+
+    def apply(data: Product): EMatrix = {
+        def size = MatrixFactory.productSize(data)
+        def array = MatrixFactory.toArray[Double](data)
+        new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
+    }
+
+    def apply(rows: Int, columns: Int): EMatrix = apply(rows, columns, 0D)
+
+    def apply(rows: Int, columns: Int, fillValue: Double): EMatrix =
+        new EMatrix(new DenseMatrix64F(Array.tabulate(rows, columns) {(u, v) => fillValue}))
+
+    def identity(rows: Int, columns: Int): EMatrix = {
+        val a = apply(rows, columns, 0D)
+        for (i <- 0 until rows; j <- 0 until columns; if i == j) {
+            a(i, j) = 1D
+        }
+        return a
+    }
+
+    def ones(rows: Int, columns: Int): EMatrix = apply(rows, columns, 1D)
+
+    def random(rows: Int, columns: Int): EMatrix =
+        new EMatrix(RandomMatrices.createRandom(rows, columns, new java.util.Random))
+
+    def nans(rows: Int, columns: Int): EMatrix = apply(rows, columns, Double.NaN)
+
+    def zeros(rows: Int, columns: Int): EMatrix = apply(rows, columns, 0D)
 }

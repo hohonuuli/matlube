@@ -8,11 +8,11 @@ trait MatrixFactory[A <: Matrix]  {
     def apply(data: Product): A
     def apply(rows: Int, columns: Int): A
     def apply(rows: Int, columns: Int, fillValue: Double): A
-    
+
     def identity(rows: Int,  columns: Int): A
-    
+
     def ones(rows: Int,  columns: Int): A
-    
+
     def random(rows: Int,  columns: Int): A
 
     def nans(rows: Int, columns: Int): A
@@ -41,7 +41,7 @@ object MatrixFactory {
     def flattenProduct(t: Product): Iterator[Any] = t.productIterator.flatMap {
         case p: Product => flattenProduct(p)
         case x => Iterator(x)
-    } 
+    }
 
     /**
      * Convert a nested tuple to a flattened row-oriented array (See [[matlube.Orientations]]).
@@ -71,6 +71,18 @@ object MatrixFactory {
             array(idx) = 1
         }
         array
+    }
+
+    def rowArrayTo2DArray[@specialized(Int, Long, Float, Double) A: Numeric](m: Int, n: Int,
+            rowArray: Array[A]) = {
+        require(rowArray.size == m * n)
+        val numeric = implicitly[Numeric[A]]
+        val newArray = Array.ofDim[Double](m, n)
+        for (i <- 0 until m; j <- 0 until n) {
+            val idx = i * n + j
+            newArray(i)(j) = numeric.toDouble(rowArray(idx))
+        }
+        newArray
     }
 
     // TODO implement a tabulate method (ala array)

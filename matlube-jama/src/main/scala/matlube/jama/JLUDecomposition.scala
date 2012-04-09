@@ -9,7 +9,7 @@ import Jama.{LUDecomposition => JamaLUDecomposition}
  * @since 2012-04-05
  */
 
-class JLUDecomposition(val matrix: JMatrix) extends LUDecomposition {
+class JLUDecomposition protected[jama] (val matrix: JMatrix) extends LUDecomposition {
 
     private val lu = new JamaLUDecomposition(matrix.delegate)
 

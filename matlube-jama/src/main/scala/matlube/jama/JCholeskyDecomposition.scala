@@ -1,7 +1,7 @@
 package matlube.jama
 
 import Jama.{CholeskyDecomposition => JamaCholeskyDecomposition}
-import matlube.{Matrix, CholeskyDecomposition}
+import matlube.{HasDelegate, Matrix, CholeskyDecomposition}
 
 
 /**
@@ -10,15 +10,16 @@ import matlube.{Matrix, CholeskyDecomposition}
  * @since 2012-04-05
  */
 
-class JCholeskyDecomposition(val matrix: JMatrix) extends CholeskyDecomposition {
+class JCholeskyDecomposition protected[jama] (val matrix: JMatrix) extends CholeskyDecomposition
+        with HasDelegate[JamaCholeskyDecomposition] {
 
-    private val chol = new JamaCholeskyDecomposition(matrix.delegate)
-    require(chol.isSPD, "Matrix is not symetric and positive definite. Can not decompose")
+    val delegate = new JamaCholeskyDecomposition(matrix.delegate)
+    //require(delegate.isSPD, "Matrix is not symetric and positive definite. Can not decompose")
 
-    def lower: Matrix = new JMatrix(chol.getL)
+    def lower: Matrix = new JMatrix(delegate.getL)
 
     def solve(m: Matrix): Matrix = m match {
-        case j: JMatrix => new JMatrix(chol.solve(j.delegate))
+        case j: JMatrix => new JMatrix(delegate.solve(j.delegate))
         case _ => throw new UnsupportedOperationException("Unable to solve using " + m)
     }
 

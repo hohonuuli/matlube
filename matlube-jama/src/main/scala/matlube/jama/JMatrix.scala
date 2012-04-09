@@ -3,8 +3,7 @@ package matlube.jama
 import Jama.{Matrix => JamaMatrix}
 import matlube._
 
-class JMatrix protected[jama](val delegate: JamaMatrix)
-        extends Matrix with MatrixEnhancements with MatrixDelegate[JamaMatrix] {
+class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatrix] {
 
     val rows = delegate.getRowDimension
     val columns = delegate.getColumnDimension
@@ -389,7 +388,7 @@ object JMatrix extends MatrixFactory[JMatrix] {
     def apply(data: Product): JMatrix = {
         def size = MatrixFactory.productSize(data)
         def array = MatrixFactory.toArray[Double](data)
-        new JMatrix(new JamaMatrix(rowToNestedArray(size._1, size._2, array)))
+        new JMatrix(new JamaMatrix(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
     }
 
     def apply(rows: Int, columns: Int): JMatrix = apply(rows, columns, 0D)
@@ -398,7 +397,7 @@ object JMatrix extends MatrixFactory[JMatrix] {
 
     def apply[@specialized(Int, Long, Float, Double) A: Numeric](rows: Int, columns: Int,
             data: Array[A], orientation: Orientations.Orientation = Orientations.Row): JMatrix = orientation match {
-        case Orientations.Row => apply(rowToNestedArray(rows, columns, data))
+        case Orientations.Row => apply(MatrixFactory.rowArrayTo2DArray(rows, columns, data))
         case Orientations.Column => throw new UnsupportedOperationException("I haven't implemented reshaping a column " +
                 " oriented matrix yet")
     }
@@ -418,17 +417,6 @@ object JMatrix extends MatrixFactory[JMatrix] {
     def nans(rows: Int, columns: Int): JMatrix = apply(rows, columns, Double.NaN)
 
     def zeros(rows: Int, columns: Int): JMatrix = apply(rows, columns, 0)
-
-    def rowToNestedArray[@specialized(Int, Long, Float, Double) A: Numeric](m: Int, n: Int, rowArray: Array[A]) = {
-        require(rowArray.size == m * n)
-        val numeric = implicitly[Numeric[A]]
-        val newArray = Array.ofDim[Double](m, n)
-        for (i <- 0 until m; j <- 0 until n) {
-            val idx = i * n + j
-            newArray(i)(j) = numeric.toDouble(rowArray(idx))
-        }
-        newArray
-    }
 
     /**
      * Creates a new Matrix from an Array[Array[A]]. This creates a copy

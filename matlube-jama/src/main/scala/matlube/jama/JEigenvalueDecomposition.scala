@@ -1,7 +1,7 @@
 package matlube.jama
 
 import Jama.{EigenvalueDecomposition => JamaEigenvalueDecomposition}
-import matlube.{Matrix, EigenvalueDecomposition}
+import matlube.{HasDelegate, Matrix, EigenvalueDecomposition}
 
 /**
  *
@@ -9,21 +9,22 @@ import matlube.{Matrix, EigenvalueDecomposition}
  * @since 2012-04-05
  */
 
-class JEigenvalueDecomposition(val matrix: JMatrix) extends EigenvalueDecomposition {
+class JEigenvalueDecomposition protected[jama] (val matrix: JMatrix) extends EigenvalueDecomposition
+        with HasDelegate[JamaEigenvalueDecomposition] {
 
-    private[this] val eig = new JamaEigenvalueDecomposition(matrix.delegate)
+    val delegate = new JamaEigenvalueDecomposition(matrix.delegate)
 
-    def v: Matrix = new JMatrix(eig.getV)
+    def v: Matrix = new JMatrix(delegate.getV)
 
     def realEigenvalues: Matrix = {
-        val values = eig.getRealEigenvalues
+        val values = delegate.getRealEigenvalues
         JMatrix(1, values.size, values)
     }
 
     def imaginaryEigenvalues: Matrix = {
-        val values = eig.getImagEigenvalues
+        val values = delegate.getImagEigenvalues
         JMatrix(1, values.size, values)
     }
 
-    def d: Matrix = new JMatrix(eig.getD)
+    def d: Matrix = new JMatrix(delegate.getD)
 }

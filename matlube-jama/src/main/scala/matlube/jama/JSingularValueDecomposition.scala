@@ -9,7 +9,7 @@ import matlube.{Matrix, SingularValueDecomposition}
  * @since 2012-04-06
  */
 
-class JSingularValueDecomposition (val matrix: JMatrix) extends SingularValueDecomposition {
+class JSingularValueDecomposition protected[jama] (val matrix: JMatrix) extends SingularValueDecomposition {
 
     private[this] val svd = new JamaSingularValueDecomposition(matrix.delegate)
 

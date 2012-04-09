@@ -14,7 +14,7 @@ import scala.math._
  * @author Brian Schlining
  * @since 2012-03-05
  */
-class VectorView(val matrix: Matrix with MatrixEnhancements, val orientation: Orientations.Value) {
+class VectorView(val matrix: Matrix, val orientation: Orientations.Value) {
     require(matrix != null)
     require(orientation != null)
 
