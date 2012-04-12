@@ -2,9 +2,9 @@
 
 Scala wrapper for Matrix libraries.
 
-The plan is to create a Matlab-like linear algebra DSL for Scala. This library only supports dense double matrices.I've written the core DSL and am working on 2 back-ends one for Jama (http://math.nist.gov/javanumerics/jama/) and another for EJML (http://code.google.com/p/efficient-java-matrix-library/). Why have different back-ends? Well, everyone has there favorite Matrix library. Different back-ends allows Matlube to easily integrate with whatever your prefered library is. Currently the Jama implementation is useable. I'm still working on the EJML one. Once these 2 are created folks can use them as examples for wrapping other Matrix libraries in Matlube.
+The plan is to create a Matlab-like linear algebra DSL for Scala. This library only supports dense double matrices.I've written the a first cut at a core library and am working on 2 back-ends one for Jama (http://math.nist.gov/javanumerics/jama/) and another for EJML (http://code.google.com/p/efficient-java-matrix-library/). Why have different back-ends? Well, everyone has there favorite Matrix library. Different back-ends allows Matlube to easily integrate with whatever your prefered library is. Currently the Jama implementation is useable. I'm still working on the EJML one. Once these 2 are created, folks can use them as examples for wrapping other Matrix libraries in Matlube.
 
-=== Teaser code using Jama ===
+=== Teaser code using Jama as a backend ===
 
 import matlube.jama._
 

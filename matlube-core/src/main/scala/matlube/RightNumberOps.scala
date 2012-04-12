@@ -1,7 +1,7 @@
 package matlube
 
 /**
- * Wrapper class so that scala values can appear to be Matrices on the right-hand side
+ * Wrapper class so that scalar values can appear to be Matrices on the right-hand side
  * of operations:
  * {{{
  *     val m = // some matrix
