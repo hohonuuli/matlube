@@ -9,19 +9,19 @@ The plan is to create a Matlab-like linear algebra DSL for Scala. This library o
 import matlube.jama._
 
 // Creating Matrices
-val a = JMatrix(2, 2, Array(2, 3, 4, 5))
-val b = JMatrix(((2, 3), (4, 5)))
-val c = JMatrix.ones(10, 10)
-val d = JMatrix.random(5, 5)
+val a = JMatrix(2, 2, Array(2, 3, 4, 5)) // 2 x 2 Matrix
+val b = JMatrix(((2D, 3D), (4D, 5D)))    // Same as above
+val c = JMatrix.ones(10, 10)             // 10 x 10 Matrix of ones
+val d = JMatrix.random(5, 5)             // 5 x 5 random values
 val e = JMatrix(4, 3, 5) // 4 x 3 matrix filled with the value 5
 
 val ab = a * b // Matrix multiplication
-val a5 = 5 * a // we can multiply by scalars!
-val a6 = a * 6
+val a5 = 5 * a // we can operate with scalars!
+val a6 = a + 6 // scalars can be on either side!
 
-val c15 = c(1, 5) // Access a value in the matrix
-c(1, 5) = 15 // Set a value in the Matrix
-val r = JMatix(c(0 to 30 by 3) // grab elements 0, 2, 5, 8, ... 30 and create a new row matrix
+val c15 = c(1, 5)               // Access a value in the matrix
+c(1, 5) = 15                    // Set a value in the Matrix
+val r = JMatrix(c(0 to 30 by 3) // grab elements 0, 3, 6, 9, ... 30 as a Matrix
 
 import matlube._
 
