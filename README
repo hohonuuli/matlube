@@ -1,0 +1,38 @@
+=== About Matlube ===
+
+Scala wrapper for Matrix libraries.
+
+The plan is to create a Matlab-like linear algebra DSL for Scala. This library only supports dense
+double matrices.I've written the core DSL and am working on 2 back-ends one for
+Jama (http://math.nist.gov/javanumerics/jama/) and another for
+EJML (http://code.google.com/p/efficient-java-matrix-library/). Why have different back-ends? Well,
+everyone has there favorite Matrix library. Different back-ends allows Matlube to easily integrate
+with whatever your prefered library is. Currently the Jama implementation is useable. I'm still
+working on the EJML one. Once these 2 are created folks can use them as examples for wrapping other
+Matrix libraries in Matlube.
+
+=== Teaser code using Jama ===
+
+import matlube.jama._
+
+// Creating Matrices
+val a = JMatrix(2, 2, Array(2, 3, 4, 5))
+val b = JMatrix(((2, 3), (4, 5)))
+val c = JMatrix.ones(10, 10)
+val d = JMatrix.random(5, 5)
+val e = JMatrix(4, 3, 5) // 4 x 3 matrix filled with the value 5
+
+val ab = a * b // Matrix multiplication
+val a5 = 5 * a // we can multiply by scalars!
+val a6 = a * 6
+
+val c15 = c(1, 5) // Access a value in the matrix
+c(1, 5) = 15 // Set a value in the Matrix
+val r = JMatix(c(0 to 30 by 3) // grab elements 0, 2, 5, 8, ... 30 and create a new row matrix
+
+import matlube._
+
+val dr = d(0, ::) // grab the first row as a Matrix
+val dc = d(::, 0) // grag the first column as a Matrix
+
+// more to come
