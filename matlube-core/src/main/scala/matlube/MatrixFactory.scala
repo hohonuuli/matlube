@@ -4,6 +4,7 @@ import java.util.Arrays
 
 trait MatrixFactory[A <: Matrix]  {
 
+    def apply[@specialized(Int, Long, Float, Double) B : Numeric](data: Array[B], orientation: Orientations.Orientation): A
     def apply[@specialized(Int, Long, Float, Double) B : Numeric](rows: Int,  columns: Int, data: Array[B], orientation: Orientations.Orientation): A
     def apply(data: Product): A
     def apply(rows: Int, columns: Int): A

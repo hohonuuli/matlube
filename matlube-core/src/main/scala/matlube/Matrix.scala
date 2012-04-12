@@ -81,6 +81,7 @@ trait Matrix {
     def inverse: Matrix
 
 
+
     def apply(i: SelectAll, j: Int): Matrix
 
     def apply(i: Int, j: SelectAll): Matrix
@@ -338,17 +339,53 @@ trait Matrix {
      * @return
      */
     def apply(i: Int): Double = {
-        if (rows == 1) {
-            apply(1, i)
-        }
-        else if (columns == 1) {
-            apply(i, 1)
-        }
-        else {
-            throw new UnsupportedOperationException("Vector access on a Matrix without a " +
-                    "singleton dimension is not permitted")
-        }
+        val r = i % rows
+        val c = (i - r) / rows
+        apply(r, c)
     }
+
+    /**
+     * Matlab-style access. You can use ranges to extract an array. You'll then have to
+     * use a MatrixFactory to convert it to a Matrix ... sorry. Here's an example:
+     * {{{
+     * val m = JMatrix.random(10, 10)
+     * val subArray = m(2 to 21 by 3)
+     * val rowMatris = JMatrix(subArray) // default is row matrix OR
+     * val colMatrix = JMatrix(subArray, Orientations.Column) // specify as a column
+     * }}}
+     *
+     *
+     * @param indices Sequence of indices
+     * @return A subarray (Matlab-style
+     */
+    def apply(indices: Seq[Int]): Array[Double] = (for (i <- indices) yield apply(i)).toArray
+
+    /**
+     * Iterate over all elements in a matrix. The iteration is columne oriented. So values
+     * are accessed as:
+     * {{{
+     * [1 5  9
+     *  2 6 10
+     *  3 7 11
+     *  4 8 12]
+     * }}}
+     * @return An iterator over all the values in the Matrix. Not really thread-safe so don't
+     *         share this iterator between threads.
+     */
+    def iterator: Iterator[Double] =  new Iterator[Double] {
+
+            @volatile private[this] var currentIdx = 0;
+            private[this] val maxIdx = size - 1
+            def hasNext: Boolean = currentIdx < maxIdx
+
+            def next(): Double = {
+                this.synchronized {
+                    val n = apply(currentIdx)
+                    currentIdx += 1
+                    n
+                }
+            }
+        }
 
     /**
      *

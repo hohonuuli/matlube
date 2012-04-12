@@ -43,6 +43,20 @@ class VectorView(val matrix: Matrix, val orientation: Orientations.Value) {
             }
     }
 
+    def iterator(i: Int): Iterator[Double] =  new Iterator[Double] {
+            private[this] val matrixView = apply(i)
+            private[this] var currentIdx = 0;
+            private[this] val maxIdx = size - 1
+            def hasNext: Boolean = currentIdx < maxIdx
+
+            def next(): Double = {
+                val n = matrixView(currentIdx)
+                currentIdx += 1
+                n
+            }
+        }
+
+
     /**
      * Map each vector (i.e. row or column) in a matrix to a single value. The
      * axis that's mapped depends on the orientation you specify.
@@ -52,10 +66,9 @@ class VectorView(val matrix: Matrix, val orientation: Orientations.Value) {
      * @return An Array containing the coverted values.
      */
     def map[A : ClassManifest](fn: (Matrix) => A): Array[A] = {
-        val d = dimensions
-        val n = max(d._1, d._2)
-        val array = Array.ofDim[A](n)
-        for (i <- 0 until n) {
+        val numVectors = size
+        val array = Array.ofDim[A](numVectors)
+        for (i <- 0 until numVectors) {
             array(i) = fn(apply(i))
         }
         array

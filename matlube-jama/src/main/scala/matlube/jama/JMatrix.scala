@@ -410,6 +410,14 @@ object JMatrix extends MatrixFactory[JMatrix] {
         return a
     }
 
+
+    def apply[B: Numeric](data: Array[B], orientation: Orientations.Orientation): JMatrix = {
+        orientation match {
+            case Orientations.Row => apply(1, data.size, data)
+            case Orientations.Column => apply(data.size, 1, data)
+        }
+    }
+
     def ones(rows: Int, columns: Int): JMatrix = apply(rows, columns, 1D)
 
     def random(rows: Int, columns: Int): JMatrix = new JMatrix(JamaMatrix.random(rows, columns))
