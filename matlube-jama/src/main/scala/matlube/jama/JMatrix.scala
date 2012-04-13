@@ -45,6 +45,13 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
         })
     }
 
+    def apply(r: Seq[Int], c: Seq[Int]): Matrix = {
+        JMatrix(Array.tabulate[Double](r.size, c.size) {
+            (u, v) =>
+                this(r(u), c(v))
+        })
+    }
+
     /**
      * Get a submatrix
      * @param i0   Initial row index
@@ -73,17 +80,6 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
         })
     }
 
-    def apply(i: SelectAll, j: Int): Matrix = apply(0, rows, j, j)
-
-    def apply(i: Int, j: SelectAll): Matrix = apply(i, i, 0, columns)
-
-    def apply(r: SelectAll, c: Array[Int]): Matrix = apply(0, rows, c)
-
-    def apply(r: Array[Int], c: SelectAll): Matrix = apply(r, 0, columns)
-
-    def apply(i0: Int, i1: Int, c: SelectAll): Matrix = apply(i0, i1, 0, columns)
-
-    def apply(r: SelectAll, j0: Int, j1: Int): Matrix = apply(0, rows, j0, j1)
 
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: SelectAll, j: Int, v: A) {
         val numeric = implicitly[Numeric[A]]

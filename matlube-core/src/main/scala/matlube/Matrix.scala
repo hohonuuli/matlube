@@ -80,11 +80,99 @@ trait Matrix {
      */
     def inverse: Matrix
 
+    /**
+     * Retrieve a value from the Matrix
+     * @param i The row index
+     * @param j The column index
+     * @return The value of A(i, j)
+     */
+    def apply(i: Int, j: Int): Double
+
+    /**
+     * Retrieve a row from the matrix
+     * @param i The [[matlube.SelectAll]] constant ( or ::)
+     * @param j The column index
+     * @return A(:, j)
+     */
+    def apply(i: SelectAll, j: Int): Matrix = apply(0, rows - 1, j, j)
+
+    /**
+     * Get a submatrix
+     * @param i The [[matlube.SelectAll]] constant ( or ::)
+     * @param j The column indices
+     * @return A(:, [j0 j1 ... jn])
+     */
+    def apply(i: SelectAll, j: Seq[Int]): Matrix = apply(0, rows - 1, j.toArray)
+
+    /**
+     * Get a submatrix
+     * @param i The [[matlube.SelectAll]] constant ( or ::)
+     * @param c The column indices
+     * @return A(:, [j0 j1 ... jn])
+     */
+    def apply(i: SelectAll, c: Array[Int]): Matrix  = apply(0, rows - 1, c)
 
 
-    def apply(i: SelectAll, j: Int): Matrix
+    /**
+     * Retrive a column from the matrix
+     * @param i The row index
+     * @param j The [[matlube.SelectAll]] constant ( or ::)
+     * @return A(i, :)
+     */
+    def apply(i: Int, j: SelectAll): Matrix = apply(i, i, 0, columns - 1)
 
-    def apply(i: Int, j: SelectAll): Matrix
+    /**
+     * Get a submatrix
+     * @param i The row index
+     * @param j The [[matlube.SelectAll]] constant ( or ::)
+     * @return A(i, :)
+     */
+    def apply(i: Seq[Int], j: SelectAll): Matrix = apply(i.toArray, 0, columns - 1)
+
+    /**
+     * Get a submatrix
+     * @param i The row index
+     * @param j The [[matlube.SelectAll]] constant ( or ::)
+     * @return A(i, :)
+     */
+    def apply(i: Array[Int], j: SelectAll): Matrix = apply(i, 0, columns - 1)
+
+    /**
+     * Get a submatrix
+     * @param i0
+     * @param i1
+     * @param c
+     * @return
+     */
+    def apply(i0: Int, i1: Int, c: SelectAll): Matrix = apply(i0, i1, 0, columns - 1)
+
+    /**
+     * Get a submatrix
+     * @param r An array of row indices
+     * @param j0   Initial column index
+     * @param j1   Final column index
+     * @return A(r, j0:j1)
+     */
+    def apply(r: SelectAll, j0: Int, j1: Int): Matrix = apply(0, rows - 1, j0, j1)
+
+    /**
+     * Get a submatrix
+     * @param r An array of row indices
+     * @param j0   Initial column index
+     * @param j1   Final column index
+     * @return A(r, j0:j1)
+     */
+    def apply(r: Array[Int], j0: Int, j1: Int): Matrix
+
+    /**
+     * Get a submatrix
+     * @param i0   Initial row index
+     * @param i1   Final row index
+     * @param c An array of column indices
+     * @return A(i0:i1, c)
+     */
+    def apply(i0: Int, i1: Int, c: Array[Int]): Matrix
+
 
     /**
      * Get a submatrix
@@ -104,29 +192,17 @@ trait Matrix {
      */
     def apply(r: Array[Int], c: Array[Int]): Matrix
 
-    def apply(r: SelectAll, c: Array[Int]): Matrix
-
-    def apply(r: Array[Int], c: SelectAll): Matrix
-
     /**
      * Get a submatrix
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param c An array of column indices
-     * @return A(i0:i1, c)
+     * @param r A Seq of row indices
+     * @param c An Seq of column indices
+     * @return A(r, c)
      */
-    def apply(i0: Int, i1: Int, c: Array[Int]): Matrix
+    def apply(r: Seq[Int], c: Seq[Int]): Matrix
 
-    def apply(i0: Int, i1: Int, c: SelectAll): Matrix
 
-    /**
-     * Get a submatrix
-     * @param r An array of row indices
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @return A(r, j0:j1)
-     */
-    def apply(r: SelectAll, j0: Int, j1: Int): Matrix
+
+
 
     /**
      * A = A + B
@@ -221,7 +297,7 @@ trait Matrix {
     def trace: Double
 
 
-    def apply(i: Int, j: Int): Double
+
 
 
     /**
@@ -374,18 +450,18 @@ trait Matrix {
      */
     def iterator: Iterator[Double] =  new Iterator[Double] {
 
-            @volatile private[this] var currentIdx = 0;
-            private[this] val maxIdx = size - 1
-            def hasNext: Boolean = currentIdx < maxIdx
+        @volatile private[this] var currentIdx = 0;
+        private[this] val maxIdx = size - 1
+        def hasNext: Boolean = currentIdx < maxIdx
 
-            def next(): Double = {
-                this.synchronized {
-                    val n = apply(currentIdx)
-                    currentIdx += 1
-                    n
-                }
+        def next(): Double = {
+            this.synchronized {
+                val n = apply(currentIdx)
+                currentIdx += 1
+                n
             }
         }
+    }
 
     /**
      *

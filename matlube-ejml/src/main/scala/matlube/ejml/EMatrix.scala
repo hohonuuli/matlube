@@ -45,23 +45,17 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix with HasDelegate[Dens
 
     def inverse: Matrix = null
 
-    def apply(i: SelectAll, j: Int): Matrix = null
-
-    def apply(i: Int, j: SelectAll): Matrix = null
+    def apply(i: Int, j: Int): Double = delegate.get(i, j)
 
     def apply(i0: Int, i1: Int, j0: Int, j1: Int): Matrix = null
 
     def apply(r: Array[Int], c: Array[Int]): Matrix = null
 
-    def apply(r: SelectAll, c: Array[Int]): Matrix = null
-
-    def apply(r: Array[Int], c: SelectAll): Matrix = null
-
     def apply(i0: Int, i1: Int, c: Array[Int]): Matrix = null
 
-    def apply(i0: Int, i1: Int, c: SelectAll): Matrix = null
+    def apply(r: Array[Int], j0: Int, j1: Int): Matrix = null
 
-    def apply(r: SelectAll, j0: Int, j1: Int): Matrix = null
+    def apply(r: Seq[Int], c: Seq[Int]): Matrix = null
 
     def +=(that: Matrix): Matrix = null
 
@@ -94,8 +88,6 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix with HasDelegate[Dens
     def rank: Int = 0
 
     def trace: Double = 0.0
-
-    def apply(i: Int, j: Int): Double = delegate.get(i, j)
 
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: Int, v: A) {}
 
