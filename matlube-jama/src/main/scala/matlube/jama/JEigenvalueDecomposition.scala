@@ -9,22 +9,22 @@ import matlube.{HasDelegate, Matrix, EigenvalueDecomposition}
  * @since 2012-04-05
  */
 
-class JEigenvalueDecomposition protected[jama] (val matrix: JMatrix) extends EigenvalueDecomposition
+class JEigenvalueDecomposition protected[jama] (val matrix: JMatrix) extends EigenvalueDecomposition[JMatrix]
         with HasDelegate[JamaEigenvalueDecomposition] {
 
     val delegate = new JamaEigenvalueDecomposition(matrix.delegate)
 
-    def v: Matrix = new JMatrix(delegate.getV)
+    def v: JMatrix = new JMatrix(delegate.getV)
 
-    def realEigenvalues: Matrix = {
+    def realEigenvalues: JMatrix = {
         val values = delegate.getRealEigenvalues
         JMatrix(1, values.size, values)
     }
 
-    def imaginaryEigenvalues: Matrix = {
+    def imaginaryEigenvalues: JMatrix = {
         val values = delegate.getImagEigenvalues
         JMatrix(1, values.size, values)
     }
 
-    def d: Matrix = new JMatrix(delegate.getD)
+    def d: JMatrix = new JMatrix(delegate.getD)
 }

@@ -5,44 +5,44 @@ package matlube
  * should return a new Matrix
  *
  */
-trait Matrix {
+trait Matrix[A <: Matrix[_]] {
 
-    def copy: Matrix
+    def copy: A
 
     /**
      * Unary minus
      * @return    -A
      */
-    def unary_- : Matrix
+    def unary_- : A
 
     /**
      * C = A + B
      * @param that    another matrix
      * @return     A + B
      */
-    def +(that: Matrix): Matrix
+    def +(that: Matrix[_]): A
 
     /**
      * C = A - B
      * @param that    another matrix
      * @return     A - B
      */
-    def -(that: Matrix): Matrix
+    def -(that: Matrix[_]): A
 
     /**
      * Element-by-element multiplication, C = A.*B
      */
-    def **(that: Matrix): Matrix
+    def **(that: Matrix[_]): A
 
     /**
      * Element-by-element right division, C = A./B
      */
-    def /(that: Matrix): Matrix
+    def /(that: Matrix[_]): A
 
     /**
      * Element-by-element left division, C = A.\B
      */
-    def \(that: Matrix): Matrix
+    def \(that: Matrix[_]): A
 
     /**
      * Multiply a matrix by a scalar, C = s*A
@@ -52,33 +52,33 @@ trait Matrix {
     /**
      * Linear algebraic matrix multiplication, A * B
      */
-    def *(that: Matrix): Matrix
+    def *(that: Matrix[_]): A
 
     /**
      * Matrix transpose.
      * @return    A'
      */
-    def t: Matrix
+    def t: A
 
     /**
      * Solve A*X = B
      * @param b    right hand side
      * @return     solution if A is square, least squares solution otherwise
      */
-    def solve(b: Matrix): Matrix
+    def solve(b: Matrix[_]): A
 
     /**
      * Solve X*A = B, which is also A'*X' = B'
      * @param b    right hand side
      * @return     solution if A is square, least squares solution otherwise.
      */
-    def solveTranspose(b: Matrix): Matrix
+    def solveTranspose(b: Matrix[_]): A
 
     /**
      * Matrix inverse or pseudoinverse
      * @return     inverse(A) if A is square, pseudoinverse otherwise.
      */
-    def inverse: Matrix
+    def inverse: A
 
     /**
      * Retrieve a value from the Matrix
@@ -94,7 +94,7 @@ trait Matrix {
      * @param j The column index
      * @return A(:, j)
      */
-    def apply(i: SelectAll, j: Int): Matrix = apply(0, rows - 1, j, j)
+    def apply(i: SelectAll, j: Int): A = apply(0, rows - 1, j, j)
 
     /**
      * Get a submatrix
@@ -102,7 +102,7 @@ trait Matrix {
      * @param j The column indices
      * @return A(:, [j0 j1 ... jn])
      */
-    def apply(i: SelectAll, j: Seq[Int]): Matrix = apply(0, rows - 1, j.toArray)
+    def apply(i: SelectAll, j: Seq[Int]): A = apply(0, rows - 1, j.toArray)
 
     /**
      * Get a submatrix
@@ -110,7 +110,7 @@ trait Matrix {
      * @param c The column indices
      * @return A(:, [j0 j1 ... jn])
      */
-    def apply(i: SelectAll, c: Array[Int]): Matrix  = apply(0, rows - 1, c)
+    def apply(i: SelectAll, c: Array[Int]): A  = apply(0, rows - 1, c)
 
 
     /**
@@ -119,7 +119,7 @@ trait Matrix {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Int, j: SelectAll): Matrix = apply(i, i, 0, columns - 1)
+    def apply(i: Int, j: SelectAll): A = apply(i, i, 0, columns - 1)
 
     /**
      * Get a submatrix
@@ -127,7 +127,7 @@ trait Matrix {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Seq[Int], j: SelectAll): Matrix = apply(i.toArray, 0, columns - 1)
+    def apply(i: Seq[Int], j: SelectAll): A = apply(i.toArray, 0, columns - 1)
 
     /**
      * Get a submatrix
@@ -135,7 +135,7 @@ trait Matrix {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Array[Int], j: SelectAll): Matrix = apply(i, 0, columns - 1)
+    def apply(i: Array[Int], j: SelectAll): A = apply(i, 0, columns - 1)
 
     /**
      * Get a submatrix
@@ -144,7 +144,7 @@ trait Matrix {
      * @param c
      * @return
      */
-    def apply(i0: Int, i1: Int, c: SelectAll): Matrix = apply(i0, i1, 0, columns - 1)
+    def apply(i0: Int, i1: Int, c: SelectAll): A = apply(i0, i1, 0, columns - 1)
 
     /**
      * Get a submatrix
@@ -153,7 +153,7 @@ trait Matrix {
      * @param j1   Final column index
      * @return A(r, j0:j1)
      */
-    def apply(r: SelectAll, j0: Int, j1: Int): Matrix = apply(0, rows - 1, j0, j1)
+    def apply(r: SelectAll, j0: Int, j1: Int): A = apply(0, rows - 1, j0, j1)
 
     /**
      * Get a submatrix
@@ -162,7 +162,7 @@ trait Matrix {
      * @param j1   Final column index
      * @return A(r, j0:j1)
      */
-    def apply(r: Array[Int], j0: Int, j1: Int): Matrix
+    def apply(r: Array[Int], j0: Int, j1: Int): A
 
     /**
      * Get a submatrix
@@ -171,7 +171,7 @@ trait Matrix {
      * @param c An array of column indices
      * @return A(i0:i1, c)
      */
-    def apply(i0: Int, i1: Int, c: Array[Int]): Matrix
+    def apply(i0: Int, i1: Int, c: Array[Int]): A
 
 
     /**
@@ -182,7 +182,7 @@ trait Matrix {
      * @param j1   Final column index
      * @return     A(i0:i1,j0:j1)
      */
-    def apply(i0: Int, i1: Int, j0: Int, j1: Int): Matrix
+    def apply(i0: Int, i1: Int, j0: Int, j1: Int): A
 
     /**
      * Get a submatrix
@@ -190,7 +190,7 @@ trait Matrix {
      * @param c An array of column indices
      * @return A(r, c)
      */
-    def apply(r: Array[Int], c: Array[Int]): Matrix
+    def apply(r: Array[Int], c: Array[Int]): A
 
     /**
      * Get a submatrix
@@ -198,7 +198,7 @@ trait Matrix {
      * @param c An Seq of column indices
      * @return A(r, c)
      */
-    def apply(r: Seq[Int], c: Seq[Int]): Matrix
+    def apply(r: Seq[Int], c: Seq[Int]): A
 
     /**
      * Single index access. Order of access is like so:
@@ -232,7 +232,7 @@ trait Matrix {
      * @param indices Sequence of indices
      * @return A subarray (Matlab-style
      */
-    def apply(indices: Seq[Int]): Array[Double] = (for (i <- indices) yield apply(i)).toArray
+    def apply(indices: Seq[Int]): A
 
     /**
      *
@@ -246,39 +246,39 @@ trait Matrix {
      * @param that (B)    another matrix
      * @return     A + B (actually returns this)
      */
-    def +=(that: Matrix): Matrix
+    def +=(that: Matrix[_]): A
 
     /**
      * A = A - B
      * @param that (B)    another matrix
      * @return     A - B
      */
-    def -=(that: Matrix): Matrix
+    def -=(that: Matrix[_]): A
 
     /**
      * Element-by-element multiplication in place, A = A.*B
      */
-    def **=(that: Matrix): Matrix
+    def **=(that: Matrix[_]): A
 
     /**
      * Element-by-element right division in place, A = A./B
      */
-    def /=(that: Matrix): Matrix
+    def /=(that: Matrix[_]): A
 
     /**
      * Element-by-element left division in place, A = A.\B
      */
-    def \=(that: Matrix): Matrix
+    def \=(that: Matrix[_]): A
 
     /**
      * Multiply a matrix by a scalar in place, A = s*A
      */
-    def *[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix
+    //def *[@specialized(Int, Long, Float, Double) B: Numeric](s: B): A
 
     /**
      * Multiply a matrix by a scalar in place, A = s*A
      */
-    def *=[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix
+    def *=[@specialized(Int, Long, Float, Double) B: Numeric](s: B): A
 
 
     /**
@@ -301,12 +301,12 @@ trait Matrix {
      * }}}
      * @return An iterator over each row of a matrix
      */
-    def rowIterator: Iterator[Matrix] = new Iterator[Matrix] {
+    def rowIterator: Iterator[A] = new Iterator[A] {
         @volatile var currentRowIdx = 0
 
         def hasNext: Boolean = currentRowIdx < rows
 
-        def next(): Matrix = {
+        def next(): A = {
             this.synchronized {
                 val row = apply(Array(currentRowIdx), 0, columns - 1)
                 currentRowIdx += 1
@@ -323,12 +323,12 @@ trait Matrix {
      * }}}
      * @return An iterator over each column of a matrix
      */
-    def columnIterator: Iterator[Matrix] = new Iterator[Matrix] {
+    def columnIterator: Iterator[A] = new Iterator[A] {
         @volatile var currentColumnIdx = 0
 
         def hasNext: Boolean = currentColumnIdx < columns
 
-        def next(): Matrix = {
+        def next(): A = {
             this.synchronized {
                 val column = apply(0, rows - 1, Array(currentColumnIdx))
                 currentColumnIdx += 1
@@ -390,35 +390,35 @@ trait Matrix {
        * @return     CholeskyDecomposition
        * @see CholeskyDecomposition
        */
-    def chol: CholeskyDecomposition
+    def chol: CholeskyDecomposition[A]
 
     /**
      * Eigenvalue Decomposition
      * @return     EigenvalueDecomposition
      * @see EigenvalueDecomposition
      */
-    def eig: EigenvalueDecomposition
+    def eig: EigenvalueDecomposition[A]
 
     /**
      * LU Decomposition
      * @return     LUDecomposition
      * @see LUDecomposition
      */
-    def lu: LUDecomposition
+    def lu: LUDecomposition[A]
 
     /**
      * QR Decomposition
      * @return     QRDecomposition
      * @see QRDecomposition
      */
-    def qr: QRDecomposition
+    def qr: QRDecomposition[A]
 
     /**
      * Singular Value Decomposition
      * @return     SingularValueDecomposition
      * @see SingularValueDecomposition
      */
-    def svd: SingularValueDecomposition
+    def svd: SingularValueDecomposition[A]
 
 
     /**
@@ -440,13 +440,13 @@ trait Matrix {
      * @param v The value to change
      * @return
      */
-    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: Int, v: A): Unit
+    def update[@specialized(Int, Long, Float, Double) B: Numeric](i: Int, j: Int, v: B): Unit
 
-    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: SelectAll, j: Int, v: A): Unit
+    def update[@specialized(Int, Long, Float, Double) B: Numeric](i: SelectAll, j: Int, v: B): Unit
 
-    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A): Unit
+    def update[@specialized(Int, Long, Float, Double) B: Numeric](i: Int, j: SelectAll, v: B): Unit
 
-    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, v: A) {
+    def update[@specialized(Int, Long, Float, Double) B: Numeric](i: Int, v: B) {
         val r = i % rows
         val c = (i - r) / rows
         update(r, c, v)
@@ -462,7 +462,7 @@ trait Matrix {
      *      into the existing matrix
      *
      */
-    def update(i0: Int, i1: Int, j0: Int, j1: Int, that: Matrix) {
+    def update(i0: Int, i1: Int, j0: Int, j1: Int, that: Matrix[_]) {
         for (i <- i0 to i1; j <- j0 to j1) {
             this(i, j) = that(i - i0, j - j0)
         }
@@ -474,7 +474,7 @@ trait Matrix {
      * @param c The column indices to modify
      * @param that The matrix containing the new values
      */
-    def update(r: Array[Int], c: Array[Int], that: Matrix) {
+    def update(r: Array[Int], c: Array[Int], that: Matrix[_]) {
         for (i <- 0 until r.size; j <- 0 until c.size) {
             this(r(i), c(j)) = that(i, j)
         }
@@ -486,7 +486,7 @@ trait Matrix {
      * @param j0   Initial column index
      * @param j1   Final column index
      */
-    def update(r: Array[Int], j0: Int, j1: Int, that: Matrix) {
+    def update(r: Array[Int], j0: Int, j1: Int, that: Matrix[_]) {
         for (i <- 0 until r.size; j <- j0 to j1) {
             this(r(i), j) = that(i, j - j0)
         }
@@ -498,7 +498,7 @@ trait Matrix {
      * @param i1   Final row index
      * @param c An array of column indices
      */
-    def update(i0: Int, i1: Int, c: Array[Int], that: Matrix) {
+    def update(i0: Int, i1: Int, c: Array[Int], that: Matrix[_]) {
         for (i <- i0 to i1; j <- 0 until c.size) {
             this(i, c(j)) = that(i - i0, j)
         }
@@ -560,9 +560,12 @@ trait Matrix {
      * @tparam B The type to map to.
      * @return An array of values
      */
-    def map[B : ClassManifest](fn: (Matrix) => B, orientation:Orientations.Value = Orientations.Column): Array[B] = {
-        val vectorView = new VectorView(this, orientation)
-        vectorView.map(fn)
+    def map[B : ClassManifest](fn: (A) => B, orientation:Orientations.Value = Orientations.Column): Array[B] = {
+        val iterator = orientation match {
+            case Orientations.Row => rowIterator
+            case Orientations.Column => columnIterator
+        }
+        iterator.map(fn(_)).toArray
     }
 
 }

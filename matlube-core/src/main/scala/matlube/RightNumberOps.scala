@@ -11,7 +11,7 @@ package matlube
  * @since 2012-04-06
  */
 
-class RightNumberOps[A <: Matrix](val factory: MatrixFactory[A], val matrix: Matrix) {
+class RightNumberOps[A <: Matrix[_]](val factory: MatrixFactory[A], val matrix: A) {
 
 
     private def toMatrix[B : Numeric](value: B): A = {

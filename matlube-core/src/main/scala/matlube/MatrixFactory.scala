@@ -2,7 +2,7 @@ package matlube
 
 import java.util.Arrays
 
-trait MatrixFactory[A <: Matrix]  {
+trait MatrixFactory[A <: Matrix[_]]  {
 
     def apply[@specialized(Int, Long, Float, Double) B : Numeric](data: Array[B], orientation: Orientations.Orientation): A
     def apply[@specialized(Int, Long, Float, Double) B : Numeric](rows: Int,  columns: Int, data: Array[B], orientation: Orientations.Orientation): A

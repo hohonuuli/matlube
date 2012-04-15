@@ -13,10 +13,10 @@ package matlube
  * @since 2012-04-05
  */
 
-trait CholeskyDecomposition {
+trait CholeskyDecomposition[A <: Matrix[_]] {
 
-    def lower(): Matrix
+    def lower(): A
 
-    def solve(m: Matrix): Matrix
+    def solve(m: Matrix[_]): A
 
 }

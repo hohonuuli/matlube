@@ -3,7 +3,7 @@ package matlube.jama
 import Jama.{Matrix => JamaMatrix}
 import matlube._
 
-class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatrix] {
+class JMatrix(val delegate: JamaMatrix) extends Matrix[JMatrix] with HasDelegate[JamaMatrix] {
 
     val rows = delegate.getRowDimension
     val columns = delegate.getColumnDimension
@@ -16,6 +16,12 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     def copy = new JMatrix(new JamaMatrix(delegate.getArrayCopy()))
 
     def apply(i: Int, j: Int): Double = delegate.get(i, j)
+
+
+    def apply(indices: Seq[Int]): JMatrix =  {
+        val array = (for (i <- indices) yield apply(i)).toArray
+        JMatrix(1, array.size, array)
+    }
 
     /**
      * Get a submatrix
@@ -45,7 +51,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
         })
     }
 
-    def apply(r: Seq[Int], c: Seq[Int]): Matrix = {
+    def apply(r: Seq[Int], c: Seq[Int]): JMatrix = {
         JMatrix(Array.tabulate[Double](r.size, c.size) {
             (u, v) =>
                 this(r(u), c(v))
@@ -114,21 +120,21 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
      * Unary minus
      * @return    -A
      */
-    def unary_- = new JMatrix(delegate.uminus())
+    def unary_- : JMatrix = new JMatrix(delegate.uminus())
 
     /**
      * C = A + B
      * @param that    another matrix
      * @return     A + B
      */
-    def +(that: Matrix) = that match {
+    def +(that: Matrix[_]): JMatrix = that match {
         case j: JMatrix => new JMatrix(delegate.plus(j.delegate))
-        case m: Matrix => defaultOps.plus(this, m)
+        case m: Matrix[_] => defaultOps.plus(this, m)
         case _ => throw new UnsupportedOperationException
     }
 
 
-    def +=(that: Matrix) = {
+    def +=(that: Matrix[_]): JMatrix = {
         that match {
             case j: JMatrix => delegate.plusEquals(j.delegate)
             case _ => throw new UnsupportedOperationException
@@ -141,9 +147,9 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
      * @param that (B)    another matrix
      * @return     A - B
      */
-    def -(that: Matrix) = that match {
+    def -(that: Matrix[_]): JMatrix = that match {
         case j: JMatrix => new JMatrix(delegate.minus(j.delegate))
-        case m: Matrix => defaultOps.minus(this, m)
+        case m: Matrix[_] => defaultOps.minus(this, m)
         case _ => throw new UnsupportedOperationException
     }
 
@@ -152,7 +158,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
      * @param that (B)    another matrix
      * @return     A - B
      */
-    def -=(that: Matrix) = {
+    def -=(that: Matrix[_]): JMatrix = {
         that match {
             case j: JMatrix => delegate.minusEquals(j.delegate)
             case _ => throw new UnsupportedOperationException
@@ -163,16 +169,16 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     /**
      * Element-by-element multiplication, C = A.*B
      */
-    def **(that: Matrix) = that match {
+    def **(that: Matrix[_]): JMatrix = that match {
         case j: JMatrix => new JMatrix(delegate.arrayTimes(j.delegate))
-        case m: Matrix => defaultOps.elementTimes(this, m)
+        case m: Matrix[_] => defaultOps.elementTimes(this, m)
         case _ => throw new UnsupportedOperationException
     }
 
     /**
      * Element-by-element multiplication in place, A = A.*B
      */
-    def **=(that: Matrix) = {
+    def **=(that: Matrix[_]): JMatrix = {
         that match {
             case j: JMatrix => delegate.arrayTimesEquals(j.delegate)
             case _ => throw new UnsupportedOperationException
@@ -183,7 +189,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     /**
      * Element-by-element right division, C = A./B
      */
-    def /(that: Matrix) = that match {
+    def /(that: Matrix[_]): JMatrix = that match {
         case j: JMatrix => new JMatrix(delegate.arrayRightDivide(j.delegate))
         case _ => throw new UnsupportedOperationException
     }
@@ -191,7 +197,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     /**
      * Element-by-element right division in place, A = A./B
      */
-    def /=(that: Matrix) = {
+    def /=(that: Matrix[_]): JMatrix = {
         that match {
             case j: JMatrix => delegate.arrayRightDivideEquals(j.delegate)
             case _ => throw new UnsupportedOperationException
@@ -202,7 +208,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     /**
      * Element-by-element left division, C = A.\B
      */
-    def \(that: Matrix) = that match {
+    def \(that: Matrix[_]): JMatrix = that match {
         case j: JMatrix => new JMatrix(delegate.arrayLeftDivide(j.delegate))
         case _ => throw new UnsupportedOperationException
     }
@@ -210,7 +216,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     /**
      * Element-by-element left division in place, A = A.\B
      */
-    def \=(that: Matrix) = {
+    def \=(that: Matrix[_]): JMatrix = {
         that match {
             case j: JMatrix => delegate.arrayLeftDivideEquals(j.delegate)
             case _ => throw new UnsupportedOperationException
@@ -221,15 +227,15 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     /**
      * Multiply a matrix by a scalar, C = s*A
      */
-    def *[@specialized(Int, Long, Float, Double) B: Numeric](s: B) = {
-        def numeric = implicitly[Numeric[B]]
-        new JMatrix(delegate.times(numeric.toDouble(s)))
-    }
+//    def *[@specialized(Int, Long, Float, Double) B: Numeric](s: B) = {
+//        def numeric = implicitly[Numeric[B]]
+//        new JMatrix(delegate.times(numeric.toDouble(s)))
+//    }
 
     /**
      * Multiply a matrix by a scalar in place, A = s*A
      */
-    def *=[@specialized(Int, Long, Float, Double) B: Numeric](s: B) = {
+    def *=[@specialized(Int, Long, Float, Double) B: Numeric](s: B): JMatrix = {
         def numeric = implicitly[Numeric[B]]
         delegate.timesEquals(numeric.toDouble(s))
         this
@@ -238,7 +244,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     /**
      * Linear algebraic matrix multiplication, A * B
      */
-    def *(that: Matrix) = that match {
+    def *(that: Matrix[_]): JMatrix = that match {
         case j: JMatrix => new JMatrix(delegate.times(j.delegate))
         case _ => throw new UnsupportedOperationException
     }
@@ -313,35 +319,35 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
      * @return     CholeskyDecomposition
      * @see CholeskyDecomposition
      */
-    def chol: CholeskyDecomposition = new JCholeskyDecomposition(this)
+    def chol: CholeskyDecomposition[JMatrix] = new JCholeskyDecomposition(this)
 
     /**
      * Eigenvalue Decomposition
      * @return     EigenvalueDecomposition
      * @see EigenvalueDecomposition
      */
-    def eig: EigenvalueDecomposition = new JEigenvalueDecomposition(this)
+    def eig: EigenvalueDecomposition[JMatrix] = new JEigenvalueDecomposition(this)
 
     /**
      * LU Decomposition
      * @return     LUDecomposition
      * @see LUDecomposition
      */
-    def lu: LUDecomposition = new JLUDecomposition(this)
+    def lu: LUDecomposition[JMatrix] = new JLUDecomposition(this)
 
     /**
      * QR Decomposition
      * @return     QRDecomposition
      * @see QRDecomposition
      */
-    def qr: QRDecomposition = new JQRDecomposition(this)
+    def qr: QRDecomposition[JMatrix] = new JQRDecomposition(this)
 
     /**
      * Singular Value Decomposition
      * @return     SingularValueDecomposition
      * @see SingularValueDecomposition
      */
-    def svd: SingularValueDecomposition = new JSingularValueDecomposition(this)
+    def svd: SingularValueDecomposition[JMatrix] = new JSingularValueDecomposition(this)
 
 
     /**
@@ -355,7 +361,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
      * @param b (B)    right hand side
      * @return     solution if A is square, least squares solution otherwise
      */
-    def solve(b: Matrix) = b match {
+    def solve(b: Matrix[_]): JMatrix = b match {
         case j: JMatrix => new JMatrix(delegate.solve(j.delegate))
         case _ => throw new UnsupportedOperationException
     }
@@ -366,7 +372,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
      * @param b (B)    right hand side
      * @return     solution if A is square, least squares solution otherwise.
      */
-    def solveTranspose(b: Matrix) = b match {
+    def solveTranspose(b: Matrix[_]): JMatrix = b match {
         case j: JMatrix => new JMatrix(delegate.solveTranspose(j.delegate))
         case _ => throw new UnsupportedOperationException
     }
@@ -375,7 +381,7 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
      * Matrix inverse or pseudoinverse
      * @return     inverse(A) if A is square, pseudoinverse otherwise.
      */
-    def inverse = new JMatrix(delegate.inverse())
+    def inverse: JMatrix = new JMatrix(delegate.inverse())
 
 }
 

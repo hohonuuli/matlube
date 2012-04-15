@@ -15,25 +15,25 @@ package matlube
  * @author Brian Schlining
  * @since 2012-04-06
  */
-trait SingularValueDecomposition {
+trait SingularValueDecomposition[A <: Matrix[_]] {
 
     /**
      *
      * @return Left singular values
      */
-    def u: Matrix
+    def u: A
 
     /**
      *
      * @return Right singular values
      */
-    def v: Matrix
+    def v: A
 
     /**
      *
      * @return Diagonal matrix of singular values
      */
-    def s: Matrix
+    def s: A
 
     /**
      *

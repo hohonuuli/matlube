@@ -17,14 +17,14 @@ package matlube
  * @since 2012-04-05
  */
 
-trait EigenvalueDecomposition {
+trait EigenvalueDecomposition[A <: Matrix[_]] {
 
-    def v: Matrix
+    def v: A
 
-    def realEigenvalues: Matrix
+    def realEigenvalues: A
 
-    def imaginaryEigenvalues: Matrix
+    def imaginaryEigenvalues: A
 
-    def d: Matrix
+    def d: A
 
 }

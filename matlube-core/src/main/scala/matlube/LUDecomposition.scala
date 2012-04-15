@@ -15,13 +15,13 @@ package matlube
  * @since 2012-04-05
  */
 
-trait LUDecomposition {
+trait LUDecomposition[A <: Matrix[_]] {
 
-    def lower: Matrix
+    def lower: A
 
-    def upper: Matrix
+    def upper: A
 
-    def pivot: Matrix
+    def pivot: A
 
     def isSingular: Boolean
 

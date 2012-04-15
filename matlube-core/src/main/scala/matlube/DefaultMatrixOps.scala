@@ -6,14 +6,14 @@ package matlube
  * @since 2012-03-02
  */
 
-trait DefaultMatrixOps[A <: Matrix] {
+trait DefaultMatrixOps[A <: Matrix[_]] {
 
     def factory: MatrixFactory[A]
 
     /**
      * Element-by-element addition, C = A + B
      */
-    def plus(a: Matrix, b: Matrix): A = {
+    def plus(a: Matrix[_], b: Matrix[_]): A = {
         checkSize(a, b)
         val array = Array.ofDim[Double](a.rows * a.columns)
         var k = 0
@@ -26,7 +26,7 @@ trait DefaultMatrixOps[A <: Matrix] {
     /**
      * Element-by-element subtraction, C = A - B
      */
-    def minus(a: Matrix, b: Matrix): A = {
+    def minus(a: Matrix[_], b: Matrix[_]): A = {
         checkSize(a, b)
         val array = Array.ofDim[Double](a.rows * a.columns)
         var k = 0
@@ -39,7 +39,7 @@ trait DefaultMatrixOps[A <: Matrix] {
     /**
      * Element-by-element multiplication, C = A.*B
      */
-    def elementTimes(a: Matrix,  b: Matrix) = {
+    def elementTimes(a: Matrix[_],  b: Matrix[_]) = {
         checkSize(a, b)
         val array = Array.ofDim[Double](a.rows * a.columns)
         var k = 0
@@ -49,7 +49,7 @@ trait DefaultMatrixOps[A <: Matrix] {
         factory(a.rows, a.columns, array, Orientations.Row)
     }
 
-    def checkSize(a: Matrix, b: Matrix) {
+    def checkSize(a: Matrix[_], b: Matrix[_]) {
         require(a.rows == b.rows && a.columns == b.columns,
             "Matrix dimensions must agree")
     }
@@ -60,7 +60,7 @@ trait DefaultMatrixOps[A <: Matrix] {
      * @param a The Matrix of interest
      * @return A string representation of a Matrix
      */
-    def toString(a: Matrix): String = {
+    def toString(a: Matrix[_]): String = {
         val b = new StringBuilder("[")
         for (r <- 0 until a.rows) {
             if (r > 0) {

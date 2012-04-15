@@ -7,11 +7,11 @@ import scala.math._
  * @author Brian Schlining
  * @since 2012-03-05
  */
-trait Matrixlib[A <: Matrix] {
+trait Matrixlib[A <: Matrix[_]] {
 
     def factory: MatrixFactory[A]
 
-    def applyByElement(fn: (Double,  Double, Double, Double) => Double, m0: Matrix, m1: Matrix, m2: Matrix, m3: Matrix) = {
+    def applyByElement(fn: (Double,  Double, Double, Double) => Double, m0: Matrix[_], m1: Matrix[_], m2: Matrix[_], m3: Matrix[_]) = {
         val r = m0.rows
         val c = m0.columns
         val mm = factory.nans(r, c)
@@ -21,7 +21,7 @@ trait Matrixlib[A <: Matrix] {
         mm
     }
 
-    def applyByElement(fn: (Double,  Double, Double) => Double, m0: Matrix, m1: Matrix, m2: Matrix) = {
+    def applyByElement(fn: (Double,  Double, Double) => Double, m0: Matrix[_], m1: Matrix[_], m2: Matrix[_]) = {
         val r = m0.rows
         val c = m0.columns
         val mm = factory.nans(r, c)
@@ -31,7 +31,7 @@ trait Matrixlib[A <: Matrix] {
         mm
     }
 
-    def applyByElement(fn: (Double,  Double) => Double, m0: Matrix, m1: Matrix) = {
+    def applyByElement(fn: (Double,  Double) => Double, m0: Matrix[_], m1: Matrix[_]) = {
         val r = m0.rows
         val c = m0.columns
         val mm = factory.nans(r, c)
@@ -41,7 +41,7 @@ trait Matrixlib[A <: Matrix] {
         mm
     }
 
-    def applyByElement(fn: (Double) => Double, m0: Matrix) = {
+    def applyByElement(fn: (Double) => Double, m0: Matrix[_]) = {
         val r = m0.rows
         val c = m0.columns
         val mm = factory.nans(r, c)
@@ -51,7 +51,7 @@ trait Matrixlib[A <: Matrix] {
         mm
     }
 
-    def repmat(matrix: Matrix, m: Int, n: Int) = {
+    def repmat(matrix: Matrix[_], m: Int, n: Int) = {
         val rows = matrix.rows
         val cols = matrix.columns
         val mm = m * rows
@@ -94,7 +94,7 @@ trait Matrixlib[A <: Matrix] {
      * @param n The number of points to generated
      * @return a matrix of lineraly space points.
      */
-    def linspace(d0: Double, d1: Double, n: Int): Matrix = {
+    def linspace(d0: Double, d1: Double, n: Int): A = {
         val dy = (d1 - d0) / (n - 1)
         val y = Array.tabulate[Double](n) { i => d0 + (dy * i) }
         factory(1, n, y, Orientations.Row)

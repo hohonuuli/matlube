@@ -11,67 +11,65 @@ import org.ejml.ops.RandomMatrices
  * @since 2012-03-02
  */
 
-class EMatrix(val delegate: DenseMatrix64F) extends Matrix with HasDelegate[DenseMatrix64F] {
+class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDelegate[DenseMatrix64F] {
 
-    def unary_- : Matrix = null
+    def unary_- : EMatrix = null
 
-    def +(that: Matrix): Matrix = null
+    def copy: EMatrix = null
 
-    def -(that: Matrix): Matrix = null
+    def +(that: Matrix[_]): EMatrix = null
 
-    def **(that: Matrix): Matrix = null
+    def -(that: Matrix[_]): EMatrix = null
 
-    def chol: CholeskyDecomposition = null
+    def **(that: Matrix[_]): EMatrix = null
 
-    def eig: EigenvalueDecomposition = null
+    def /(that: Matrix[_]): EMatrix = null
 
-    def lu: LUDecomposition = null
+    def \(that: Matrix[_]): EMatrix = null
 
-    def qr: QRDecomposition = null
+    def *(that: Matrix[_]): EMatrix = null
 
-    def svd: SingularValueDecomposition = null
+    def t: EMatrix = null
 
-    def /(that: Matrix): Matrix = null
+    def solve(b: Matrix[_]): EMatrix = null
 
-    def \(that: Matrix): Matrix = null
+    def solveTranspose(b: Matrix[_]): EMatrix = null
 
-    def *(that: Matrix): Matrix = null
+    def inverse: EMatrix = null
 
-    def t: Matrix = null
+    def apply(indices: Seq[Int]): EMatrix = null
 
-    def solve(b: Matrix): Matrix = null
+    def apply(i: Int, j: Int): Double = Double.NaN
 
-    def solveTranspose(b: Matrix): Matrix = null
+    def apply(r: Array[Int], j0: Int, j1: Int): EMatrix = null
 
-    def inverse: Matrix = null
+    def apply(i0: Int, i1: Int, c: Array[Int]): EMatrix = null
 
-    def apply(i: Int, j: Int): Double = delegate.get(i, j)
+    def apply(i0: Int, i1: Int, j0: Int, j1: Int): EMatrix = null
 
-    def apply(i0: Int, i1: Int, j0: Int, j1: Int): Matrix = null
+    def apply(r: Array[Int], c: Array[Int]): EMatrix = null
 
-    def apply(r: Array[Int], c: Array[Int]): Matrix = null
+    def apply(r: Seq[Int], c: Seq[Int]): EMatrix = null
 
-    def apply(i0: Int, i1: Int, c: Array[Int]): Matrix = null
+    def asString(): String = null
 
-    def apply(r: Array[Int], j0: Int, j1: Int): Matrix = null
+    def +=(that: Matrix[_]): EMatrix = null
 
-    def apply(r: Seq[Int], c: Seq[Int]): Matrix = null
+    def -=(that: Matrix[_]): EMatrix = null
 
-    def +=(that: Matrix): Matrix = null
+    def **=(that: Matrix[_]): EMatrix = null
 
-    def -=(that: Matrix): Matrix = null
+    def /=(that: Matrix[_]): EMatrix = null
 
-    def **=(that: Matrix): Matrix = null
+    def \=(that: Matrix[_]): EMatrix = null
 
-    def /=(that: Matrix): Matrix = null
+    def *[@specialized(Int, Long, Float, Double) B: Numeric](s: B): EMatrix = null
 
-    def \=(that: Matrix): Matrix = null
+    def *=[@specialized(Int, Long, Float, Double) B: Numeric](s: B): EMatrix = null
 
-    def *=[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix = null
+    def rows: Int = 0
 
-    def rows: Int = delegate.numRows
-
-    def columns: Int = delegate.numCols
+    def columns: Int = 0
 
     def cond: Double = 0.0
 
@@ -89,15 +87,21 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix with HasDelegate[Dens
 
     def trace: Double = 0.0
 
+    def chol: CholeskyDecomposition[EMatrix] = null
+
+    def eig: EigenvalueDecomposition[EMatrix] = null
+
+    def lu: LUDecomposition[EMatrix] = null
+
+    def qr: QRDecomposition[EMatrix] = null
+
+    def svd: SingularValueDecomposition[EMatrix] = null
+
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: Int, v: A) {}
 
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: SelectAll, j: Int, v: A) {}
 
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A) {}
-
-    def copy: Matrix = null
-
-    def *[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix = null
 }
 
 object EMatrix extends MatrixFactory[EMatrix] {

@@ -37,7 +37,7 @@ class MatrixFactoryTest {
         assertTrue(m0.rows == 2 && m0.columns == 3)
     }
     
-    def checkAll(matrix: Matrix, v: Double): Boolean = {
+    def checkAll(matrix: Matrix[_], v: Double): Boolean = {
         var ok = true
         for (i <- 0 until matrix.rows; j <- 0 until matrix.columns) {
             if (ok) {

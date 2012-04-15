@@ -9,15 +9,16 @@ import matlube.{Matrix, SingularValueDecomposition}
  * @since 2012-04-06
  */
 
-class JSingularValueDecomposition protected[jama] (val matrix: JMatrix) extends SingularValueDecomposition {
+class JSingularValueDecomposition protected[jama] (val matrix: JMatrix)
+        extends SingularValueDecomposition[JMatrix] {
 
     private[this] val svd = new JamaSingularValueDecomposition(matrix.delegate)
 
-    def u: Matrix = new JMatrix(svd.getU)
+    def u: JMatrix = new JMatrix(svd.getU)
 
-    def v: Matrix = new JMatrix(svd.getV)
+    def v: JMatrix = new JMatrix(svd.getV)
 
-    def s: Matrix = new JMatrix(svd.getS)
+    def s: JMatrix = new JMatrix(svd.getS)
 
     def singularValues: Array[Double] = svd.getSingularValues
 }
