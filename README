@@ -37,3 +37,14 @@ val dc = d(::, 0) // grab the first column as a Matrix
 
 
 // more to come
+
+
+=== How to run the above code sample ===
+1) Check out the matlube source using Git
+2) Build it
+    cd matlube
+    mvn install
+3) Run a console
+    cd matlube-jama
+    mvn scala:console
+4) Cut and past the code samples above into the console
