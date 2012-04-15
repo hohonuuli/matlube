@@ -200,8 +200,45 @@ trait Matrix {
      */
     def apply(r: Seq[Int], c: Seq[Int]): Matrix
 
+    /**
+     * Single index access. Order of access is like so:
+     * {{{
+     *     [1 5  9
+     *      2 6 10
+     *      3 7 11
+     *      4 8 12]
+     * }}}
+     * @param i The index of the value to return. Like Matlab- the index procsedes down the first column
+     *          then the 2nd column and so on
+     * @return
+     */
+    def apply(i: Int): Double = {
+        val r = i % rows
+        val c = (i - r) / rows
+        apply(r, c)
+    }
 
+    /**
+     * Matlab-style access. You can use ranges to extract an array. You'll then have to
+     * use a MatrixFactory to convert it to a Matrix ... sorry. Here's an example:
+     * {{{
+     * val m = JMatrix.random(10, 10)
+     * val subArray = m(2 to 21 by 3)
+     * val rowMatris = JMatrix(subArray) // default is row matrix OR
+     * val colMatrix = JMatrix(subArray, Orientations.Column) // specify as a column
+     * }}}
+     *
+     *
+     * @param indices Sequence of indices
+     * @return A subarray (Matlab-style
+     */
+    def apply(indices: Seq[Int]): Array[Double] = (for (i <- indices) yield apply(i)).toArray
 
+    /**
+     *
+     * @return The matrix as a String. Not recommended to use for large matrices.
+     */
+    def asString(): String
 
 
     /**
@@ -244,9 +281,61 @@ trait Matrix {
     def *=[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix
 
 
+    /**
+     *
+     * @return The number of rows in the matrix
+     */
     def rows: Int
 
+    /**
+     *
+     * @return The number of columns
+     */
     def columns: Int
+
+    /**
+     * {{{
+     *     // Sum each row
+     *     val m = // Some matrix
+     *     val m.rowIterator.map { _.iterator.sum }
+     * }}}
+     * @return An iterator over each row of a matrix
+     */
+    def rowIterator: Iterator[Matrix] = new Iterator[Matrix] {
+        @volatile var currentRowIdx = 0
+
+        def hasNext: Boolean = currentRowIdx < rows
+
+        def next(): Matrix = {
+            this.synchronized {
+                val row = apply(Array(currentRowIdx), 0, columns - 1)
+                currentRowIdx += 1
+                row
+            }
+        }
+    }
+
+    /**
+     * {{{
+     *     // Sum each column
+     *     val m = // Some matrix
+     *     val m.columnIterator.map { _.iterator.sum }
+     * }}}
+     * @return An iterator over each column of a matrix
+     */
+    def columnIterator: Iterator[Matrix] = new Iterator[Matrix] {
+        @volatile var currentColumnIdx = 0
+
+        def hasNext: Boolean = currentColumnIdx < columns
+
+        def next(): Matrix = {
+            this.synchronized {
+                val column = apply(0, rows - 1, Array(currentColumnIdx))
+                currentColumnIdx += 1
+                column
+            }
+        }
+    }
 
 
     /**
@@ -297,22 +386,6 @@ trait Matrix {
     def trace: Double
 
 
-
-
-
-    /**
-     * Set/change a value in the matrix. A(i, j) = v
-     * @param i The row index
-     * @param j The column index
-     * @param v The value to change
-     * @return
-     */
-    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: Int, v: A): Unit
-
-    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: SelectAll, j: Int, v: A): Unit
-
-    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A): Unit
-
     /* Cholesky Decomposition
        * @return     CholeskyDecomposition
        * @see CholeskyDecomposition
@@ -348,6 +421,10 @@ trait Matrix {
     def svd: SingularValueDecomposition
 
 
+    /**
+     * This is equivalent to matlab's ''size''
+     * @return The dimensions of the matrix (rows, columns)
+     */
     def dimensions = (rows, columns)
 
     /**
@@ -355,6 +432,25 @@ trait Matrix {
      * @return
      */
     def isMutable = true
+
+    /**
+     * Set/change a value in the matrix. A(i, j) = v
+     * @param i The row index
+     * @param j The column index
+     * @param v The value to change
+     * @return
+     */
+    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: Int, v: A): Unit
+
+    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: SelectAll, j: Int, v: A): Unit
+
+    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A): Unit
+
+    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, v: A) {
+        val r = i % rows
+        val c = (i - r) / rows
+        update(r, c, v)
+    }
 
     /**
      * Set/change values in the matrix. A(i0:i1, j0:j1) = that
@@ -408,33 +504,7 @@ trait Matrix {
         }
     }
 
-    /**
-     * Vector access. If one dimension of the matrix is 1, then we access values using
-     * a single index.
-     * @param i
-     * @return
-     */
-    def apply(i: Int): Double = {
-        val r = i % rows
-        val c = (i - r) / rows
-        apply(r, c)
-    }
 
-    /**
-     * Matlab-style access. You can use ranges to extract an array. You'll then have to
-     * use a MatrixFactory to convert it to a Matrix ... sorry. Here's an example:
-     * {{{
-     * val m = JMatrix.random(10, 10)
-     * val subArray = m(2 to 21 by 3)
-     * val rowMatris = JMatrix(subArray) // default is row matrix OR
-     * val colMatrix = JMatrix(subArray, Orientations.Column) // specify as a column
-     * }}}
-     *
-     *
-     * @param indices Sequence of indices
-     * @return A subarray (Matlab-style
-     */
-    def apply(indices: Seq[Int]): Array[Double] = (for (i <- indices) yield apply(i)).toArray
 
     /**
      * Iterate over all elements in a matrix. The iteration is columne oriented. So values

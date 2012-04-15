@@ -125,6 +125,9 @@ object EMatrix extends MatrixFactory[EMatrix] {
         return a
     }
 
+
+    def apply[@specialized(Int, Long, Float, Double)B: Numeric](data: Array[B], orientation: Orientations.Orientation): EMatrix = null
+
     def ones(rows: Int, columns: Int): EMatrix = apply(rows, columns, 1D)
 
     def random(rows: Int, columns: Int): EMatrix =

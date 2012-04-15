@@ -243,7 +243,6 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
         case _ => throw new UnsupportedOperationException
     }
 
-
     /**
      * Matrix condition (2 norm)
      * @return     ratio of largest to smallest singular value.
@@ -345,7 +344,11 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix with HasDelegate[JamaMatr
     def svd: SingularValueDecomposition = new JSingularValueDecomposition(this)
 
 
-    def displayString(): String = defaultOps.toString(this)
+    /**
+     *
+     * @return The matrix as a String. Not recommended to use for large matrices.
+     */
+    def asString(): String = defaultOps.toString(this)
 
     /**
      * Solve A*X = B
@@ -407,7 +410,7 @@ object JMatrix extends MatrixFactory[JMatrix] {
     }
 
 
-    def apply[B: Numeric](data: Array[B], orientation: Orientations.Orientation): JMatrix = {
+    def apply[@specialized(Int, Long, Float, Double)B: Numeric](data: Array[B], orientation: Orientations.Orientation): JMatrix = {
         orientation match {
             case Orientations.Row => apply(1, data.size, data)
             case Orientations.Column => apply(data.size, 1, data)

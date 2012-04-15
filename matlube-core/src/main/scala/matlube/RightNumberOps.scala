@@ -20,7 +20,7 @@ class RightNumberOps[A <: Matrix](val factory: MatrixFactory[A], val matrix: Mat
     }
 
     def /[B : Numeric](value: B) = matrix / toMatrix(value)
-    def *[B : Numeric](value: B) = matrix * toMatrix(value)
+    def *[B : Numeric](value: B) = matrix ** toMatrix(value)
     def -[B : Numeric](value: B) = matrix - toMatrix(value)
     def +[B : Numeric](value: B) = matrix + toMatrix(value)
 

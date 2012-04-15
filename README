@@ -7,9 +7,11 @@ The plan is to create a Matlab-like linear algebra DSL for Scala. This library o
 === Teaser code using Jama as a backend ===
 
 import matlube.jama._
+import matlube.jama.{JMatrix => Mx} // Alias JMatrix to something shorter
+// import matlube.ejml.{EMatrix => Mx} // Uncomment this line to use EJML instead of Jama
 
 // Creating Matrices
-val a = JMatrix(2, 2, Array(2, 3, 4, 5)) // 2 x 2 Matrix
+val a = Mx(2, 2, Array(2, 3, 4, 5)) // 2 x 2 Matrix
 val b = JMatrix(((2D, 3D), (4D, 5D)))    // Same as above
 val c = JMatrix.ones(10, 10)             // 10 x 10 Matrix of ones
 val d = JMatrix.random(5, 5)             // 5 x 5 random values

@@ -17,7 +17,7 @@ class LeftNumberOps[A <: Matrix, B : Numeric](val factory: MatrixFactory[A], val
     private def toMatrix(matrix: Matrix) = factory(matrix.rows, matrix.columns, numeric.toDouble(value))
 
     def /(matrix: Matrix) = toMatrix(matrix) / matrix
-    def *(matrix: Matrix) = toMatrix(matrix) * matrix
+    def *(matrix: Matrix) = toMatrix(matrix) ** matrix
     def -(matrix: Matrix) = toMatrix(matrix) - matrix
     def +(matrix: Matrix) = toMatrix(matrix) + matrix
 
