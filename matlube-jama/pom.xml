@@ -17,6 +17,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>matlube-core</artifactId>
             <version>${project.version}</version>
+            <classifier>${scala.version}</classifier>
         </dependency>
         <dependency>
             <groupId>jama</groupId>
