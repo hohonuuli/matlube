@@ -1,7 +1,7 @@
 package matlube.jama
 
 import Jama.{SingularValueDecomposition => JamaSingularValueDecomposition}
-import matlube.{Matrix, SingularValueDecomposition}
+import matlube.{HasDelegate}
 
 /**
  *
@@ -10,15 +10,16 @@ import matlube.{Matrix, SingularValueDecomposition}
  */
 
 class JSingularValueDecomposition protected[jama] (val matrix: JMatrix)
-        extends SingularValueDecomposition[JMatrix] {
+        extends matlube.SingularValueDecomposition[JMatrix]
+        with HasDelegate[JamaSingularValueDecomposition] {
 
-    private[this] val svd = new JamaSingularValueDecomposition(matrix.delegate)
+    val delegate = new JamaSingularValueDecomposition(matrix.delegate)
 
-    def u: JMatrix = new JMatrix(svd.getU)
+    def u: JMatrix = new JMatrix(delegate.getU)
 
-    def v: JMatrix = new JMatrix(svd.getV)
+    def v: JMatrix = new JMatrix(delegate.getV)
 
-    def s: JMatrix = new JMatrix(svd.getS)
+    def s: JMatrix = new JMatrix(delegate.getS)
 
-    def singularValues: Array[Double] = svd.getSingularValues
+    def singularValues: Array[Double] = delegate.getSingularValues
 }

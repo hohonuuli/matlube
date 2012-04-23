@@ -1,5 +1,7 @@
 package matlube
 
+import scala.Array
+
 /**
  * Base trait for all matrices. This trait defines methods for an immutable matrix. All methods
  * should return a new Matrix
@@ -233,13 +235,6 @@ trait Matrix[A <: Matrix[_]] {
      * @return A subarray (Matlab-style
      */
     def apply(indices: Seq[Int]): A
-
-    /**
-     *
-     * @return The matrix as a String. Not recommended to use for large matrices.
-     */
-    def asString(): String
-
 
     /**
      * A = A + B
@@ -566,6 +561,26 @@ trait Matrix[A <: Matrix[_]] {
             case Orientations.Column => columnIterator
         }
         iterator.map(fn(_)).toArray
+    }
+
+
+    /**
+     *
+     * @return The matrix as a String. Not recommended to use for large matrices.
+     */
+    def asString(): String = {
+        val b = new StringBuilder("[")
+        for (r <- 0 until rows) {
+            if (r > 0) {
+                b.append(" ")
+            }
+            for (c <- 0 until columns) {
+                b.append(apply(r, c)).append(" ")
+            }
+            b.setCharAt(b.length - 1, '\n')
+        }
+        b.setCharAt(b.length - 1, ']')
+        b.toString()
     }
 
 }

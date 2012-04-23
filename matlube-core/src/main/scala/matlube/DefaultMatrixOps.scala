@@ -54,25 +54,4 @@ trait DefaultMatrixOps[A <: Matrix[_]] {
             "Matrix dimensions must agree")
     }
 
-
-    /**
-     * Builds a string representation of a Matrix
-     * @param a The Matrix of interest
-     * @return A string representation of a Matrix
-     */
-    def toString(a: Matrix[_]): String = {
-        val b = new StringBuilder("[")
-        for (r <- 0 until a.rows) {
-            if (r > 0) {
-                b.append(" ")
-            }
-            for (c <- 0 until a.columns) {
-                b.append(a(r, c)).append(" ")
-            }
-            b.setCharAt(b.length - 1, '\n')
-        }
-        b.setCharAt(b.length - 1, ']')
-        b.toString()
-    }
-
 }

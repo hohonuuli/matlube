@@ -1,7 +1,7 @@
 package matlube.jama
 
 import Jama.{CholeskyDecomposition => JamaCholeskyDecomposition}
-import matlube.{HasDelegate, Matrix, CholeskyDecomposition}
+import matlube.{HasDelegate, Matrix}
 
 
 /**
@@ -10,7 +10,8 @@ import matlube.{HasDelegate, Matrix, CholeskyDecomposition}
  * @since 2012-04-05
  */
 
-class JCholeskyDecomposition protected[jama] (val matrix: JMatrix) extends CholeskyDecomposition[JMatrix]
+class JCholeskyDecomposition protected[jama] (val matrix: JMatrix)
+        extends matlube.CholeskyDecomposition[JMatrix]
         with HasDelegate[JamaCholeskyDecomposition] {
 
     val delegate = new JamaCholeskyDecomposition(matrix.delegate)

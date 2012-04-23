@@ -9,7 +9,8 @@ import matlube.{HasDelegate, Matrix}
  * @since 2012-04-05
  */
 
-class JQRDecomposition protected[jama] (val matrix: JMatrix) extends matlube.QRDecomposition[JMatrix]
+class JQRDecomposition protected[jama] (val matrix: JMatrix)
+        extends matlube.QRDecomposition[JMatrix]
         with HasDelegate[JamaQRDecomposition] {
 
     val delegate = new JamaQRDecomposition(matrix.delegate)

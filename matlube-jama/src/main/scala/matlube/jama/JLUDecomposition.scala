@@ -1,7 +1,7 @@
 package matlube.jama
 
-import matlube.LUDecomposition
 import Jama.{LUDecomposition => JamaLUDecomposition}
+import matlube.{HasDelegate}
 
 /**
  *
@@ -9,20 +9,22 @@ import Jama.{LUDecomposition => JamaLUDecomposition}
  * @since 2012-04-05
  */
 
-class JLUDecomposition protected[jama] (val matrix: JMatrix) extends LUDecomposition[JMatrix] {
+class JLUDecomposition protected[jama] (val matrix: JMatrix)
+        extends matlube.LUDecomposition[JMatrix]
+        with HasDelegate[JamaLUDecomposition] {
 
-    private val lu = new JamaLUDecomposition(matrix.delegate)
+    val delegate = new JamaLUDecomposition(matrix.delegate)
 
-    def lower = new JMatrix(lu.getL)
+    def lower = new JMatrix(delegate.getL)
 
-    def upper = new JMatrix(lu.getU)
+    def upper = new JMatrix(delegate.getU)
 
     def pivot = {
-        val pivotArray = lu.getDoublePivot
+        val pivotArray = delegate.getDoublePivot
         JMatrix(1, pivotArray.size, pivotArray)
     }
 
-    def isSingular = !lu.isNonsingular
+    def isSingular = !delegate.isNonsingular
 
-    def determinant = lu.det()
+    def determinant = delegate.det()
 }

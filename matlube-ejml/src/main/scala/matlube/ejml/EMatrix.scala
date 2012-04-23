@@ -51,8 +51,6 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def apply(r: Seq[Int], c: Seq[Int]): EMatrix = null
 
-    def asString(): String = null
-
     def +=(that: Matrix[_]): EMatrix = null
 
     def -=(that: Matrix[_]): EMatrix = null

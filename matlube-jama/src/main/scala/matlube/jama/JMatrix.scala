@@ -3,7 +3,9 @@ package matlube.jama
 import Jama.{Matrix => JamaMatrix}
 import matlube._
 
-class JMatrix(val delegate: JamaMatrix) extends Matrix[JMatrix] with HasDelegate[JamaMatrix] {
+class JMatrix(val delegate: JamaMatrix)
+        extends Matrix[JMatrix]
+        with HasDelegate[JamaMatrix] {
 
     val rows = delegate.getRowDimension
     val columns = delegate.getColumnDimension
@@ -349,12 +351,6 @@ class JMatrix(val delegate: JamaMatrix) extends Matrix[JMatrix] with HasDelegate
      */
     def svd: SingularValueDecomposition[JMatrix] = new JSingularValueDecomposition(this)
 
-
-    /**
-     *
-     * @return The matrix as a String. Not recommended to use for large matrices.
-     */
-    def asString(): String = defaultOps.toString(this)
 
     /**
      * Solve A*X = B

@@ -10,6 +10,9 @@ import matlube.{Matrixlib, DefaultMatrixOps}
  * @author Brian Schlining
  * @since 2012-03-02
  */
-object JMatrixlib extends DefaultMatrixOps[JMatrix] with Matrixlib[JMatrix] {
+object JMatrixlib
+        extends DefaultMatrixOps[JMatrix]
+        with Matrixlib[JMatrix] {
+    
     val factory = JMatrix
 }
