@@ -37,6 +37,12 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def inverse: EMatrix = null
 
+    def apply(i: SelectAll, j: SelectAll): EMatrix = null
+
+    def apply(i: SelectAll): EMatrix = null
+
+    def apply(indices: Array[Int]): EMatrix = null
+
     def apply(indices: Seq[Int]): EMatrix = null
 
     def apply(i: Int, j: Int): Double = Double.NaN

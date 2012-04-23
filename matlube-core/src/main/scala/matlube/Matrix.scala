@@ -91,12 +91,27 @@ trait Matrix[A <: Matrix[_]] {
     def apply(i: Int, j: Int): Double
 
     /**
+     *
+     * @param i
+     * @param j
+     * @return Just returns this. Same as Matlab
+     */
+    def apply(i: SelectAll, j: SelectAll): A
+
+    /**
+     * Returns a column marrix of all matrix elements in column order
+     * @param i
+     * @return
+     */
+    def apply(i: SelectAll): A
+
+    /**
      * Retrieve a row from the matrix
      * @param i The [[matlube.SelectAll]] constant ( or ::)
      * @param j The column index
      * @return A(:, j)
      */
-    def apply(i: SelectAll, j: Int): A = apply(0, rows - 1, j, j)
+    def apply(i: SelectAll, j: Int): A = apply(0 to rows, Seq(j))
 
     /**
      * Get a submatrix
@@ -104,15 +119,15 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The column indices
      * @return A(:, [j0 j1 ... jn])
      */
-    def apply(i: SelectAll, j: Seq[Int]): A = apply(0, rows - 1, j.toArray)
+    def apply(i: SelectAll, j: Seq[Int]): A = apply(0 to rows, j)
 
     /**
      * Get a submatrix
      * @param i The [[matlube.SelectAll]] constant ( or ::)
-     * @param c The column indices
+     * @param j The column indices
      * @return A(:, [j0 j1 ... jn])
      */
-    def apply(i: SelectAll, c: Array[Int]): A  = apply(0, rows - 1, c)
+    def apply(i: SelectAll, j: Array[Int]): A  = apply(0 to rows, j)
 
 
     /**
@@ -121,7 +136,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Int, j: SelectAll): A = apply(i, i, 0, columns - 1)
+    def apply(i: Int, j: SelectAll): A = apply(Seq(i), 0 to columns)
 
     /**
      * Get a submatrix
@@ -129,7 +144,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Seq[Int], j: SelectAll): A = apply(i.toArray, 0, columns - 1)
+    def apply(i: Seq[Int], j: SelectAll): A = apply(i, 0 to columns)
 
     /**
      * Get a submatrix
@@ -137,54 +152,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Array[Int], j: SelectAll): A = apply(i, 0, columns - 1)
-
-    /**
-     * Get a submatrix
-     * @param i0
-     * @param i1
-     * @param c
-     * @return
-     */
-    def apply(i0: Int, i1: Int, c: SelectAll): A = apply(i0, i1, 0, columns - 1)
-
-    /**
-     * Get a submatrix
-     * @param r An array of row indices
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @return A(r, j0:j1)
-     */
-    def apply(r: SelectAll, j0: Int, j1: Int): A = apply(0, rows - 1, j0, j1)
-
-    /**
-     * Get a submatrix
-     * @param r An array of row indices
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @return A(r, j0:j1)
-     */
-    def apply(r: Array[Int], j0: Int, j1: Int): A
-
-    /**
-     * Get a submatrix
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param c An array of column indices
-     * @return A(i0:i1, c)
-     */
-    def apply(i0: Int, i1: Int, c: Array[Int]): A
-
-
-    /**
-     * Get a submatrix
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @return     A(i0:i1,j0:j1)
-     */
-    def apply(i0: Int, i1: Int, j0: Int, j1: Int): A
+    def apply(i: Array[Int], j: SelectAll): A = apply(i, 0 to columns)
 
     /**
      * Get a submatrix
@@ -235,6 +203,8 @@ trait Matrix[A <: Matrix[_]] {
      * @return A subarray (Matlab-style
      */
     def apply(indices: Seq[Int]): A
+
+    def apply(indices: Array[Int]): A
 
     /**
      * A = A + B
@@ -303,7 +273,7 @@ trait Matrix[A <: Matrix[_]] {
 
         def next(): A = {
             this.synchronized {
-                val row = apply(Array(currentRowIdx), 0, columns - 1)
+                val row = apply(Array(currentRowIdx), 0 to columns)
                 currentRowIdx += 1
                 row
             }
@@ -325,7 +295,7 @@ trait Matrix[A <: Matrix[_]] {
 
         def next(): A = {
             this.synchronized {
-                val column = apply(0, rows - 1, Array(currentColumnIdx))
+                val column = apply(0 to rows, Array(currentColumnIdx))
                 currentColumnIdx += 1
                 column
             }
@@ -448,22 +418,6 @@ trait Matrix[A <: Matrix[_]] {
     }
 
     /**
-     * Set/change values in the matrix. A(i0:i1, j0:j1) = that
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @param that The matrix containing the values that are to be inserted
-     *      into the existing matrix
-     *
-     */
-    def update(i0: Int, i1: Int, j0: Int, j1: Int, that: Matrix[_]) {
-        for (i <- i0 to i1; j <- j0 to j1) {
-            this(i, j) = that(i - i0, j - j0)
-        }
-    }
-
-    /**
      * Set/change values in the matrix. A(r, c) = that
      * @param r The row indices to modify
      * @param c The column indices to modify
@@ -475,30 +429,11 @@ trait Matrix[A <: Matrix[_]] {
         }
     }
 
-    /**
-     * Set/change values in the matrix. A(r, j0:j1) = that
-     * @param r The row indices to modify
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     */
-    def update(r: Array[Int], j0: Int, j1: Int, that: Matrix[_]) {
-        for (i <- 0 until r.size; j <- j0 to j1) {
-            this(r(i), j) = that(i, j - j0)
+    def update(r: Seq[Int], c: Seq[Int], that: Matrix[_]) {
+        for (i <- 0 until r.size; j <- 0 until c.size) {
+            this(r(i), c(j)) = that(i, j)
         }
     }
-
-    /**
-     *  Set/change values in the matrix. A(i0:i1, c) = that
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param c An array of column indices
-     */
-    def update(i0: Int, i1: Int, c: Array[Int], that: Matrix[_]) {
-        for (i <- i0 to i1; j <- 0 until c.size) {
-            this(i, c(j)) = that(i - i0, j)
-        }
-    }
-
 
 
     /**

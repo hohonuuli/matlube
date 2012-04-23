@@ -19,25 +19,18 @@ class JMatrix(val delegate: JamaMatrix)
 
     def apply(i: Int, j: Int): Double = delegate.get(i, j)
 
+    def apply(i: SelectAll, j: SelectAll): JMatrix = this
+
+    def apply(i: SelectAll): JMatrix = JMatrix(rows * columns, 1, delegate.getColumnPackedCopy)
+
+    def apply(indices: Array[Int]): JMatrix =  {
+        val array = (for (i <- indices) yield apply(i))
+        JMatrix(1, array.size, array)
+    }
 
     def apply(indices: Seq[Int]): JMatrix =  {
         val array = (for (i <- indices) yield apply(i)).toArray
         JMatrix(1, array.size, array)
-    }
-
-    /**
-     * Get a submatrix
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param j0   Initial column index
-     * @param j1   Final column index
-     * @return     A(i0:i1,j0:j1)
-     */
-    def apply(i0: Int, i1: Int, j0: Int, j1: Int): JMatrix = {
-        JMatrix(Array.tabulate[Double](i1 - i0 + 1, j1 - j0 + 1) {
-            (u, v) =>
-                this(i0 + u, j0 + v)
-        })
     }
 
     /**
@@ -57,20 +50,6 @@ class JMatrix(val delegate: JamaMatrix)
         JMatrix(Array.tabulate[Double](r.size, c.size) {
             (u, v) =>
                 this(r(u), c(v))
-        })
-    }
-
-    /**
-     * Get a submatrix
-     * @param i0   Initial row index
-     * @param i1   Final row index
-     * @param c An array of column indices
-     * @return A(i0:i1, c)
-     */
-    def apply(i0: Int, i1: Int, c: Array[Int]): JMatrix = {
-        JMatrix(Array.tabulate[Double](i1 - i0 + 1, c.size) {
-            (u, v) =>
-                this(i0 + u, c(v))
         })
     }
 
@@ -225,14 +204,6 @@ class JMatrix(val delegate: JamaMatrix)
         }
         this
     }
-
-    /**
-     * Multiply a matrix by a scalar, C = s*A
-     */
-//    def *[@specialized(Int, Long, Float, Double) B: Numeric](s: B) = {
-//        def numeric = implicitly[Numeric[B]]
-//        new JMatrix(delegate.times(numeric.toDouble(s)))
-//    }
 
     /**
      * Multiply a matrix by a scalar in place, A = s*A
