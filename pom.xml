@@ -98,5 +98,6 @@
         <module>matlube-core</module>
         <module>matlube-jama</module>
         <module>matlube-ejml</module>
-    </modules>
+    <module>matlube-testframework</module>
+  </modules>
 </project>

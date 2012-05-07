@@ -99,7 +99,7 @@ trait Matrix[A <: Matrix[_]] {
     def apply(i: SelectAll, j: SelectAll): A
 
     /**
-     * Returns a column marrix of all matrix elements in column order
+     * Returns a column matrix of all matrix elements in column order
      * @param i
      * @return
      */
@@ -111,7 +111,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The column index
      * @return A(:, j)
      */
-    def apply(i: SelectAll, j: Int): A = apply(0 to rows, Seq(j))
+    def apply(i: SelectAll, j: Int): A = apply(0 until rows, Seq(j))
 
     /**
      * Get a submatrix
@@ -119,7 +119,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The column indices
      * @return A(:, [j0 j1 ... jn])
      */
-    def apply(i: SelectAll, j: Seq[Int]): A = apply(0 to rows, j)
+    def apply(i: SelectAll, j: Seq[Int]): A = apply(0 until rows, j)
 
     /**
      * Get a submatrix
@@ -127,7 +127,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The column indices
      * @return A(:, [j0 j1 ... jn])
      */
-    def apply(i: SelectAll, j: Array[Int]): A  = apply(0 to rows, j)
+    def apply(i: SelectAll, j: Array[Int]): A  = apply(0 until rows, j)
 
 
     /**
@@ -136,7 +136,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Int, j: SelectAll): A = apply(Seq(i), 0 to columns)
+    def apply(i: Int, j: SelectAll): A = apply(Seq(i), 0 until columns)
 
     /**
      * Get a submatrix
@@ -144,7 +144,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Seq[Int], j: SelectAll): A = apply(i, 0 to columns)
+    def apply(i: Seq[Int], j: SelectAll): A = apply(i, 0 until columns)
 
     /**
      * Get a submatrix
@@ -152,7 +152,7 @@ trait Matrix[A <: Matrix[_]] {
      * @param j The [[matlube.SelectAll]] constant ( or ::)
      * @return A(i, :)
      */
-    def apply(i: Array[Int], j: SelectAll): A = apply(i, 0 to columns)
+    def apply(i: Array[Int], j: SelectAll): A = apply(i, 0 until columns)
 
     /**
      * Get a submatrix
@@ -273,7 +273,7 @@ trait Matrix[A <: Matrix[_]] {
 
         def next(): A = {
             this.synchronized {
-                val row = apply(Array(currentRowIdx), 0 to columns)
+                val row = apply(Array(currentRowIdx), 0 until columns)
                 currentRowIdx += 1
                 row
             }
@@ -295,7 +295,7 @@ trait Matrix[A <: Matrix[_]] {
 
         def next(): A = {
             this.synchronized {
-                val column = apply(0 to rows, Array(currentColumnIdx))
+                val column = apply(0 until rows, Array(currentColumnIdx))
                 currentColumnIdx += 1
                 column
             }
@@ -451,8 +451,8 @@ trait Matrix[A <: Matrix[_]] {
     def iterator: Iterator[Double] =  new Iterator[Double] {
 
         @volatile private[this] var currentIdx = 0;
-        private[this] val maxIdx = size - 1
-        def hasNext: Boolean = currentIdx < maxIdx
+        private[this] val maxIdx = rows * columns - 1
+        def hasNext: Boolean = currentIdx <= maxIdx
 
         def next(): Double = {
             this.synchronized {
