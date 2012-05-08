@@ -49,7 +49,7 @@ val x = Mx((1d, 2d, 4d, 5d, 7d, 9d, 11d, 13d, 14d, 16d)).t
 val y = Mx((101d, 105d, 109d, 112d, 117d, 116d, 122d, 123d, 129d, 130d)).t
 val m = x \ y     // 10.8900
 val xi = Mx.ccat(Mx.ones(x.size), x)
-val bm = xi \ y   // 1st number is intercept; second is slope. results = [101.3021; 1.8412]
+val bm = xi \ y   // 1st is intercept; 2nd is slope = [101.3021; 1.8412]
 
 === How to run the above code sample ===
 1) Check out the matlube source using Git
