@@ -25,7 +25,7 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def /(that: Matrix[_]): EMatrix = null
 
-    def \(that: Matrix[_]): EMatrix = null
+    //def \(that: Matrix[_]): EMatrix = null
 
     def *(that: Matrix[_]): EMatrix = null
 
@@ -125,12 +125,12 @@ object EMatrix extends MatrixFactory[EMatrix] {
     def apply(rows: Int, columns: Int, fillValue: Double): EMatrix =
         new EMatrix(new DenseMatrix64F(Array.tabulate(rows, columns) {(u, v) => fillValue}))
 
-    def identity(rows: Int, columns: Int): EMatrix = {
+    def eye(rows: Int, columns: Int): EMatrix = {
         val a = apply(rows, columns, 0D)
         for (i <- 0 until rows; j <- 0 until columns; if i == j) {
             a(i, j) = 1D
         }
-        return a
+        a
     }
 
 
@@ -138,10 +138,12 @@ object EMatrix extends MatrixFactory[EMatrix] {
 
     def ones(rows: Int, columns: Int): EMatrix = apply(rows, columns, 1D)
 
-    def random(rows: Int, columns: Int): EMatrix =
+    def rand(rows: Int, columns: Int): EMatrix =
         new EMatrix(RandomMatrices.createRandom(rows, columns, new java.util.Random))
 
     def nans(rows: Int, columns: Int): EMatrix = apply(rows, columns, Double.NaN)
 
     def zeros(rows: Int, columns: Int): EMatrix = apply(rows, columns, 0D)
+
+
 }

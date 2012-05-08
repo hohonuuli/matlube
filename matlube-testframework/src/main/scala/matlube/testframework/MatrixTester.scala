@@ -15,7 +15,7 @@ import scala.math._
 
 class MatrixTester[A <: Matrix[_]](matrix: A) {
 
-    private[this] val (rows, columns) = matrix.dimensions
+    private[this] val (rows, columns) = matrix.size
 
     private[this] val tolerance = 0.0000000000001
 
@@ -107,19 +107,19 @@ class MatrixTester[A <: Matrix[_]](matrix: A) {
         chk(b(3), matrix(3))
 
         val c = matrix(0, ::).asInstanceOf[A]
-        val (rc, cc) = c.dimensions
+        val (rc, cc) = c.size
         assert(rc == 1 && cc == 2)
         chk(c(0, 0), 1)
         chk(c(0, 1), 2)
 
         val r = matrix(::, 0).asInstanceOf[A]
-        val (rr, cr) = r.dimensions
+        val (rr, cr) = r.size
         assert(rr == 2 && cr == 1)
         chk(r(0, 0), 1)
         chk(r(1, 0), 3)
 
         val a = matrix(::).asInstanceOf[A]
-        val (ra, ca) = a.dimensions
+        val (ra, ca) = a.size
         assert(ra == 4 && ca == 1)
         chk(a(0, 0), 1)
         chk(a(1, 0), 3)
@@ -168,7 +168,7 @@ class MatrixTester[A <: Matrix[_]](matrix: A) {
 object MatrixTester {
 
     def run[A <: Matrix[_]](matrix: A) {
-        val (r, c) = matrix.dimensions
+        val (r, c) = matrix.size
         require(r == 2, "Matrix must have 2 rows")
         require(c == 2, "Matrix must have 2 columns")
         require(matrix(0, 0) == 1 && matrix(0, 1) == 2 && matrix(1, 0) == 3 && matrix(1, 1) == 4,

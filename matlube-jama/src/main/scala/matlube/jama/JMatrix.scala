@@ -188,11 +188,12 @@ class JMatrix(val delegate: JamaMatrix)
 
     /**
      * Element-by-element left division, C = A.\B
+     * NOTE: Replace this usage with the more matlab-like call to 'solve'
      */
-    def \(that: Matrix[_]): JMatrix = that match {
-        case j: JMatrix => new JMatrix(delegate.arrayLeftDivide(j.delegate))
-        case _ => throw new UnsupportedOperationException
-    }
+//    def \(that: Matrix[_]): JMatrix = that match {
+//        case j: JMatrix => new JMatrix(delegate.arrayLeftDivide(j.delegate))
+//        case _ => throw new UnsupportedOperationException
+//    }
 
     /**
      * Element-by-element left division in place, A = A.\B
@@ -350,6 +351,7 @@ class JMatrix(val delegate: JamaMatrix)
      */
     def inverse: JMatrix = new JMatrix(delegate.inverse())
 
+    override def toString: String = "JMatrix(" + rows + "," + columns + ")#" + hashCode()
 }
 
 /**
@@ -374,7 +376,7 @@ object JMatrix extends MatrixFactory[JMatrix] {
                 " oriented matrix yet")
     }
 
-    def identity(rows: Int, columns: Int): JMatrix = {
+    def eye(rows: Int, columns: Int): JMatrix = {
         val a = apply(rows, columns, 0D)
         for (i <- 0 until rows; j <- 0 until columns; if i == j) {
             a(i, j) = 1D
@@ -392,7 +394,7 @@ object JMatrix extends MatrixFactory[JMatrix] {
 
     def ones(rows: Int, columns: Int): JMatrix = apply(rows, columns, 1D)
 
-    def random(rows: Int, columns: Int): JMatrix = new JMatrix(JamaMatrix.random(rows, columns))
+    def rand(rows: Int, columns: Int): JMatrix = new JMatrix(JamaMatrix.random(rows, columns))
 
     def nans(rows: Int, columns: Int): JMatrix = apply(rows, columns, Double.NaN)
 
@@ -411,4 +413,5 @@ object JMatrix extends MatrixFactory[JMatrix] {
                 numeric.toDouble(array(u)(v))
         }))
     }
+
 }

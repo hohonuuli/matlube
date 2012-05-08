@@ -1,6 +1,7 @@
 package matlube
 
 import scala.Array
+import scala.math.max
 
 /**
  * Base trait for all matrices. This trait defines methods for an immutable matrix. All methods
@@ -41,15 +42,6 @@ trait Matrix[A <: Matrix[_]] {
      */
     def /(that: Matrix[_]): A
 
-    /**
-     * Element-by-element left division, C = A.\B
-     */
-    def \(that: Matrix[_]): A
-
-    /**
-     * Multiply a matrix by a scalar, C = s*A
-     */
-    //def *[@specialized(Int, Long, Float, Double) A: Numeric](s: A): Matrix
 
     /**
      * Linear algebraic matrix multiplication, A * B
@@ -68,6 +60,11 @@ trait Matrix[A <: Matrix[_]] {
      * @return     solution if A is square, least squares solution otherwise
      */
     def solve(b: Matrix[_]): A
+
+    /**
+     * Solve A*X = B . Same syntax as Matlab
+     */
+    def \(that: Matrix[_]): A = solve(that)
 
     /**
      * Solve X*A = B, which is also A'*X' = B'
@@ -385,12 +382,13 @@ trait Matrix[A <: Matrix[_]] {
      */
     def svd: SingularValueDecomposition[A]
 
-
     /**
      * This is equivalent to matlab's ''size''
-     * @return The dimensions of the matrix (rows, columns)
+     * @return The size of the matrix (rows, columns)
      */
-    def dimensions = (rows, columns)
+    def size = (rows, columns)
+
+    def length = max(rows, columns)
 
     /**
      * default is true. If you make an immutable subclass override this to be false.
@@ -468,7 +466,7 @@ trait Matrix[A <: Matrix[_]] {
      * @return true if the matrix contains a single value
      */
     def isScalar = {
-        val d = dimensions
+        val d = size
         d._1 == 1 && d._2 == 1
     }
 
@@ -477,7 +475,7 @@ trait Matrix[A <: Matrix[_]] {
      * @return true if any dimension of the matrix is 1 and the other dimension is greater than 1
      */
     def isVector = {
-        val d = dimensions
+        val d = size
         (d._1 == 1 && d._2 > 1) || (d._1 > 1 && d._2 == 1)
     }
 

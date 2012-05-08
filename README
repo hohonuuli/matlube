@@ -14,7 +14,7 @@ import matlube.jama.{JMatrix => Mx} // Alias JMatrix to something shorter
 val a = Mx(2, 2, Array(2, 3, 4, 5)) // 2 x 2 Matrix
 val b = Mx(((2D, 3D), (4D, 5D)))    // Same as above
 val c = Mx.ones(10, 10)             // 10 x 10 Matrix of ones
-val d = Mx.random(5, 5)             // 5 x 5 random values
+val d = Mx.rand(5, 5)               // 5 x 5 random values
 val e = Mx(4, 3, 5)                 // 4 x 3 matrix filled with the value 5
 val f = Mx(Array(Array(2, 3), Array(4, 5))) // 2-D Arrays work with Jama
 
@@ -24,18 +24,32 @@ val a6 = a + 6 // scalars can be on either side!
 
 val c15 = c(1, 5)               // Access a value in the matrix
 c(1, 5) = 15                    // Set a value in the Matrix
-val r = c(0 to 30 by 3)      // grab elements 0, 3, 6, 9, ... 30 as a row vector
+val r = c(0 to 30 by 3)         // grab elements 0, 3, 6, 9, ... 30 as a row vector
 
 println(r.asString)  // Display the matrix. Not recommended for BIG matrices
 
 
 import matlube._
 
-val dr = d(0, ::) // grab the first row as a Matrix
-val dc = d(::, 0) // grab the first column as a Matrix
+val dr = d(0, ::)   // grab the first row as a Matrix
+val dc = d(::, 0)   // grab the first column as a Matrix
 
-// more to come
+/*
+ Linear Regression.
 
+ In Matlab:
+  x = [1 2 4 5 7 9 11 13 14 16]';
+  y = [101 105 109 112 117 116 122 123 129 130]';
+  m = x \ y;      % Solve w/o intercept
+  xi = [ones(length(x), 1) x];
+  bm = xi \ y     % Solve w/ intercept. 1st val is intercept, second is slope
+ */
+
+val x = Mx((1d, 2d, 4d, 5d, 7d, 9d, 11d, 13d, 14d, 16d)).t
+val y = Mx((101d, 105d, 109d, 112d, 117d, 116d, 122d, 123d, 129d, 130d)).t
+val m = x \ y     // 10.8900
+val xi = Mx.ccat(Mx.ones(x.size), x)
+val bm = xi \ y   // 1st number is intercept; second is slope. results = [101.3021; 1.8412]
 
 === How to run the above code sample ===
 1) Check out the matlube source using Git
