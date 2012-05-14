@@ -41,7 +41,7 @@ val dc = d(::, 0)   // grab the first column as a Matrix
   x = [1 2 4 5 7 9 11 13 14 16]';
   y = [101 105 109 112 117 116 122 123 129 130]';
   m = x \ y;      % Solve w/o intercept
-  xi = [ones(length(x), 1) x];
+  xi = [ones(size(x)) x];
   bm = xi \ y     % Solve w/ intercept. 1st val is intercept, second is slope
  */
 

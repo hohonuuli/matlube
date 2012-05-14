@@ -9,6 +9,6 @@ import matlube.{Matrixlib, DefaultMatrixOps}
  * @since 2012-04-09
  */
 
-class EMatrixlib extends DefaultMatrixOps[EMatrix] with Matrixlib[EMatrix] {
+object EMatrixlib extends DefaultMatrixOps[EMatrix] with Matrixlib[EMatrix] {
     val factory = EMatrix
 }
