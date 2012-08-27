@@ -107,4 +107,12 @@
         <module>matlube-ejml</module>
     <module>matlube-testframework</module>
   </modules>
+    <distributionManagement>
+        <repository>
+            <id>build-server.shore.mbari.org</id>
+            <name>build-server.shore.mbari.org</name>
+            <url>http://build-server.shore.mbari.org:8081/artifactory/libs-release-local</url>
+        </repository>
+    </distributionManagement>
+
 </project>

@@ -163,6 +163,24 @@ class MatrixTester[A <: Matrix[_]](matrix: A) {
         chk(total, 10)
     }
 
+    protected def testRowArray {
+        val r = matrix.rowArray
+        assert(r.size == 4)
+        chk(r(0), 1)
+        chk(r(1), 2)
+        chk(r(2), 3)
+        chk(r(3), 4)
+    }
+
+    protected def testColumnArray {
+        val c = matrix.columnArray
+        assert(c.size == 4)
+        chk(c(0), 1)
+        chk(c(1), 3)
+        chk(c(2), 2)
+        chk(c(3), 4)
+    }
+
 }
 
 object MatrixTester {

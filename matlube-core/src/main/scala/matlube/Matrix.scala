@@ -299,6 +299,18 @@ trait Matrix[A <: Matrix[_]] {
         }
     }
 
+    /**
+     *
+     * @return The underlying data in a row-oriented array
+     */
+    def rowArray: Array[Double]
+
+    /**
+     *
+     * @return The underlying data in a column-oriented array
+     */
+    def columnArray: Array[Double]
+
 
     /**
      * Matrix condition (2 norm)

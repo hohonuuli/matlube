@@ -12,6 +12,9 @@ class JMatrix(val delegate: JamaMatrix)
     private[this] val defaultOps = JMatrixlib
 
 
+    def rowArray: Array[Double] = delegate.getRowPackedCopy
+    def columnArray: Array[Double] = delegate.getColumnPackedCopy
+
     /**
      * @return A distinct copy of the matrix
      */

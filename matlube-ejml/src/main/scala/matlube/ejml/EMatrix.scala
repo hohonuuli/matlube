@@ -95,7 +95,7 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def apply(i: SelectAll): EMatrix = {
         val n = rows * columns
-        val d = iterator.map(_.toDouble).toArray
+        val d = rowArray
         EMatrix(n, 1, d, Orientations.Row)
     }
 
@@ -133,6 +133,10 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
                 this(r(u), c(v))
         })
     }
+
+
+    def rowArray: Array[Double] = iterator.map(_.toDouble).toArray
+    def columnArray: Array[Double] = delegate.getData
 
     def +=(that: Matrix[_]): EMatrix = that match {
         case e: EMatrix => {
