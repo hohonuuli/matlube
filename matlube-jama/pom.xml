@@ -29,6 +29,7 @@
             <artifactId>matlube-testframework</artifactId>
             <version>${project.version}</version>
             <classifier>${scala.version}</classifier>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -2,8 +2,7 @@ package matlube.ejml
 
 import matlube._
 import org.ejml.data.{Matrix64F, DenseMatrix64F}
-import org.ejml.ops.{NormOps, CommonOps, RandomMatrices}
-import org.ejml.alg.dense.linsol.LinearSolverFactory
+import org.ejml.ops.{SingularOps, NormOps, CommonOps, RandomMatrices}
 
 
 /**
@@ -84,7 +83,7 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
         case _ => throw new UnsupportedOperationException
     }
 
-    def solveTranspose(b: Matrix[_]): EMatrix = null
+    def solveTranspose(b: Matrix[_]): EMatrix = throw new UnsupportedOperationException
 
     def inverse: EMatrix = {
         val c = delegate.copy()
@@ -94,23 +93,41 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def apply(i: SelectAll, j: SelectAll): EMatrix = new EMatrix(delegate.copy())
 
-    def apply(i: SelectAll): EMatrix = null
+    def apply(i: SelectAll): EMatrix = EMatrix(rows * columns, 1, delegate.getData)
 
-    def apply(indices: Array[Int]): EMatrix = null
+    def apply(indices: Array[Int]): EMatrix = {
+        val array = (for (i <- indices) yield apply(i))
+        EMatrix(1, array.size, array)
+    }
 
-    def apply(indices: Seq[Int]): EMatrix = null
+    def apply(indices: Seq[Int]): EMatrix = apply(indices.toArray)
 
     def apply(i: Int, j: Int): Double = delegate.get(i, j)
 
-    def apply(r: Array[Int], j0: Int, j1: Int): EMatrix = null
+    def apply(r: Array[Int], j0: Int, j1: Int): EMatrix = {
+        EMatrix(Array.tabulate[Double](r.size, j1 - j0 + 1) {
+            (u, v) =>
+                this(r(u), j0 + v)
+        })
+    }
 
-    def apply(i0: Int, i1: Int, c: Array[Int]): EMatrix = null
+    //    def apply(i0: Int, i1: Int, c: Array[Int]): EMatrix = null
+    //
+    //    def apply(i0: Int, i1: Int, j0: Int, j1: Int): EMatrix = null
 
-    def apply(i0: Int, i1: Int, j0: Int, j1: Int): EMatrix = null
+    def apply(r: Array[Int], c: Array[Int]): EMatrix =  {
+        EMatrix(Array.tabulate[Double](r.size, c.size) {
+            (u, v) =>
+                this(r(u), c(v))
+        })
+    }
 
-    def apply(r: Array[Int], c: Array[Int]): EMatrix = null
-
-    def apply(r: Seq[Int], c: Seq[Int]): EMatrix = null
+    def apply(r: Seq[Int], c: Seq[Int]): EMatrix =  {
+        EMatrix(Array.tabulate[Double](r.size, c.size) {
+            (u, v) =>
+                this(r(u), c(v))
+        })
+    }
 
     def +=(that: Matrix[_]): EMatrix = that match {
         case e: EMatrix => {
@@ -128,13 +145,14 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
         case  _ => throw new UnsupportedOperationException
     }
 
-    def **=(that: Matrix[_]): EMatrix = null
+    def **=(that: Matrix[_]): EMatrix = throw new UnsupportedOperationException
 
-    def /=(that: Matrix[_]): EMatrix = null
 
-    def \=(that: Matrix[_]): EMatrix = null
+    def /=(that: Matrix[_]): EMatrix = throw new UnsupportedOperationException
 
-    def *=[@specialized(Int, Long, Float, Double) B: Numeric](s: B): EMatrix = null
+    def \=(that: Matrix[_]): EMatrix = throw new UnsupportedOperationException
+
+    def *=[@specialized(Int, Long, Float, Double) B: Numeric](s: B): EMatrix = throw new UnsupportedOperationException
 
     def rows: Int = delegate.getNumRows
 
@@ -154,19 +172,19 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def normInf: Double = NormOps.normPInf(delegate)
 
-    def rank: Int = 0
+    def rank: Int = SingularOps.rank(svd.delegate, 0.000000001)
 
     def trace: Double = CommonOps.trace(delegate)
 
-    def chol: CholeskyDecomposition[EMatrix] = null
+    def chol: ECholeskyDecomposition = new ECholeskyDecomposition(this)
 
-    def eig: EigenvalueDecomposition[EMatrix] = null
+    def eig: EEigenvalueDecomposition = new EEigenvalueDecomposition(this)
 
-    def lu: LUDecomposition[EMatrix] = null
+    def lu: ELUDecomposition = new ELUDecomposition(this)
 
-    def qr: QRDecomposition[EMatrix] = null
+    def qr: EQRDecomposition = new EQRDecomposition(this)
 
-    def svd: SingularValueDecomposition[EMatrix] = null
+    def svd: ESingularValueDecomposition = new ESingularValueDecomposition(this)
 
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: Int, v: A) {
         val numeric = implicitly[Numeric[A]]
@@ -174,17 +192,24 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
     }
 
     def update[@specialized(Int, Long, Float, Double) A: Numeric](i: SelectAll, j: Int, v: A) {
-
+        val numeric = implicitly[Numeric[A]]
+        for (ii <- 0 until rows) {
+            delegate.set(ii, j, numeric.toDouble(v))
+        }
     }
 
-    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A) {}
-
+    def update[@specialized(Int, Long, Float, Double) A: Numeric](i: Int, j: SelectAll, v: A) {
+        val numeric = implicitly[Numeric[A]]
+        for (jj <- 0 until columns) {
+            delegate.set(i, jj, numeric.toDouble(v))
+        }
+    }
 
 }
 
 object EMatrix extends MatrixFactory[EMatrix] {
     def apply[@specialized(Int, Long, Float, Double) B: Numeric](rows: Int, columns: Int,
-            data: Array[B], orientation: Orientations.Orientation): EMatrix =  {
+            data: Array[B], orientation: Orientations.Orientation = Orientations.Row): EMatrix =  {
         orientation match {
             case Orientations.Row => new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(rows, columns, data)))
             case Orientations.Column => {
@@ -200,6 +225,8 @@ object EMatrix extends MatrixFactory[EMatrix] {
         def array = MatrixFactory.toArray[Double](data)
         new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
     }
+
+    def apply(data: Array[Array[Double]]): EMatrix = new EMatrix(new DenseMatrix64F(data))
 
     def apply(rows: Int, columns: Int): EMatrix = apply(rows, columns, 0D)
 

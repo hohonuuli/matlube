@@ -19,13 +19,20 @@
         <dependency>
             <groupId>com.googlecode.efficient-java-matrix-library</groupId>
             <artifactId>ejml</artifactId>
-            <version>0.18</version>
+            <version>0.20</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>matlube-core</artifactId>
             <version>${project.version}</version>
             <classifier>${scala.version}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>matlube</groupId>
+            <artifactId>matlube-testframework</artifactId>
+            <version>${project.version}</version>
+            <classifier>${scala.version}</classifier>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
