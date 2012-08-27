@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>matlube</groupId>
     <artifactId>matlube</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1</version>
     <name>${project.artifactId}</name>
     <description>My wonderfull scala app</description>
     <packaging>pom</packaging>

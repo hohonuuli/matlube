@@ -26,10 +26,10 @@ trait MatrixFactory[A <: Matrix[_]]  {
     def rand(dimensions: Tuple2[Int, Int]): A = rand(dimensions._1, dimensions._2)
 
     def nans(rows: Int, columns: Int): A
-    def nans(dimensions: Tuple2[Int, Int]): A = rand(dimensions._1, dimensions._2)
+    def nans(dimensions: Tuple2[Int, Int]): A = nans(dimensions._1, dimensions._2)
 
     def zeros(rows: Int, columns: Int): A
-    def zeros(dimensions: Tuple2[Int, Int]): A = rand(dimensions._1, dimensions._2)
+    def zeros(dimensions: Tuple2[Int, Int]): A = zeros(dimensions._1, dimensions._2)
 
     /**
      * Column append. In matlab we would do:

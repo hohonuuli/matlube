@@ -5,7 +5,7 @@
     <parent>
         <groupId>matlube</groupId>
         <artifactId>matlube</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
     <artifactId>matlube-jama</artifactId>
     <name>matlube-jama</name>

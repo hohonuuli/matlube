@@ -93,7 +93,12 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def apply(i: SelectAll, j: SelectAll): EMatrix = new EMatrix(delegate.copy())
 
-    def apply(i: SelectAll): EMatrix = EMatrix(rows * columns, 1, delegate.getData)
+    def apply(i: SelectAll): EMatrix = {
+        val n = rows * columns
+        val d = iterator.map(_.toDouble).toArray
+        EMatrix(n, 1, d, Orientations.Row)
+    }
+
 
     def apply(indices: Array[Int]): EMatrix = {
         val array = (for (i <- indices) yield apply(i))
@@ -220,12 +225,6 @@ object EMatrix extends MatrixFactory[EMatrix] {
         }
     }
 
-    def apply(data: Product): EMatrix = {
-        def size = MatrixFactory.productSize(data)
-        def array = MatrixFactory.toArray[Double](data)
-        new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
-    }
-
     def apply(data: Array[Array[Double]]): EMatrix = new EMatrix(new DenseMatrix64F(data))
 
     def apply(rows: Int, columns: Int): EMatrix = apply(rows, columns, 0D)
@@ -240,6 +239,12 @@ object EMatrix extends MatrixFactory[EMatrix] {
         }
         a
     }
+
+    def apply(data: Product): EMatrix = {
+            def size = MatrixFactory.productSize(data)
+            def array = MatrixFactory.toArray[Double](data)
+            new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
+        }
 
 
     def apply[@specialized(Int, Long, Float, Double)B: Numeric](data: Array[B], orientation: Orientations.Orientation): EMatrix = null

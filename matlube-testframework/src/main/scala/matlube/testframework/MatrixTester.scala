@@ -185,9 +185,9 @@ object MatrixTester {
         matrixTester.testTranspose
         matrixTester.testInverse
         matrixTester.testSelectAll
-        matrixTester.testMutableAdd
-        matrixTester.testMutableMinus
-        matrixTester.testMutableDotMult
+        //matrixTester.testMutableAdd
+        //matrixTester.testMutableMinus
+        //matrixTester.testMutableDotMult
         matrixTester.testIterator
     }
 
