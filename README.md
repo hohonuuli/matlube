@@ -1,11 +1,12 @@
 === About Matlube ===
 
-Scala wrapper for Matrix libraries.
+# Scala wrapper for Matrix libraries.
 
 The plan is to create a Matlab-like linear algebra DSL for Scala. This library only supports dense double matrices.I've written the a first cut at a core library and am working on two back-ends: one for Jama (http://math.nist.gov/javanumerics/jama/) and another for EJML (http://code.google.com/p/efficient-java-matrix-library/). Why have different back-ends? Well, everyone has thier favorite Matrix library. Different back-ends allows Matlube to easily integrate with whatever your prefered library is. Currently the Jama implementation is useable. I'm still working on the EJML one. Once these two are created, folks can use them as examples for wrapping other Matrix libraries in Matlube.
 
-=== Teaser code using Jama as a backend ===
+## Teaser code using Jama as a backend
 
+```scala
 import matlube._
 //import matlube.ejml.{EMatrix => Mx, _} // Uncomment to use EJML instead of Jama
 import matlube.jama.{JMatrix => Mx, _} // Alias JMatrix to something shorter
@@ -47,24 +48,27 @@ val y = Mx((101d, 105d, 109d, 112d, 117d, 116d, 122d, 123d, 129d, 130d)).t
 val m = x \ y     // 10.8900
 val xi = Mx.ccat(Mx.ones(x.size), x)
 val bm = xi \ y   // 1st is intercept; 2nd is slope = [101.3021; 1.8412]
+```
 
-=== How to run the above code sample ===
-1) Check out the matlube source using Git
-2) Build it
+## How to run the above code sample 
+1. Check out the matlube source using Git
+2. Build it
     cd matlube
     mvn install
-3) Run a console
+3. Run a console
     cd matlube-jama
     mvn scala:console
-4) Cut and past the code samples above into the console
+4. Cut and past the code samples above into the console
 
 The built jama library can be included in another maven project by adding the following to your pom.xml
 
+```xml
 <dependency>
     <groupId>matlube</groupId>
     <artifactId>matlube-jama</artifactId>
     <version>1.0-SNAPSHOT</version>
     <classifier>2.9.2</classifier>
 </dependency>
+```
 
 Note the classifier is the version of scala used to build the library. You can change it in the pom.xml by editing the 'scala.version' property.

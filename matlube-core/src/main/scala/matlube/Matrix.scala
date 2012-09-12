@@ -330,7 +330,11 @@ trait Matrix[A <: Matrix[_]] {
     def norm1: Double
 
     /**
-     * Two norm
+     * Two norm. This is also known as the Magnitude ||M|| or Euclidean distance
+     * of a matrix. (e.g. sqrt of the sum of squares). Unit vectors will have
+     * a magnitude of 1. TO convert a vector to a unit vector simple divide the 
+     * vector by its magnitude
+     *
      * @return    maximum singular value.
      */
     def norm2: Double
