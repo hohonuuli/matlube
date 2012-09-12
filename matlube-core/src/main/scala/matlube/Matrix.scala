@@ -33,7 +33,19 @@ trait Matrix[A <: Matrix[_]] {
     def -(that: Matrix[_]): A
 
     /**
-     * Element-by-element multiplication, C = A.*B
+     * Element-by-element multiplication, C = A.*B. 
+     *
+     * **Tip:** The sum of the result of '**' between 2 vectors is also known as the 
+     * __dot product__. E.g.
+     * {{{
+     * val a = // Matrix of [1 2 3]
+     * val b = // Matrix of [1 0 1]
+     * val dotProduct = ((a ** b) rowArray) sum // 4
+     * *}}}
+     *
+     * **REMEMBER** The dot product a . b is equal to the signed length of the 
+     * projection of b onto any line parallel to a, multiplied by the length of
+     * a
      */
     def **(that: Matrix[_]): A
 
