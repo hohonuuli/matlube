@@ -19,9 +19,10 @@ class RightNumberOps[A <: Matrix[_]](val factory: MatrixFactory[A], val matrix: 
         factory(matrix.rows, matrix.columns, numeric.toDouble(value))
     }
 
-    def /[B : Numeric](value: B) = matrix / toMatrix(value)
-    def *[B : Numeric](value: B) = matrix ** toMatrix(value)
-    def -[B : Numeric](value: B) = matrix - toMatrix(value)
-    def +[B : Numeric](value: B) = matrix + toMatrix(value)
+    // HACK: had to cast to A
 
+    def /[B : Numeric](value: B): A = (matrix / toMatrix(value)).asInstanceOf[A]
+    def *[B : Numeric](value: B): A = (matrix ** toMatrix(value)).asInstanceOf[A]
+    def -[B : Numeric](value: B): A = (matrix - toMatrix(value)).asInstanceOf[A]
+    def +[B : Numeric](value: B): A = (matrix + toMatrix(value)).asInstanceOf[A]
 }

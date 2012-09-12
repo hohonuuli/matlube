@@ -76,7 +76,7 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def solve(b: Matrix[_]): EMatrix = b match {
         case e: EMatrix => {
-            val c = new DenseMatrix64F(e.rows, e.columns)
+            val c = new DenseMatrix64F(columns, e.columns)
             CommonOps.solve(delegate, e.delegate, c)
             new EMatrix(c)
         }

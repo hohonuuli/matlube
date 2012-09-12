@@ -16,10 +16,12 @@ class LeftNumberOps[A <: Matrix[_], B : Numeric](val factory: MatrixFactory[A], 
     private val numeric = implicitly[Numeric[B]]
     private def toMatrix(matrix: A): A = factory(matrix.rows, matrix.columns, numeric.toDouble(value))
 
-    def /(matrix: A) = toMatrix(matrix) / matrix
-    def *(matrix: A) = toMatrix(matrix) ** matrix
-    def -(matrix: A) = toMatrix(matrix) - matrix
-    def +(matrix: A) = toMatrix(matrix) + matrix
+    // HACK: had to cast to A
+
+    def /(matrix: A): A = (toMatrix(matrix) / matrix).asInstanceOf[A]
+    def *(matrix: A): A = (toMatrix(matrix) ** matrix).asInstanceOf[A]
+    def -(matrix: A): A = (toMatrix(matrix) - matrix).asInstanceOf[A]
+    def +(matrix: A): A = (toMatrix(matrix) + matrix).asInstanceOf[A]
 
 
 }

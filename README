@@ -6,9 +6,9 @@ The plan is to create a Matlab-like linear algebra DSL for Scala. This library o
 
 === Teaser code using Jama as a backend ===
 
-import matlube.jama._
-import matlube.jama.{JMatrix => Mx} // Alias JMatrix to something shorter
-// import matlube.ejml.{EMatrix => Mx} // Uncomment to use EJML instead of Jama
+import matlube._
+//import matlube.ejml.{EMatrix => Mx, _} // Uncomment to use EJML instead of Jama
+import matlube.jama.{JMatrix => Mx, _} // Alias JMatrix to something shorter
 
 // Creating Matrices
 val a = Mx(2, 2, Array(2, 3, 4, 5)) // 2 x 2 Matrix
@@ -27,9 +27,6 @@ c(1, 5) = 15                    // Set a value in the Matrix
 val r = c(0 to 30 by 3)         // grab elements 0, 3, 6, 9, ... 30 as a row vector
 
 println(r.asString)  // Display the matrix. Not recommended for BIG matrices
-
-
-import matlube._
 
 val dr = d(0, ::)   // grab the first row as a Matrix
 val dc = d(::, 0)   // grab the first column as a Matrix
