@@ -1,7 +1,7 @@
 package matlube
 
 import scala.Array
-import scala.math.{max, sqrt}
+import scala.math.{floor, max}
 
 /**
  * Base trait for all matrices. This trait defines methods for an immutable matrix. All methods

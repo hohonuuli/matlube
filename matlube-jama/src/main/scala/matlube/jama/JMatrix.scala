@@ -195,10 +195,10 @@ class JMatrix(val delegate: JamaMatrix)
      * Element-by-element left division, C = A.\B
      * NOTE: Replace this usage with the more matlab-like call to 'solve'
      */
-//    def \(that: Matrix[_]): JMatrix = that match {
-//        case j: JMatrix => new JMatrix(delegate.arrayLeftDivide(j.delegate))
-//        case _ => throw new UnsupportedOperationException
-//    }
+    //    def \(that: Matrix[_]): JMatrix = that match {
+    //        case j: JMatrix => new JMatrix(delegate.arrayLeftDivide(j.delegate))
+    //        case _ => throw new UnsupportedOperationException
+    //    }
 
     /**
      * Element-by-element left division in place, A = A.\B
@@ -356,7 +356,17 @@ class JMatrix(val delegate: JamaMatrix)
      */
     def inverse: JMatrix = new JMatrix(delegate.inverse())
 
-    override def toString: String = "JMatrix(" + rows + "," + columns + ")#" + hashCode()
+    override def toString: String = {
+        val max = 5
+        val s = getClass.getSimpleName + "(" + rows + "x" + columns + ")[" +
+                iterator.take(max).mkString(",")
+        if (rows * columns > max) {
+            s + ",...]"
+        }
+        else {
+            s + "]"
+        }
+    }
 }
 
 /**

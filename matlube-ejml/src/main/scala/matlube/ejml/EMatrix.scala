@@ -216,6 +216,18 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
         }
     }
 
+    override def toString: String = {
+        val max = 5
+        val s = getClass.getSimpleName + "(" + rows + "x" + columns + ")[" +
+                iterator.take(max).mkString(",")
+        if (rows * columns > max) {
+            s + ",...]"
+        }
+        else {
+            s + "]"
+        }
+    }
+
 }
 
 object EMatrix extends MatrixFactory[EMatrix] {
@@ -247,10 +259,10 @@ object EMatrix extends MatrixFactory[EMatrix] {
     }
 
     def apply(data: Product): EMatrix = {
-            def size = MatrixFactory.productSize(data)
-            def array = MatrixFactory.toArray[Double](data)
-            new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
-        }
+        def size = MatrixFactory.productSize(data)
+        def array = MatrixFactory.toArray[Double](data)
+        new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
+    }
 
 
     def apply[@specialized(Int, Long, Float, Double)B: Numeric](data: Array[B], orientation: Orientations.Orientation): EMatrix = null

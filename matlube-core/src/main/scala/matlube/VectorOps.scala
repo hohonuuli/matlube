@@ -54,6 +54,13 @@ trait VectorOps[A <: Matrix[A]] {
      *     val a = // Matrix of [1 2 3]
      *     val magnitude = sqrt(a.dot(a))
      * }}}
+     *
+     * '''REMEMBER''': To normalize a vector (so it becomes a unit vector with a length of 1). Do
+     * the following: {{{
+     *     val a = // Matrix of [12 5]
+     *     val normalizedA = a / a.magnitude
+     * }}}
+     *
      * @return
      */
     def magnitude: Double = {
@@ -73,6 +80,15 @@ trait VectorOps[A <: Matrix[A]] {
     def angle(that: Matrix[_]): Double = acos(this.dot(that) / (this.magnitude * that.magnitude))
 
 
+    /**
+     * Vector cross product. requires 3-element vectors.
+     *
+     * '''REMEMBER''': Cross product is used to create a vector that is perpendicular to a plane.
+     *
+     *
+     * @param that
+     * @return
+     */
     def cross(that: Matrix[_]): A = {
         require(isVector, "cross product is only allowed on vectors")
         require(rows * columns == 3, "cross product requres a 3 element vector")
