@@ -1,6 +1,6 @@
 # Matlube
 
-## Scala wrapper for Matrix libraries.
+## Scala DSL for Matrix libraries.
 
 Matlube is a Matlab-like linear algebra DSL for Scala. This library only supports dense double matrices.
 It's designed to work as a front end to other Matrix libraries. Currently, there are two back-ends: one for Jama (http://math.nist.gov/javanumerics/jama/) and another for EJML (http://code.google.com/p/efficient-java-matrix-library/). Why have different back-ends? Well, everyone has thier favorite Matrix library. Different back-ends allows Matlube to easily integrate with whatever your prefered library is. 
