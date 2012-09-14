@@ -51,7 +51,7 @@ println(r.asString)  // Display the matrix. Not recommended for BIG matrices
 val x = Mx((1d, 2d, 4d, 5d, 7d, 9d, 11d, 13d, 14d, 16d)).t
 val y = Mx((101d, 105d, 109d, 112d, 117d, 116d, 122d, 123d, 129d, 130d)).t
 val m = x \ y     // 10.8900
-val xi = Mx.ccat(Mx.ones(x.size), x)
+val xi = Mx.hcat(Mx.ones(x.size), x)   // hcat is 'horizontal concatenate'
 val bm = xi \ y   // 1st is intercept; 2nd is slope = [101.3021; 1.8412]
 
 // Vector operations
@@ -65,8 +65,9 @@ val angle = u.angle(v)
 
 /*
   Each matrix has an underlying delegate. The type of the delegate depends on
-  the implementation. For EJML the delegate is a DenseMatrix64F for Jama it's 
-  Jama
+  the implementation. For EJML the delegate is a DenseMatrix64F for Jama is 
+  Jama. With the delegate you have access to all the underlying libraries 
+  functionality.
  */
  val delegate = u.delegate
 
