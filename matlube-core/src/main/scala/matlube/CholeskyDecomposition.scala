@@ -13,7 +13,7 @@ package matlube
  * @since 2012-04-05
  */
 
-trait CholeskyDecomposition[A <: Matrix[_]] {
+trait CholeskyDecomposition[A <: Matrix[A]] {
 
     def lower(): A
 

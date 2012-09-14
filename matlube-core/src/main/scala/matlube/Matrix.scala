@@ -1,14 +1,20 @@
 package matlube
 
 import scala.Array
-import scala.math.max
+import scala.math.{max, sqrt}
 
 /**
  * Base trait for all matrices. This trait defines methods for an immutable matrix. All methods
  * should return a new Matrix
  *
  */
-trait Matrix[A <: Matrix[_]] {
+trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
+
+    /**
+     *
+     * @return The factory used to create new instances of this type of Matrix
+     */
+    def factory: MatrixFactory[A]
 
     def copy: A
 

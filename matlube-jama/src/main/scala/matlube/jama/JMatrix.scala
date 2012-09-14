@@ -15,6 +15,8 @@ class JMatrix(val delegate: JamaMatrix)
     def rowArray: Array[Double] = delegate.getRowPackedCopy
     def columnArray: Array[Double] = delegate.getColumnPackedCopy
 
+
+    val factory = JMatrix // JMatrix object is the factory
     /**
      * @return A distinct copy of the matrix
      */

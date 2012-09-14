@@ -2,7 +2,7 @@ package matlube
 
 import java.util.Arrays
 
-trait MatrixFactory[A <: Matrix[_]]  {
+trait MatrixFactory[A <: Matrix[A]]  {
 
     def apply[@specialized(Int, Long, Float, Double) B : Numeric](data: Array[B], orientation: Orientations.Orientation): A
     def apply[@specialized(Int, Long, Float, Double) B : Numeric](rows: Int,  columns: Int, data: Array[B], orientation: Orientations.Orientation): A
@@ -32,7 +32,7 @@ trait MatrixFactory[A <: Matrix[_]]  {
     def zeros(dimensions: Tuple2[Int, Int]): A = zeros(dimensions._1, dimensions._2)
 
     /**
-     * Column append. In matlab we would do:
+     * Horizontal or Column append. In matlab we would do:
      * {{{
      *     a = [1 2 3];
      *     b = [a a];
@@ -42,13 +42,13 @@ trait MatrixFactory[A <: Matrix[_]]  {
      * {{{
      *     // Import MaxtrixFactory and alias as Mx
      *     val a = Mx((1d, 2d, 3d))
-     *     val b = Mx.ccat(a, a)
+     *     val b = Mx.hcat(a, a)
      * }}}
      * @param a
      * @param b
      * @return
      */
-    def ccat(a: A, b: A): A = {
+    def hcat(a: A, b: A): A = {
         val (ar, ac) = a.size
         val (br, bc) = b.size
         require(ar == br, "Matrices did not have the same number of rows")
@@ -59,7 +59,7 @@ trait MatrixFactory[A <: Matrix[_]]  {
     }
 
     /**
-     * Row append (or concatenate). In Matlab we would do:
+     * Vertical or row append (or concatenate). In Matlab we would do:
      * {{{
      *     a = [1 2 3];
      *     b = [a; a];
@@ -68,13 +68,13 @@ trait MatrixFactory[A <: Matrix[_]]  {
      * }}}
      * {{{
      *     val a = Mx((1d, 2d, 3d))
-     *     val b = Mx.rcat(a, a)
+     *     val b = Mx.vcat(a, a)
      * }}}
      * @param a
      * @param b
      * @return
      */
-    def rcat(a: A, b: A): A = {
+    def vcat(a: A, b: A): A = {
         val (ar, ac) = a.size
         val (br, bc) = b.size
         require(ac == bc, "Matrices did not have the same number of columns")

@@ -6,7 +6,7 @@ package matlube
  * @since 2012-03-02
  */
 
-trait DefaultMatrixOps[A <: Matrix[_]] {
+trait DefaultMatrixOps[A <: Matrix[A]] {
 
     def factory: MatrixFactory[A]
 

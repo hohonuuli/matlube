@@ -11,17 +11,15 @@ package matlube
  * @since 2012-04-06
  */
 
-class LeftNumberOps[A <: Matrix[_], B : Numeric](val factory: MatrixFactory[A], val value: B) {
+class LeftNumberOps[A <: Matrix[A], B : Numeric](val factory: MatrixFactory[A], val value: B) {
 
     private val numeric = implicitly[Numeric[B]]
     private def toMatrix(matrix: A): A = factory(matrix.rows, matrix.columns, numeric.toDouble(value))
 
-    // HACK: had to cast to A
-
-    def /(matrix: A): A = (toMatrix(matrix) / matrix).asInstanceOf[A]
-    def *(matrix: A): A = (toMatrix(matrix) ** matrix).asInstanceOf[A]
-    def -(matrix: A): A = (toMatrix(matrix) - matrix).asInstanceOf[A]
-    def +(matrix: A): A = (toMatrix(matrix) + matrix).asInstanceOf[A]
+    def /(matrix: A): A = (toMatrix(matrix) / matrix)
+    def *(matrix: A): A = (toMatrix(matrix) ** matrix)
+    def -(matrix: A): A = (toMatrix(matrix) - matrix)
+    def +(matrix: A): A = (toMatrix(matrix) + matrix)
 
 
 }

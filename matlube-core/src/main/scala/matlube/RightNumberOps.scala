@@ -11,7 +11,7 @@ package matlube
  * @since 2012-04-06
  */
 
-class RightNumberOps[A <: Matrix[_]](val factory: MatrixFactory[A], val matrix: A) {
+class RightNumberOps[A <: Matrix[A]](val factory: MatrixFactory[A], val matrix: A) {
 
 
     private def toMatrix[B : Numeric](value: B): A = {
@@ -21,8 +21,8 @@ class RightNumberOps[A <: Matrix[_]](val factory: MatrixFactory[A], val matrix: 
 
     // HACK: had to cast to A
 
-    def /[B : Numeric](value: B): A = (matrix / toMatrix(value)).asInstanceOf[A]
-    def *[B : Numeric](value: B): A = (matrix ** toMatrix(value)).asInstanceOf[A]
-    def -[B : Numeric](value: B): A = (matrix - toMatrix(value)).asInstanceOf[A]
-    def +[B : Numeric](value: B): A = (matrix + toMatrix(value)).asInstanceOf[A]
+    def /[B : Numeric](value: B): A = (matrix / toMatrix(value))
+    def *[B : Numeric](value: B): A = (matrix ** toMatrix(value))
+    def -[B : Numeric](value: B): A = (matrix - toMatrix(value))
+    def +[B : Numeric](value: B): A = (matrix + toMatrix(value))
 }

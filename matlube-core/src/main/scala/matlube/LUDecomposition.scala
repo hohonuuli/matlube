@@ -15,7 +15,7 @@ package matlube
  * @since 2012-04-05
  */
 
-trait LUDecomposition[A <: Matrix[_]] {
+trait LUDecomposition[A <: Matrix[A]] {
 
     def lower: A
 

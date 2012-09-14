@@ -15,7 +15,7 @@ package matlube
  * @author Brian Schlining
  * @since 2012-04-06
  */
-trait SingularValueDecomposition[A <: Matrix[_]] {
+trait SingularValueDecomposition[A <: Matrix[A]] {
 
     /**
      *

@@ -14,7 +14,7 @@ package matlube
  * @since 2012-04-05
  */
 
-trait QRDecomposition[A <: Matrix[_]] {
+trait QRDecomposition[A <: Matrix[A]] {
 
     def h(): A
 

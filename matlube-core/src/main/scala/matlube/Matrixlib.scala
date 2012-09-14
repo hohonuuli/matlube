@@ -7,7 +7,7 @@ import scala.math._
  * @author Brian Schlining
  * @since 2012-03-05
  */
-trait Matrixlib[A <: Matrix[_]] {
+trait Matrixlib[A <: Matrix[A]] {
 
     def factory: MatrixFactory[A]
 

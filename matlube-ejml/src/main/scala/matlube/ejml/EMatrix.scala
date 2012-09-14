@@ -15,6 +15,8 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     private[this] val defaultOps = EMatrixlib
 
+    val factory = EMatrix // EMatrix object is the factory
+
     def unary_- : EMatrix = {
         val d = delegate.copy()
         CommonOps.changeSign(d)
