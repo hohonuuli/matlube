@@ -122,7 +122,19 @@ object MatrixFactory {
      * @param t The tuple to convert to an array
      * @tparam A The type that the tuple contains. 
      */
-    def toArray[A: ClassManifest](t: Product) = flattenProduct(t).map( _.asInstanceOf[A]).toArray
+    def toArray(t: Product) = flattenProduct(t).map(v =>
+        v match {
+            case i: Int => i.toDouble
+            case l: Long => l.toDouble
+            case d: Double => d
+            case s: String => s.toDouble
+            case sh: Short => sh.toDouble
+            case _ => throw new UnsupportedOperationException(v + " is not a valid element for a matrix")
+        }
+
+    ).toArray[Double]
+
+    //def toArray[A: ClassManifest](t: Product) = flattenProduct(t).map( _.asInstanceOf[A]).toArray
 
     /**
      * Create a row oriented (See [[matlube.Orientations]]) array that can be used by a

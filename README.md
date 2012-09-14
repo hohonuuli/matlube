@@ -65,7 +65,7 @@ val angle = u.angle(v)
 
 /*
   Each matrix has an underlying delegate. The type of the delegate depends on
-  the implementation. For EJML the delegate is a DenseMatrix64F for Jama is 
+  the implementation. For EJML the delegate is a DenseMatrix64F for Jama it is 
   Jama. With the delegate you have access to all the underlying libraries 
   functionality.
  */

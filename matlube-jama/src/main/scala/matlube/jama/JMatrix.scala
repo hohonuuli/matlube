@@ -376,7 +376,7 @@ object JMatrix extends MatrixFactory[JMatrix] {
 
     def apply(data: Product): JMatrix = {
         def size = MatrixFactory.productSize(data)
-        def array = MatrixFactory.toArray[Double](data)
+        def array = MatrixFactory.toArray(data)
         new JMatrix(new JamaMatrix(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
     }
 

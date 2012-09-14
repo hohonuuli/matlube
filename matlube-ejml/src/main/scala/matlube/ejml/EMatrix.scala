@@ -260,7 +260,7 @@ object EMatrix extends MatrixFactory[EMatrix] {
 
     def apply(data: Product): EMatrix = {
         def size = MatrixFactory.productSize(data)
-        def array = MatrixFactory.toArray[Double](data)
+        def array = MatrixFactory.toArray(data)
         new EMatrix(new DenseMatrix64F(MatrixFactory.rowArrayTo2DArray(size._1, size._2, array)))
     }
 
