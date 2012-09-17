@@ -1,5 +1,0 @@
-package matlube
-
-trait LinearAlgebra {
-    
-}
