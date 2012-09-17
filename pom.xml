@@ -8,13 +8,43 @@
     <description>Matlab-like linear algebra DSL for Scala</description>
     <packaging>pom</packaging>
     <inceptionYear>2010</inceptionYear>
+    <organization>
+        <name>Monterey Bay Aquarium Research Institute</name>
+        <url>http://www.mbari.org</url>
+    </organization>
+    <url>http://hohonuuli.github.com/matlube/</url>
     <licenses>
         <license>
-            <name>My License</name>
-            <url>http://....</url>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/lgpl.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <modules>
+        <module>matlube-core</module>
+        <module>matlube-jama</module>
+        <module>matlube-ejml</module>
+        <module>matlube-testframework</module>
+    </modules>
+
+    <scm>
+        <connection>scm:git:https://github.com/hohonuuli/matlube.git</connection>
+        <developerConnection>scm:git:https://github.com/hohonuuli/matlube.git</developerConnection>
+        <url>https://github.com/hohonuuli/matlube/</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>brian</id>
+            <name>Brian Schlining</name>
+            <email>bschlining@gmail.com</email>
+            <roles>
+                <role>Lead Engineer</role>
+            </roles>
+            <organization>MBARI</organization>
+            <timezone>-8</timezone>
+        </developer>
+    </developers>
 
     <properties>
         <maven.compiler.source>1.5</maven.compiler.source>
@@ -54,23 +84,6 @@
     </dependencies>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.scm</groupId>
-                <artifactId>maven-scm-provider-gitexe</artifactId>
-                <version>1.3</version>
-            </extension>
-            <extension>
-                <groupId>org.apache.maven.scm</groupId>
-                <artifactId>maven-scm-manager-plexus</artifactId>
-                <version>1.3</version>
-            </extension>
-            <extension>
-                <groupId>org.kathrynhuxtable.maven.wagon</groupId>
-                <artifactId>wagon-gitsite</artifactId>
-                <version>0.4-SNAPSHOT</version>
-            </extension>
-        </extensions>
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
         <plugins>
@@ -123,22 +136,13 @@
             </plugin>
         </plugins>
     </build>
-    <modules>
-        <module>matlube-core</module>
-        <module>matlube-jama</module>
-        <module>matlube-ejml</module>
-        <module>matlube-testframework</module>
-    </modules>
+
     <distributionManagement>
         <repository>
             <id>build-server.shore.mbari.org</id>
             <name>build-server.shore.mbari.org</name>
             <url>http://build-server.shore.mbari.org:8081/artifactory/libs-release-local</url>
         </repository>
-        <site>
-            <id>github-project-site</id>
-            <url>gitsite:git@github.com/hohonuuli/matlube.git</url>
-        </site>
     </distributionManagement>
 
 </project>
