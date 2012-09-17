@@ -183,6 +183,8 @@ class EMatrix(val delegate: DenseMatrix64F) extends Matrix[EMatrix] with HasDele
 
     def normInf: Double = NormOps.normPInf(delegate)
 
+    def normP(p: Double): Double = NormOps.normP(delegate, p)
+
     def rank: Int = SingularOps.rank(svd.delegate, 0.000000001)
 
     def trace: Double = CommonOps.trace(delegate)
@@ -243,7 +245,13 @@ object EMatrix extends MatrixFactory[EMatrix] {
         }
     }
 
-    def apply(data: Array[Array[Double]]): EMatrix = new EMatrix(new DenseMatrix64F(data))
+    def apply[@specialized(Int, Long, Float, Double) A: Numeric](array: Array[Array[A]]): EMatrix = {
+        val numeric = implicitly[Numeric[A]]
+        new EMatrix(new DenseMatrix64F(Array.tabulate(array.size, array(0).size) {
+            (u, v) =>
+                numeric.toDouble(array(u)(v))
+        }))
+    }
 
     def apply(rows: Int, columns: Int): EMatrix = apply(rows, columns, 0D)
 

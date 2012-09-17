@@ -1,7 +1,8 @@
 package matlube
 
 import scala.Array
-import scala.math.{floor, max}
+import scala.math._
+import scala.Numeric
 
 /**
  * Base trait for all matrices. This trait defines methods for an immutable matrix. All methods
@@ -16,6 +17,11 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
      */
     def factory: MatrixFactory[A]
 
+    /**
+     *
+     * @return A disntict copy of the Matrix. Changes to the copy will not effect the original
+     *         matrix
+     */
     def copy: A
 
     /**
@@ -215,10 +221,15 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
      *
      *
      * @param indices Sequence of indices
-     * @return A subarray (Matlab-style
+     * @return A subarray (Matlab-style)
      */
     def apply(indices: Seq[Int]): A
 
+    /**
+     * Matlab-style access using an Array to specify the indices.
+     * @param indices Array of indices
+     * @return A subarray (Matlab-style)
+     */
     def apply(indices: Array[Int]): A
 
     /**
@@ -350,7 +361,7 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
     /**
      * Two norm. This is also known as the Magnitude ||M|| or Euclidean distance
      * of a matrix. (e.g. sqrt of the sum of squares). Unit vectors will have
-     * a magnitude of 1. TO convert a vector to a unit vector simple divide the 
+     * a magnitude of 1. To convert a vector to a unit vector simple divide the 
      * vector by its magnitude
      *
      * @return    maximum singular value.
@@ -368,6 +379,14 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
      * @return    maximum row sum.
      */
     def normInf: Double
+
+    /**
+     * p-norm
+     *
+     * @param p The p value of the p-norm.
+     * @return
+     */
+    def normP(p: Double): Double
 
     /**
      * Matrix rank
@@ -422,6 +441,10 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
      */
     def size = (rows, columns)
 
+    /**
+     * The maximum dimension of the matrix. (Same as Matlab's ''length'' function
+     * @return
+     */
     def length = max(rows, columns)
 
     /**
@@ -439,10 +462,31 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
      */
     def update[@specialized(Int, Long, Float, Double) B: Numeric](i: Int, j: Int, v: B): Unit
 
+    /**
+     * Set/change a row in the matrix
+     * @param i SelectAll (::) selects all rows
+     * @param j The column index
+     * @param v The new value
+     * @tparam B The type of v
+     */
     def update[@specialized(Int, Long, Float, Double) B: Numeric](i: SelectAll, j: Int, v: B): Unit
 
+    /**
+     * Set/change a column in the matrix
+     * @param i The row index
+     * @param j SelectAll (::)
+     * @param v The new value
+     * @tparam B The type of v
+     */
     def update[@specialized(Int, Long, Float, Double) B: Numeric](i: Int, j: SelectAll, v: B): Unit
 
+    /**
+     * Single index access into the array (Operates just like Matlab's single index access). Updates
+     * a single value in the Matrx
+     * @param i The index (column is primary dimension)
+     * @param v The new value
+     * @tparam B The type of the new value
+     */
     def update[@specialized(Int, Long, Float, Double) B: Numeric](i: Int, v: B) {
         val r = i % rows
         val c = (i - r) / rows
@@ -461,6 +505,12 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
         }
     }
 
+    /**
+     * Update a portion of a matrix using another matrix
+     * @param r The row indices
+     * @param c The column indices
+     * @param that The matrix with the values.
+     */
     def update(r: Seq[Int], c: Seq[Int], that: Matrix[_]) {
         for (i <- 0 until r.size; j <- 0 until c.size) {
             this(r(i), c(j)) = that(i, j)
@@ -469,7 +519,7 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
 
 
     /**
-     * Iterate over all elements in a matrix. The iteration is columne oriented. So values
+     * Iterate over all elements in a matrix. The iteration is column oriented. So values
      * are accessed as:
      * {{{
      * [1 5  9
@@ -513,21 +563,19 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
         (d._1 == 1 && d._2 > 1) || (d._1 > 1 && d._2 == 1)
     }
 
+
     /**
-     * Map the rows or columns of a vector to some value
-     * @param fn Function that operates on the individual rows or columns (represented as Matrices/Vectors)
-     * @param orientation The axis to operate across. If it's [[matlube.Orientations.Row]] then each
-     *  row will be mapped to a value, likewise [[matlube.Orientations.Column]] will map each
-     *  column to a value. The default is Column.
-     * @tparam B The type to map to.
-     * @return An array of values
+     * Map each value of a matrix to a new value
+     * @param fn The transform to be applied to each cell
+     * @return A new matrix with all the elements transformed.
      */
-    def map[B : ClassManifest](fn: (A) => B, orientation:Orientations.Value = Orientations.Column): Array[B] = {
-        val iterator = orientation match {
-            case Orientations.Row => rowIterator
-            case Orientations.Column => columnIterator
+    def map[B : Numeric](fn: Double => B): A = {
+        val numeric = implicitly[Numeric[B]]
+        val m = copy
+        for (r <- 0 until rows; c <- 0 until columns) {
+            m(r, c) = numeric.toDouble(fn(apply(r, c)))
         }
-        iterator.map(fn(_)).toArray
+        m
     }
 
 

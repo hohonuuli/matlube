@@ -275,6 +275,14 @@ class JMatrix(val delegate: JamaMatrix)
      */
     def normInf: Double = delegate.normInf()
 
+
+    /**
+     * p-norm
+     *
+     * @return
+     */
+    def normP(p: Double): Double = throw new UnsupportedOperationException("normP is not yet implemented for Jama")
+
     /**
      * Matrix rank
      * @return     effective numerical rank, obtained from SVD.

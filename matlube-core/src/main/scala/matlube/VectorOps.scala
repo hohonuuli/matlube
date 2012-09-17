@@ -61,6 +61,8 @@ trait VectorOps[A <: Matrix[A]] {
      *     val normalizedA = a / a.magnitude
      * }}}
      *
+     * For vectors, the magnitude is the same as norm2
+     *
      * @return
      */
     def magnitude: Double = {
