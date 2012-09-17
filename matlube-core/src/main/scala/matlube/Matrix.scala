@@ -493,6 +493,10 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
         update(r, c, v)
     }
 
+    def update[@specialized(Int, Long, Float, Double) B : Numeric](i: Seq[Int], v: B) {
+        i.foreach(update(_, v))
+    }
+
     /**
      * Set/change values in the matrix. A(r, c) = that
      * @param r The row indices to modify
@@ -514,6 +518,21 @@ trait Matrix[A <: Matrix[A]] extends VectorOps[A] {
     def update(r: Seq[Int], c: Seq[Int], that: Matrix[_]) {
         for (i <- 0 until r.size; j <- 0 until c.size) {
             this(r(i), c(j)) = that(i, j)
+        }
+    }
+
+    /**
+     * Update a portion of a matrix using a value
+     * @param r The row indices
+     * @param c The column indices
+     * @param v The value to update to
+     * @tparam B The numeric type of ''v''
+     */
+    def update[@specialized(Int, Long, Float, Double) B : Numeric](r: Seq[Int], c: Seq[Int], v: B) {
+        val numeric = implicitly[Numeric[B]]
+        val vn = numeric.toDouble(v)
+        for (i <- 0 until r.size; j <- 0 until c.size) {
+            this(r(i), c(j)) = v
         }
     }
 

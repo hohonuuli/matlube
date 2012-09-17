@@ -15,11 +15,11 @@ import matlube.ejml.{EMatrix => Mx, _} // Use EJML
 //import matlube.jama.{JMatrix => Mx, _} // or Use Jama
 
 // Creating Matrices
-val a = Mx(2, 2, Array(2, 3, 4, 5)) // 2 x 2 Matrix
-val b = Mx(((2D, 3D), (4D, 5D)))    // Same as above
-val c = Mx.ones(10, 10)             // 10 x 10 Matrix of ones
-val d = Mx.rand(5, 5)               // 5 x 5 random values
-val e = Mx(4, 3, 5)                 // 4 x 3 matrix filled with the value 5
+val a = Mx(2, 2, Array(2, 3, 4, 5))         // 2 x 2 Matrix
+val b = Mx(((2, 3), (4, 5)))                // Same as above
+val c = Mx.ones(10, 10)                     // 10 x 10 Matrix of ones
+val d = Mx.rand(5, 5)                       // 5 x 5 random values
+val e = Mx(4, 3, 5)                         // 4 x 3 matrix filled with the value 5
 val f = Mx(Array(Array(2, 3), Array(4, 5))) // 2-D Arrays work with Jama
 
 // Math Operations
@@ -27,13 +27,23 @@ val ab = a * b // Matrix multiplication
 val a5 = 5 * a // we can operate with scalars!
 val a6 = a + 6 // scalars can be on either side!
 
-// Get and set individual elements
-val c15 = c(1, 5)               // Access a value in the matrix
-c(1, 5) = 15                    // Set a value in the Matrix
-val r = c(0 to 30 by 3)         // grab elements 0, 3, 6, 9, ... 30 as a row vector
-val rc = c(0 to 3, 1 to 2)      // Grab a submatrix
+// Get elements
+val d14 = d(1, 4)               // access a value in the matrix
 val dr = d(0, ::)               // grab the first row as a Matrix
 val dc = d(::, 0)               // grab the first column as a Matrix
+val c3  = c(3)                  // single index access ala Matlab (column primary index)
+val cc = c(0 to 30 by 3)        // grab elements 0, 3, 6, 9, ... 30 as a row vector
+val cs = c(0 to 3, 1 to 2)      // grab a submatrix
+
+// Set elements
+c(1, 5) = 15                                                  // Set a value in the Matrix
+c(3 to 5, 4 to 6) = Mx(3, 3, Array(1, 2, 3, 4, 5, 6, 7, 8, 9) // Set a submatrix
+c(1 to 4 by 2, 1 to 4 by 2) = 404                             // Set a range of indicies
+c(::, 8) = 8.33                                               // Set a column to a value
+c(9, ::) = 9.01                                               // Set a row to a value
+
+
+
 val dl = d(::)                  // Same as Matlab's d(:), returns all elements as column vector
 
 println(r.asString)  // Display the matrix. Not recommended for BIG matrices
@@ -66,9 +76,9 @@ val angle = u.angle(v)
 
 /*
   Each matrix has an underlying delegate. The type of the delegate depends on
-  the implementation. For EJML the delegate is a DenseMatrix64F for Jama it is 
-  Jama. With the delegate you have access to all the underlying libraries 
-  functionality.
+  the implementation. For EJML the delegate is a org.ejml.data.DenseMatrix64F
+  for Jama it is Jama.Matrix. With the delegate you have access to all the
+  underlying libraries functionality.
  */
  val delegate = u.delegate
 
