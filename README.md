@@ -4,7 +4,8 @@ http://hohonuuli.github.com/matlube/
 ## Scala DSL for Matrix libraries.
 
 Matlube is a Matlab-like linear algebra DSL for Scala. This library only supports dense double matrices.
-It's designed to work as a front end to other Matrix libraries. Currently, there are two back-ends: one for Jama (http://math.nist.gov/javanumerics/jama/) and another for EJML (http://code.google.com/p/efficient-java-matrix-library/). Why have different back-ends? Well, everyone has thier favorite Matrix library. Different back-ends allows Matlube to easily integrate with whatever your prefered library is. 
+
+It's designed to work as a front end to other Java Matrix libraries. Currently, there are two back-ends: one for Jama (http://math.nist.gov/javanumerics/jama/) and another for EJML (http://code.google.com/p/efficient-java-matrix-library/). Why have different back-ends? Well, everyone has thier favorite Matrix library. Different back-ends allows Matlube to easily integrate with whatever your prefered library is.
 
 
 ## Example code 
@@ -34,6 +35,7 @@ val dc = d(::, 0)               // grab the first column as a Matrix
 val c3  = c(3)                  // single index access ala Matlab (column primary index)
 val cc = c(0 to 30 by 3)        // grab elements 0, 3, 6, 9, ... 30 as a row vector
 val cs = c(0 to 3, 1 to 2)      // grab a submatrix
+val dl = d(::)                  // Same as Matlab's d(:), returns all elements as column vector
 
 // Set elements
 c(1, 5) = 15                                                  // Set a value in the Matrix
@@ -42,11 +44,7 @@ c(1 to 4 by 2, 1 to 4 by 2) = 404                             // Set a range of 
 c(::, 8) = 8.33                                               // Set a column to a value
 c(9, ::) = 9.01                                               // Set a row to a value
 
-
-
-val dl = d(::)                  // Same as Matlab's d(:), returns all elements as column vector
-
-println(r.asString)  // Display the matrix. Not recommended for BIG matrices
+println(c.asString)  // Display the matrix. Not recommended for BIG matrices
 
 /*
  Linear Regression.
