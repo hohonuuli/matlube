@@ -39,7 +39,7 @@ val dl = d(::)                  // Same as Matlab's d(:), returns all elements a
 
 // Set elements
 c(1, 5) = 15                                                  // Set a value in the Matrix
-c(3 to 5, 4 to 6) = Mx(3, 3, Array(1, 2, 3, 4, 5, 6, 7, 8, 9) // Set a submatrix
+c(3 to 5, 4 to 6) = Mx(3, 3, Array(1, 2, 3, 4, 5, 6, 7, 8, 9)) // Set a submatrix
 c(1 to 4 by 2, 1 to 4 by 2) = 404                             // Set a range of indicies
 c(::, 8) = 8.33                                               // Set a column to a value
 c(9, ::) = 9.01                                               // Set a row to a value
