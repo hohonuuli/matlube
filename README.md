@@ -1,5 +1,5 @@
 # Matlube
-[[http://hohonuuli.github.com/matlube/]]
+http://hohonuuli.github.com/matlube/
 
 ## Scala DSL for Matrix libraries.
 
