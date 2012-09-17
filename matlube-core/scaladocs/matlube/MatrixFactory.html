@@ -1,0 +1,652 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>matlube.MatrixFactory</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../lib/template.css" />
+      <script type="text/javascript" src="../lib/jquery.js"></script>
+      <script type="text/javascript" src="../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../lib/template.js"></script>
+      <script type="text/javascript" src="../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="type">
+      <div id="definition">
+        <a title="Go to companion" href="MatrixFactory$.html"><img src="../lib/trait_to_object_big.png" /></a>
+        <p id="owner"><a name="matlube" class="extype" href="package.html">matlube</a></p>
+        <h1><a title="Go to companion" href="MatrixFactory$.html">MatrixFactory</a></h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MatrixFactory</span><span class="tparams">[<span name="A">A &lt;: <a name="matlube.Matrix" class="extype" href="Matrix.html">Matrix</a>[A]</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+      <div class="fullcommenttop" id="comment"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent">AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+        </div></div>
+    
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol><li class="alpha in"><span>Alphabetic</span></li><li class="inherit out"><span>By inheritance</span></li></ol>
+            </div>
+        <div id="ancestors">
+              <span class="filtertype">Inherited</span>
+              <ol><li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li></ol>
+              <ol id="linearization"><li name="matlube.MatrixFactory" class="in"><span>MatrixFactory</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+            </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        <div class="values members" id="values">
+              <h3>Abstract Value Members</h3>
+              <ol><li visbl="pub" name="matlube.MatrixFactory#apply" data-isabs="true">
+      <a id="apply(Int,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="rows">rows: <span name="scala.Int" class="extype">Int</span></span>, <span name="columns">columns: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="matlube.MatrixFactory#apply" data-isabs="true">
+      <a id="apply(Int,Int,Double):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="rows">rows: <span name="scala.Int" class="extype">Int</span></span>, <span name="columns">columns: <span name="scala.Int" class="extype">Int</span></span>, <span name="fillValue">fillValue: <span name="scala.Double" class="extype">Double</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="matlube.MatrixFactory#apply" data-isabs="true">
+      <a id="apply(Product):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="data">data: <span name="scala.Product" class="extype">Product</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="matlube.MatrixFactory#apply" data-isabs="true">
+      <a id="apply[B](Array[Array[B]])(Numeric[B]):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="array">array: <span name="scala.Array" class="extype">Array</span>[<span name="scala.Array" class="extype">Array</span>[B]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: Numeric[B]</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="matlube.MatrixFactory#apply" data-isabs="true">
+      <a id="apply[B](Int,Int,Array[B],Orientation)(Numeric[B]):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="rows">rows: <span name="scala.Int" class="extype">Int</span></span>, <span name="columns">columns: <span name="scala.Int" class="extype">Int</span></span>, <span name="data">data: <span name="scala.Array" class="extype">Array</span>[B]</span>, <span name="orientation">orientation: Orientation</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: Numeric[B]</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>
+@return
+</p></dd><dt class="param">rows</dt><dd class="cmt"></dd><dt class="param">columns</dt><dd class="cmt"></dd><dt class="param">data</dt><dd class="cmt"></dd><dt class="param">orientation</dt><dd class="cmt"></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#apply" data-isabs="true">
+      <a id="apply[B](Array[B],Orientation)(Numeric[B]):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="data">data: <span name="scala.Array" class="extype">Array</span>[B]</span>, <span name="orientation">orientation: Orientation</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: Numeric[B]</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Build a Matrix from a single dimension Array</p><div class="fullcomment"><div class="comment cmt"><p>Build a Matrix from a single dimension Array</p></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>The type of data in the array.</p></dd><dt class="param">data</dt><dd class="cmt"><p>The array</p></dd><dt class="param">orientation</dt><dd class="cmt"><p>The orientation of the Array (Row means fill in array order across rows,
+                   Column means fill in array order down columns)</p></dd><dt>returns</dt><dd class="cmt"><p>A new Matrix
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#eye" data-isabs="true">
+      <a id="eye(Int,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eye</span><span class="params">(<span name="rows">rows: <span name="scala.Int" class="extype">Int</span></span>, <span name="columns">columns: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Identity matrix</p><div class="fullcomment"><div class="comment cmt"><p>Identity matrix</p></div><dl class="paramcmts block"><dt class="param">rows</dt><dd class="cmt"></dd><dt class="param">columns</dt><dd class="cmt"><p>
+@return
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#nans" data-isabs="true">
+      <a id="nans(Int,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">nans</span><span class="params">(<span name="rows">rows: <span name="scala.Int" class="extype">Int</span></span>, <span name="columns">columns: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">A Matrix of NaNs</p><div class="fullcomment"><div class="comment cmt"><p>A Matrix of NaNs</p></div><dl class="paramcmts block"><dt class="param">rows</dt><dd class="cmt"><p>number of rows</p></dd><dt class="param">columns</dt><dd class="cmt"><p>number of columns</p></dd><dt>returns</dt><dd class="cmt"><p>a matrix filled with NaNs
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#ones" data-isabs="true">
+      <a id="ones(Int,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ones</span><span class="params">(<span name="rows">rows: <span name="scala.Int" class="extype">Int</span></span>, <span name="columns">columns: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">A Matrix of ones</p><div class="fullcomment"><div class="comment cmt"><p>A Matrix of ones</p></div><dl class="paramcmts block"><dt class="param">rows</dt><dd class="cmt"><p>number of rows</p></dd><dt class="param">columns</dt><dd class="cmt"><p>number of columns</p></dd><dt>returns</dt><dd class="cmt"><p>a matrix filled with ones
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#rand" data-isabs="true">
+      <a id="rand(Int,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rand</span><span class="params">(<span name="rows">rows: <span name="scala.Int" class="extype">Int</span></span>, <span name="columns">columns: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Random matrix</p><div class="fullcomment"><div class="comment cmt"><p>Random matrix</p></div><dl class="paramcmts block"><dt class="param">rows</dt><dd class="cmt"><p>number of rows</p></dd><dt class="param">columns</dt><dd class="cmt"><p>number of columns</p></dd><dt>returns</dt><dd class="cmt"><p>Matrix of random numbers between 0 ad 1
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#zeros" data-isabs="true">
+      <a id="zeros(Int,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">zeros</span><span class="params">(<span name="rows">rows: <span name="scala.Int" class="extype">Int</span></span>, <span name="columns">columns: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">A Matrix of zeros</p><div class="fullcomment"><div class="comment cmt"><p>A Matrix of zeros</p></div><dl class="paramcmts block"><dt class="param">rows</dt><dd class="cmt"><p>number of rows</p></dd><dt class="param">columns</dt><dd class="cmt"><p>number of columns</p></dd><dt>returns</dt><dd class="cmt"><p>a matrix filled with zeros
+</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Concrete Value Members</h3>
+              <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $bang$eq">!=</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#!=" data-isabs="false">
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $bang$eq">!=</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef###" data-isabs="false">
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $hash$hash">##</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#==" data-isabs="false">
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $eq$eq">==</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#==" data-isabs="false">
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $eq$eq">==</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#equals" data-isabs="false">
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#eye" data-isabs="false">
+      <a id="eye((Int, Int)):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eye</span><span class="params">(<span name="dimensions">dimensions: (<span name="scala.Int" class="extype">Int</span>, <span name="scala.Int" class="extype">Int</span>)</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Identity matrix</p><div class="fullcomment"><div class="comment cmt"><p>Identity matrix</p></div><dl class="paramcmts block"><dt class="param">dimensions</dt><dd class="cmt"><p>Tuple or (rows, columns). e.g. from matrix.size</p></dd><dt>returns</dt><dd class="cmt"><p>an identity matrix of the given dimension
+</p></dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
+      <a id="getClass():java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#hashCode" data-isabs="false">
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#hcat" data-isabs="false">
+      <a id="hcat(A,A):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hcat</span><span class="params">(<span name="a">a: A</span>, <span name="b">b: A</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Horizontal or Column append.</p><div class="fullcomment"><div class="comment cmt"><p>Horizontal or Column append. In matlab we would do:</p><pre>
+    a = [<span class="num">1</span> <span class="num">2</span> <span class="num">3</span>];
+    b = [a a];
+    % [<span class="num">1</span> <span class="num">2</span> <span class="num">3</span> <span class="num">1</span> <span class="num">2</span> <span class="num">3</span>]
+</pre><p>In Matlube we woudl do:</p><pre>
+    <span class="cmt">// Import MaxtrixFactory and alias as Mx</span>
+    <span class="kw">val</span> a = Mx((<span class="num">1</span>d, <span class="num">2</span>d, <span class="num">3</span>d))
+    <span class="kw">val</span> b = Mx.hcat(a, a)
+</pre></div><dl class="paramcmts block"><dt class="param">a</dt><dd class="cmt"></dd><dt class="param">b</dt><dd class="cmt"><p>
+@return
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#linspace" data-isabs="false">
+      <a id="linspace(Double,Double,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">linspace</span><span class="params">(<span name="d0">d0: <span name="scala.Double" class="extype">Double</span></span>, <span name="d1">d1: <span name="scala.Double" class="extype">Double</span></span>, <span name="n">n: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">generates n linearly-spaced points between d1 and d2.</p><div class="fullcomment"><div class="comment cmt"><p>generates n linearly-spaced points between d1 and d2.</p></div><dl class="paramcmts block"><dt class="param">d0</dt><dd class="cmt"><p>The min value</p></dd><dt class="param">d1</dt><dd class="cmt"><p>The max value</p></dd><dt class="param">n</dt><dd class="cmt"><p>The number of points to generated</p></dd><dt>returns</dt><dd class="cmt"><p>a matrix of lineraly space points.
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#logspace" data-isabs="false">
+      <a id="logspace(Double,Double,Int,Double):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logspace</span><span class="params">(<span name="d0">d0: <span name="scala.Double" class="extype">Double</span></span>, <span name="d1">d1: <span name="scala.Double" class="extype">Double</span></span>, <span name="n">n: <span name="scala.Int" class="extype">Int</span></span>, <span name="base">base: <span name="scala.Double" class="extype">Double</span> = <span class="symbol">10D</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">generates n logarithmically-spaced points between d1 and d2 using the
+provided base.</p><div class="fullcomment"><div class="comment cmt"><p>generates n logarithmically-spaced points between d1 and d2 using the
+provided base.
+</p></div><dl class="paramcmts block"><dt class="param">d0</dt><dd class="cmt"><p>The min value</p></dd><dt class="param">d1</dt><dd class="cmt"><p>The max value</p></dd><dt class="param">n</dt><dd class="cmt"><p>The number of points to generated</p></dd><dt class="param">base</dt><dd class="cmt"><p>the logarithmic base to use (default = 10)</p></dd><dt>returns</dt><dd class="cmt"><p>a matrix of log-rhythmically space points.
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#nans" data-isabs="false">
+      <a id="nans((Int, Int)):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">nans</span><span class="params">(<span name="dimensions">dimensions: (<span name="scala.Int" class="extype">Int</span>, <span name="scala.Int" class="extype">Int</span>)</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">A Matrix of NaNs</p><div class="fullcomment"><div class="comment cmt"><p>A Matrix of NaNs</p></div><dl class="paramcmts block"><dt class="param">dimensions</dt><dd class="cmt"><p>Tuple or (rows, columns). e.g. from matrix.size</p></dd><dt>returns</dt><dd class="cmt"><p>a matrix filled with NaNs
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notifyAll" data-isabs="false">
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#ones" data-isabs="false">
+      <a id="ones((Int, Int)):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ones</span><span class="params">(<span name="dimensions">dimensions: (<span name="scala.Int" class="extype">Int</span>, <span name="scala.Int" class="extype">Int</span>)</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">A Matrix of ones</p><div class="fullcomment"><div class="comment cmt"><p>A Matrix of ones</p></div><dl class="paramcmts block"><dt class="param">dimensions</dt><dd class="cmt"><p>Tuple or (rows, columns). e.g. from matrix.size</p></dd><dt>returns</dt><dd class="cmt"><p>a matrix filled with ones
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#rand" data-isabs="false">
+      <a id="rand((Int, Int)):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rand</span><span class="params">(<span name="dimensions">dimensions: (<span name="scala.Int" class="extype">Int</span>, <span name="scala.Int" class="extype">Int</span>)</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Random matrix</p><div class="fullcomment"><div class="comment cmt"><p>Random matrix</p></div><dl class="paramcmts block"><dt class="param">dimensions</dt><dd class="cmt"><p>Tuple or (rows, columns). e.g. from matrix.size</p></dd><dt>returns</dt><dd class="cmt"><p>Matrix of random numbers between 0 ad 1
+</p></dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#repmat" data-isabs="false">
+      <a id="repmat(matlube.Matrix[_],Int,Int):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">repmat</span><span class="params">(<span name="matrix">matrix: matlube.Matrix[_]</span>, <span name="m">m: <span name="scala.Int" class="extype">Int</span></span>, <span name="n">n: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Replicate and tile a matrix</p><div class="fullcomment"><div class="comment cmt"><p>Replicate and tile a matrix</p></div><dl class="paramcmts block"><dt class="param">matrix</dt><dd class="cmt"><p>The matrix to tile</p></dd><dt class="param">m</dt><dd class="cmt"><p>rows of tiles</p></dd><dt class="param">n</dt><dd class="cmt"><p>columns of tiles</p></dd><dt>returns</dt><dd class="cmt"><p>an m by n tiling of the <i>matrix</i>. The size of this matrix is </p><pre>
+     (matrix.rows * m, matrix.columns * n)
+</pre></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
+      <a id="synchronized[T0](⇒ T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ T0</span>)</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#toString" data-isabs="false">
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#vcat" data-isabs="false">
+      <a id="vcat(A,A):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">vcat</span><span class="params">(<span name="a">a: A</span>, <span name="b">b: A</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Vertical or row append (or concatenate).</p><div class="fullcomment"><div class="comment cmt"><p>Vertical or row append (or concatenate). In Matlab we would do:</p><pre>
+    a = [<span class="num">1</span> <span class="num">2</span> <span class="num">3</span>];
+    b = [a; a];
+    %  [<span class="num">1</span> <span class="num">2</span> <span class="num">3</span>
+    %   <span class="num">1</span> <span class="num">2</span> <span class="num">3</span>]
+</pre><pre>
+    <span class="kw">val</span> a = Mx((<span class="num">1</span>d, <span class="num">2</span>d, <span class="num">3</span>d))
+    <span class="kw">val</span> b = Mx.vcat(a, a)
+</pre></div><dl class="paramcmts block"><dt class="param">a</dt><dd class="cmt"></dd><dt class="param">b</dt><dd class="cmt"><p>
+@return
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="matlube.MatrixFactory#zeros" data-isabs="false">
+      <a id="zeros((Int, Int)):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">zeros</span><span class="params">(<span name="dimensions">dimensions: (<span name="scala.Int" class="extype">Int</span>, <span name="scala.Int" class="extype">Int</span>)</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">A Matrix of zeros</p><div class="fullcomment"><div class="comment cmt"><p>A Matrix of zeros</p></div><dl class="paramcmts block"><dt class="param">dimensions</dt><dd class="cmt"><p>Tuple or (rows, columns). e.g. from matrix.size</p></dd><dt>returns</dt><dd class="cmt"><p>a matrix filled with zeros
+</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div name="scala.AnyRef" class="parent">
+              <h3>Inherited from AnyRef</h3>
+            </div><div name="scala.Any" class="parent">
+              <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
