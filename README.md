@@ -57,15 +57,15 @@ println(c.asString)  // Display the matrix. Not recommended for BIG matrices
   bm = xi \ y     % Solve w/ intercept. 1st val is intercept, second is slope
  */
 
-val x = Mx((1d, 2d, 4d, 5d, 7d, 9d, 11d, 13d, 14d, 16d)).t
-val y = Mx((101d, 105d, 109d, 112d, 117d, 116d, 122d, 123d, 129d, 130d)).t
+val x = Mx((1, 2, 4, 5, 7, 9, 11, 13, 14, 16)).t
+val y = Mx((101, 105, 109, 112, 117, 116, 122, 123, 129, 130)).t
 val m = x \ y     // 10.8900
 val xi = Mx.hcat(Mx.ones(x.size), x)   // hcat is 'horizontal concatenate'
 val bm = xi \ y   // 1st is intercept; 2nd is slope = [101.3021; 1.8412]
 
 // Vector operations
-val u = Mx((1D, 2D, 3D))
-val v = Mx((1D, 0D, 1D))
+val u = Mx((1, 2, 3))
+val v = Mx((1, 0, 1))
 v.isVector                    // Returns true if the matrix is a vector
 val dotProduct = u.dot(v)  
 val crossProduct = u.cross(v)
