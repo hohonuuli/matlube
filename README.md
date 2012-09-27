@@ -84,12 +84,12 @@ val angle = u.angle(v)
 
 ## How to run the above code sample 
 1. Check out the matlube source using Git
-2. Build it '''
+2. Build it ```
     cd matlube
-    mvn install'''
-3. Run a console '''
+    mvn install ```
+3. Run a console ```
     cd matlube-jama
-    mvn scala:console'''
+    mvn scala:console ```
 4. Cut and past the code samples above into the console
 
 The built jama library can be included in another maven project by adding the following to your pom.xml
